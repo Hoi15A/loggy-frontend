@@ -5,5 +5,9 @@ module.exports = {
       port: 8081
     },
     devtool: false
-  }
+  },
+
+  transpileDependencies: [
+    "vuetify"
+  ]
 };
