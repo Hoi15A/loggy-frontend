@@ -21,13 +21,13 @@ module.exports = {
         "SwitchCase": 1
       }
     ],
+    "no-mixed-spaces-and-tabs": [
+        2,
+      "smart-tabs"
+    ],
     "linebreak-style": [
       "error",
       "windows"
-    ],
-    "quotes": [
-      "error",
-      "double"
     ],
     "semi": [
       "error",

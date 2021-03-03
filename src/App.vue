@@ -1,61 +1,114 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
     <v-app-bar
-      app
-      color="primary"
-      dark
+        app
+        color="white"
+        flat
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-container class="py-0 fill-height">
+        <v-avatar
+            class="mr-10"
+            color="grey darken-1"
+            size="32"
+        ></v-avatar>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+        <v-btn
+            v-for="link in links"
+            :key="link"
+            text
+        >
+          {{ link }}
+        </v-btn>
 
-      <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-responsive max-width="260">
+          <v-text-field
+              dense
+              flat
+              hide-details
+              rounded
+              solo-inverted
+          ></v-text-field>
+        </v-responsive>
+      </v-container>
     </v-app-bar>
 
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+	  <v-main class="grey lighten-3">
+		  <v-container>
+			  <v-row>
+				  <v-col cols="2">
+					  <v-sheet rounded="lg">
+						  <v-list color="transparent">
+							  <v-list-item v-for="item in listItem" :key="item" link>
+								  <v-list-item-content>
+									  <v-list-item-title>
+										  {{ item }}
+									  </v-list-item-title>
+								  </v-list-item-content>
+							  </v-list-item>
+
+							  <v-divider class="my-2"></v-divider>
+
+							  <v-list-item
+								  link
+								  color="grey lighten-4"
+							  >
+								  <v-list-item-content>
+									  <v-list-item-title @click="changeGridView()">
+										  Refresh
+									  </v-list-item-title>
+								  </v-list-item-content>
+							  </v-list-item>
+						  </v-list>
+					  </v-sheet>
+				  </v-col>
+
+				  <v-col>
+            <v-sheet v-if="this.gridView" min-height="70vh" rounded="lg">
+              <LogGrid/>
+            </v-sheet>
+            <v-sheet v-if="!this.gridView" min-height="70vh" rounded="lg">
+              <LogFile/>
+            </v-sheet>
+				  </v-col>
+			  </v-row>
+		  </v-container>
+	  </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import LogFile from "./components/LogFile.vue";
+import LogGrid from "./components/LogGrid.vue";
+
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    HelloWorld,
+    LogFile,LogGrid
   },
 
   data: () => ({
-    //
+    gridView: true,
+    links: [
+      "Feature 1",
+      "Feature 2",
+      "Feature 3",
+      "Feature 4",
+    ],
+    listItem: [
+      "Live Logs",
+      "Errors",
+      "Archive",
+    ]
   }),
+  methods: {
+    changeGridView: async function () {
+      this.gridView = !this.gridView;
+    }
+  },
 });
 </script>
