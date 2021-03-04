@@ -15,19 +15,23 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "indent": [
-      "error",
+      "warn",
       2,
       {
         "SwitchCase": 1
       }
     ],
     "no-mixed-spaces-and-tabs": [
-        2,
+      "warn",
       "smart-tabs"
     ],
     "linebreak-style": [
-      "error",
-      "windows"
+      "warn",
+      "unix"
+    ],
+    "quotes": [
+      "warn",
+      "double"
     ],
     "semi": [
       "error",

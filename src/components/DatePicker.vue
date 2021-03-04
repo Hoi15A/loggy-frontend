@@ -48,7 +48,7 @@ export default Vue.extend({
   name: "DatePicker",
 
   data: () => ({
-    dates: ['2018-09-15', '2018-09-20'],
+    dates: ["2018-09-15", "2018-09-20"],
     menu: false
   })
 });
