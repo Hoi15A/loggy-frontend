@@ -25,10 +25,6 @@ module.exports = {
       "warn",
       "smart-tabs"
     ],
-    "linebreak-style": [
-      "warn",
-      "unix"
-    ],
     "quotes": [
       "warn",
       "double"
