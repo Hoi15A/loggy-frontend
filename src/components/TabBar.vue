@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0">
-    <v-tabs v-model="tab" background-color="red lighten-2" dark>
+    <v-tabs v-model="tab" background-color="blue lighten-3" dark>
       <v-tab v-for="n in length" :key="n">
         Item {{ n }}
       </v-tab>
