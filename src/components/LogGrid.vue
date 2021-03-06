@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <TabBar/>
     <v-card-title>
       Nutrition
       <v-spacer></v-spacer>
@@ -34,10 +35,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import TabBar from "@/components/TabBar.vue";
 
 export default Vue.extend( {
   name: "LogGrid",
-
+  components: {
+    TabBar,
+  },
   data: () => ({
     search: "",
     headers: [
