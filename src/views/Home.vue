@@ -1,15 +1,29 @@
 <template>
-  <LogFile/>
+    <v-row>
+      <template v-for="n in 1">
+        <v-col :key="n" class="mt-2" cols="12">
+          <h1>Servers</h1>
+        </v-col>
+        <v-col v-for="j in serverCount" v-bind:key="`${n}${j}`" cols="6" md="2">
+          <server-card/>
+        </v-col>
+      </template>
+    </v-row>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import LogFile from "@/components/LogFile.vue";
+import ServerCard from "@/components/ServerCard.vue";
 
-@Component({
+
+export default {
+  name: "Home",
+
   components: {
-    LogFile,
+    ServerCard
   },
-})
-export default class Home extends Vue {}
+  data: () => ({
+    title: "Home",
+    serverCount: 1
+  }),
+};
 </script>
