@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    <TabBar/>
     <v-card-title>
       Logs
       <v-spacer></v-spacer>
@@ -32,14 +31,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import TabBar from "@/components/TabBar.vue";
 import {Api} from "@/api/api";
 
 export default Vue.extend({
   name: "LogGrid",
-  components: {
-    TabBar
-  },
   data: () => {
     return {
       tableData: [],
@@ -49,31 +44,9 @@ export default Vue.extend({
   },
   methods: {
     fetchSample: async function () {
-      const data: string[] = await Api.makeSampleCall().then(resp => resp.json());
+      const data = await Api.makeSampleCall().then(resp => resp.json());
       this.headers = data.headers;
-      this.tableData= data.tableData;
-      // this.headers = [
-      //   {text: "Date", value: "date"},
-      //   {text: "Type", value: "type"},
-      //   {text: "Message", value: "message"}
-      // ];
-      // this.tableData = [
-      //   {
-      //     date: "01.03.2021",
-      //     type: "info",
-      //     message: "Service started"
-      //   },
-      //   {
-      //     date: "02.03.2021",
-      //     type: "warning",
-      //     message: "Could not interpret xyz"
-      //   },
-      //   {
-      //     date: "03.03.2021",
-      //     type: "error",
-      //     message: "FileNotFound test.txt"
-      //   }
-      // ];
+      this.tableData = data.tableData;
     }
   },
   beforeMount: async function () {

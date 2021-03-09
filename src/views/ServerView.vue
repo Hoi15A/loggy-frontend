@@ -28,10 +28,10 @@
     </v-col>
 
     <v-col>
-      <v-sheet v-if="this.gridView" min-height="70vh" rounded="lg">
-        <LogGrid/>
+      <v-sheet v-if="gridView" min-height="70vh" rounded="lg">
+        <TabBar/>
       </v-sheet>
-      <v-sheet v-if="!this.gridView" min-height="70vh" rounded="lg">
+      <v-sheet v-if="!gridView" min-height="70vh" rounded="lg">
         <LogFile/>
       </v-sheet>
     </v-col>
@@ -41,15 +41,14 @@
 <script lang="ts">
 import Vue from "vue";
 import LogFile from "@/components/LogFile.vue";
-import LogGrid from "@/components/LogGrid.vue";
-
-
+import TabBar from "@/components/TabBar.vue";
 
 export default Vue.extend({
   name: "ServerView",
 
   components: {
-    LogFile,LogGrid,
+    LogFile,
+    TabBar
   },
 
   data: () => ({
