@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
+import ServerView from "@/views/ServerView.vue";
+import Test from "@/views/Test.vue";
+
 
 Vue.use(VueRouter);
 
@@ -15,11 +18,14 @@ const routes: Array<RouteConfig> = [
     path: "/server",
     name: "Server",
     meta: {title: "Server"},
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/ServerView.vue")
-  }
+    component: ServerView,
+  },
+  {
+    path: "/test",
+    name: "Test",
+    component: Test,
+    meta: {title: "Test"},
+  },
 ];
 
 const router = new VueRouter({
