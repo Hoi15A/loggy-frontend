@@ -1,0 +1,44 @@
+image:
+  - ubuntu-20.04-amd64
+
+environment:
+  my_secret:
+    secure: HvbR1johj6/PEoG0EyhFmQ==
+  my_salt:
+    secure: SgCRJOf9IjDJiu5qRieFGg6dYvpJV+V1+oUFwKV7E2gQNggJ3s2uDKRoI3g/HqtREwYwdZZPZQ3KJPf+obbpCw==
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - uimock
+
+install:
+  - npm install
+  # Use dockerized PostgreSQL 12 for the integration tests.
+  # - docker run --name pgsql -d -p 5432:5432 -e POSTGRES_USER=appveyor -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=sample postgres:13
+
+build_script:
+  # Build a WAR from the sources.
+  - npm run build
+
+test_script:
+  - npm run lint
+
+on_finish:
+  # Search the 'build' folder for all JUnit test reports and upload them to the CI server.
+  - sh: |
+      curl -sflL 'https://raw.githubusercontent.com/appveyor/secure-file/master/install.sh' | bash -e -
+      ls
+      ./appveyor-tools/secure-file -decrypt ./id_loganalyzer.enc -secret $my_secret -salt $my_salt -out id_loganalyzer
+      chmod 0600 id_loganalyzer
+      echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      rsync -rvz --delete -e "ssh -i id_loganalyzer" dist/ psituser@direct.zhaw.neat.moe:/home/psituser/config/nginx/html/
+      ssh -i id_loganalyzer psituser@direct.zhaw.neat.moe "docker exec -t web nginx -s reload"
+
+# We do not want to build git tags.
+skip_tags: true
+
+# Use integers as build versions (1, 2, 3, …) instead of 1.0.X.
+version: "{build}"
