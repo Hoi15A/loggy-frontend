@@ -16,19 +16,24 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card class="mb-12" color="grey lighten-3" height="200px">
+          <UserInfoTextField>
+
+          </UserInfoTextField>
         </v-card>
         <v-toolbar color="grey lighten-3" dark>
           <v-btn color="primary" @click="e1 = 2" width="150">
             Continue
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="red" width="150" v-on:click="onClickCancel()">
-            Cancel
-          </v-btn>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
+          </CancelDialog>
         </v-toolbar>
       </v-stepper-content>
       <v-stepper-content step="2">
         <v-card class="mb-12" color="grey lighten-3" height="200px">
+          <ConfigSelectForm>
+
+          </ConfigSelectForm>
         </v-card>
         <v-toolbar color="grey lighten-3" dark>
           <v-btn color="primary" @click="e1 = 3" width="150">
@@ -39,13 +44,15 @@
             Back
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="red" width="150" v-on:click="onClickCancel()">
-            Cancel
-          </v-btn>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
+          </CancelDialog>
         </v-toolbar>
       </v-stepper-content>
       <v-stepper-content step="3">
         <v-card class="mb-12" color="grey lighten-3" height="200px">
+          <LogFilePathForm>
+
+          </LogFilePathForm>
         </v-card>
         <v-toolbar color="grey lighten-3" dark>
           <v-btn color="green darken-1" v-on:click="onClickDone()" width="150">
@@ -56,9 +63,8 @@
             Back
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="red" width="150" v-on:click="onClickCancel()">
-            Cancel
-          </v-btn>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
+          </CancelDialog>
         </v-toolbar>
       </v-stepper-content>
     </v-stepper-items>
@@ -66,6 +72,11 @@
 </template>
 
 <script>
+
+import CancelDialog from "@/components/CancelDialog";
+import UserInfoTextField from "@/components/UserInfoTextField";
+import ConfigSelectForm from "@/components/ConfigSelectForm";
+import LogFilePathForm from "@/components/LogFilePathForm";
 
 export default {
   data () {
@@ -77,13 +88,20 @@ export default {
   methods: {
     onClickDone() {
       this.e1 = 1;
-      this.$emit('endStepper');
+      this.$emit("stepperComplete");
     },
 
-    onClickCancel() {
+    onConfirmCancel() {
       this.e1 = 1;
-      this.$emit('cancelStepper');
+      this.$emit("stepperCancel");
     }
+  },
+
+  components: {
+    UserInfoTextField,
+    CancelDialog,
+    ConfigSelectForm,
+    LogFilePathForm,
   }
 };
 </script>
