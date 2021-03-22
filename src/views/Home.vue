@@ -5,7 +5,7 @@
           <v-toolbar dense>
             <v-toolbar-title>Servers</v-toolbar-title>
             <v-spacer></v-spacer>
-            <Dialog v-on:endDialog="newServerCard()">
+            <Dialog v-on:stepperComplete="newServerCard()">
             </Dialog>
           </v-toolbar>
         </v-col>
@@ -35,7 +35,7 @@ export default Vue.extend({
 
   components: {
     ServerCard,
-    Dialog
+    Dialog,
   },
 
   methods: {

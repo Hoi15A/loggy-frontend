@@ -13,7 +13,7 @@
         </v-btn>
       </template>
       <v-card>
-        <Stepper v-on:endStepper="onEndStepper()" v-on:cancelStepper="onCancelStepper()">
+        <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()">
         </Stepper>
       </v-card>
     </v-dialog>
@@ -30,12 +30,12 @@ export default {
   },
 
   methods: {
-    onEndStepper () {
+    onStepperComplete () {
       this.dialog = false;
-      this.$emit('endDialog');
+      this.$emit('stepperComplete');
     },
 
-    onCancelStepper() {
+    onStepperCancel() {
       this.dialog = false;
     }
   },
