@@ -9,8 +9,8 @@
             </StepperDialog>
           </v-toolbar>
         </v-col>
-        <v-col v-for="j in servers" v-bind:key="`${n}${j}`" cols="6" md="2">
-          <server-card/>
+        <v-col v-for="server in servers" v-bind:key="`${n}${server}`" cols="6" md="2">
+          <server-card v-bind:server-description="server.description" v-bind:server-name="server.name"/>
         </v-col>
       </template>
     </v-row>
@@ -20,7 +20,11 @@
 <script lang="ts">
 import ServerCard from "@/components/ServerCard.vue";
 import StepperDialog from "@/components/StepperDialog.vue";
+
+import Api from "@/api/api";
 import Vue from "vue";
+
+const api = new Api();
 
 
 export default Vue.extend({
@@ -42,6 +46,19 @@ export default Vue.extend({
     newServerCard() {
       this.servers.push(`Server ${this.serverCount}`);
       this.serverCount += 1;
+    },
+    loadServers: async function() {
+      const servers = await api.fetchServers();
+      for(let i = 0; i < servers.length; i++) {
+        this.servers.push(servers[i]);
+      }
+    },
+  },
+  beforeMount: async function() {
+    try {
+      await this.loadServers();
+    } catch (e) {
+      console.error(e);
     }
   }
 });
