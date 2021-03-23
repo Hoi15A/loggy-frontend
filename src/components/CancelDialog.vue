@@ -2,7 +2,7 @@
   <v-row>
     <v-dialog v-model="dialog" persistent max-width="400">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red" dark v-bind="attrs" v-on="on" width="150">
+        <v-btn color="red" dark v-bind="attrs" v-on="on">
           Cancel
         </v-btn>
       </template>

@@ -1,10 +1,6 @@
 <template>
   <v-row>
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600"
-    >
+    <v-dialog v-model="dialog" persistent max-width="600">
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="" dark v-bind="attrs" v-on="on" color="white" small>
           <v-icon color="black">
@@ -32,7 +28,7 @@ export default {
   methods: {
     onStepperComplete () {
       this.dialog = false;
-      this.$emit('stepperComplete');
+      this.$emit("stepperComplete");
     },
 
     onStepperCancel() {

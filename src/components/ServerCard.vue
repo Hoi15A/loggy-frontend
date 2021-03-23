@@ -30,7 +30,7 @@ export default Vue.extend({
 
   methods: {
     link() {
-      this.$router.push('/server');
+      this.$router.push("/server");
     }
   }
 });
