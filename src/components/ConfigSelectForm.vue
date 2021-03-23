@@ -3,7 +3,11 @@
     <v-container>
       <v-row>
         <v-col>
-          <v-text-field label="Config"></v-text-field>
+          <v-select
+            :items="items"
+            label="Select "
+            v-model="config"
+          ></v-select>
         </v-col>
       </v-row>
     </v-container>
@@ -12,9 +16,17 @@
 
 <script>
 export default {
-  name: "ConfigSelectForm"
-};
+  data: () => ({
+    items: ["Config 1", "Config 2", "Config 3", "Config 3"],
+    config: "",
+  }),
 
+  methods: {
+    getConfigInfo() {
+      return this.config;
+    },
+  }
+};
 </script>
 
 <style scoped>

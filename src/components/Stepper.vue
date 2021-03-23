@@ -15,13 +15,10 @@
     </v-stepper-header>
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-card class="mb-12" color="grey lighten-3" height="200px">
-          <UserInfoTextField>
-
+          <UserInfoTextField ref="userForm">
           </UserInfoTextField>
-        </v-card>
         <v-toolbar color="grey lighten-3" dark>
-          <v-btn color="primary" @click="e1 = 2" width="150">
+          <v-btn color="primary" v-on:click="onContinueInit" width="150">
             Continue
           </v-btn>
           <v-spacer></v-spacer>
@@ -30,11 +27,8 @@
         </v-toolbar>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <v-card class="mb-12" color="grey lighten-3" height="200px">
-          <ConfigSelectForm>
-
+          <ConfigSelectForm ref="configForm">
           </ConfigSelectForm>
-        </v-card>
         <v-toolbar color="grey lighten-3" dark>
           <v-btn color="primary" @click="e1 = 3" width="150">
             Continue
@@ -49,11 +43,8 @@
         </v-toolbar>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-3" height="200px">
-          <LogFilePathForm>
-
+          <LogFilePathForm ref="logPathForm">
           </LogFilePathForm>
-        </v-card>
         <v-toolbar color="grey lighten-3" dark>
           <v-btn color="green darken-1" v-on:click="onClickDone()" width="150">
             Done
@@ -82,18 +73,29 @@ export default {
   data () {
     return {
       e1: 1,
+      userInput: [],
     };
   },
 
   methods: {
     onClickDone() {
       this.e1 = 1;
+      this.userInput[0] = this.$refs.userForm.getUserInfo()[0];
+      this.userInput[1] = this.$refs.userForm.getUserInfo()[1];
+      this.userInput[2] = this.$refs.userForm.getUserInfo()[2];
+      this.userInput[3] = this.$refs.configForm.getConfigInfo();
+      this.userInput[4] = this.$refs.logPathForm.getPathInfo();
+      console.log(this.userInput);
       this.$emit("stepperComplete");
     },
 
     onConfirmCancel() {
       this.e1 = 1;
       this.$emit("stepperCancel");
+    },
+
+    onContinueInit() {
+      this.e1 = 2;
     }
   },
 
