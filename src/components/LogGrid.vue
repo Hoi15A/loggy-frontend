@@ -31,8 +31,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {Api} from "@/api/api";
-
+import Api from "@/api/api";
 export default Vue.extend({
   name: "LogGrid",
   data: () => {
