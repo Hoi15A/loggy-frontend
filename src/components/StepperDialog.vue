@@ -2,11 +2,11 @@
   <v-row>
     <v-dialog v-model="dialog" persistent max-width="600">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="" dark v-bind="attrs" v-on="on" color="white" small>
-          <v-icon color="black">
-            mdi-plus
-          </v-icon>
-        </v-btn>
+        <div class="add-button">
+          <v-btn fab dark elevation="1" v-bind="attrs" v-on="on" color="light-grey" x-large>
+            <v-icon color="white" large>mdi-plus</v-icon>
+          </v-btn>
+        </div>
       </template>
       <v-card>
         <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()">
@@ -42,6 +42,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.add-button {
+  position: absolute;
+  top: 2%;
+  right:2%;
 
+}
 </style>

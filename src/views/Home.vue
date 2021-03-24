@@ -1,14 +1,6 @@
 <template>
-    <v-row>
-      <template v-for="n in 1">
-        <v-col :key="n"  cols="12">
-          <v-toolbar dense>
-            <v-toolbar-title>Servers</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <StepperDialog v-on:stepperComplete="newServerCard()">
-            </StepperDialog>
-          </v-toolbar>
-        </v-col>
+  <v-row>
+    <template v-for="n in 1">
         <v-col v-for="server in servers" v-bind:key="`${n}${server}`" cols="6" md="2">
           <server-card v-bind:server-description="server.description"
                        v-bind:server-name="server.name"
@@ -16,8 +8,8 @@
           />
         </v-col>
       </template>
-    </v-row>
-
+    <StepperDialog v-on:stepperComplete="newServerCard()"></StepperDialog>
+  </v-row>
 </template>
 
 <script lang="ts">

@@ -15,8 +15,8 @@
         </v-list-item-content>
     </v-list-item>
     <div class="button-bar">
-      <v-btn-toggle  group>
-        <v-btn rounded plain bottom value="left" small elevation="0" color="error">Remove</v-btn>
+      <v-btn-toggle rounded group>
+        <v-btn rounded plain bottom value="left" small elevation="0" color="error" v-on:click="deleteJob()">Remove</v-btn>
         <v-btn rounded text bottom value="right" small elevation="0" color="primary">Settings</v-btn>
         <v-btn rounded text bottom value="justify" small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
       </v-btn-toggle>
