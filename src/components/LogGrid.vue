@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Api from "@/api/api";
+import ServiceApi from "@/api/serviceApi";
 export default Vue.extend({
   name: "LogGrid",
   data: () => {
@@ -43,7 +43,7 @@ export default Vue.extend({
   },
   methods: {
     fetchSample: async function () {
-      const data = await Api.makeSampleCall().then(resp => resp.json());
+      const data = await ServiceApi.makeSampleCall().then(resp => resp.json());
       this.headers = data.headers;
       this.tableData = data.tableData;
     }
