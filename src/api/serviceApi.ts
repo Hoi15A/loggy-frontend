@@ -1,19 +1,21 @@
-export default class ServiceApi {
+import Api from "@/api/api";
+
+export default class ServiceApi extends Api {
+    constructor() {
+        super();
+    }
 
     static async makeSampleCall() {
         return await fetch("https://zhaw.neat.moe/api/query/sample");
     }
 
     async fetchServers() {
-        const res = await fetch("https://zhaw.neat.moe/api/service/all");
-        if(!res.ok) {
-            throw Error(res.statusText);
-        }
+        const res = await this.customFetch(`${Api.getApiBaseUrl()}/service/all`);
         return res.json();
     }
 
-    async removeServerById(id: number) {
-        const res = await fetch(`https://zhaw.neat.moe/api/service/${id}`, {
+    static async removeServerById(id: number) {
+        const res = await fetch(`${Api.getApiBaseUrl()}/service/${id}`, {
             method: "DELETE"
         });
         if(!res.ok) throw new Error(`Unable to delete job with id: ${id}`);
