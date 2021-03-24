@@ -16,6 +16,6 @@ export default class ServiceApi {
         const res = await fetch(`https://zhaw.neat.moe/api/service/${id}`, {
             method: "DELETE"
         });
-        if(!res.ok) throw new Error(`Unable to delete job with id: ${id}`)
+        if(!res.ok) throw new Error(`Unable to delete job with id: ${id}`);
     }
 }
