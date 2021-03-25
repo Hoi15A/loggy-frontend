@@ -13,50 +13,43 @@
         Finalize
       </v-stepper-step>
     </v-stepper-header>
+
+    <!-- STEP 1 -->
     <v-stepper-items>
       <v-stepper-content step="1">
           <UserInfoTextField ref="userForm">
           </UserInfoTextField>
-        <v-toolbar color="grey lighten-3" dark>
-          <v-btn color="primary" v-on:click="onContinueInit" width="150">
-            Continue
-          </v-btn>
+        <v-list-item elevation="0" >
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
           <v-spacer></v-spacer>
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
-          </CancelDialog>
-        </v-toolbar>
+          <v-btn color="primary" rounded text v-on:click="onContinueInit" width="150">Continue</v-btn>
+        </v-list-item>
       </v-stepper-content>
+
+      <!-- STEP 2 -->
       <v-stepper-content step="2">
           <ConfigSelectForm ref="configForm">
           </ConfigSelectForm>
-        <v-toolbar color="grey lighten-3" dark>
-          <v-btn color="primary" @click="e1 = 3" width="150">
-            Continue
-          </v-btn>
+        <v-list-item elevation="0">
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
           <v-spacer></v-spacer>
-          <v-btn color="grey" @click="e1 = 1">
-            Back
-          </v-btn>
+          <v-btn color="grey" dark rounded text @click="e1 = 1">Back</v-btn>
           <v-spacer></v-spacer>
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
-          </CancelDialog>
-        </v-toolbar>
+          <v-btn color="primary" rounded text @click="e1 = 3" width="150">Continue</v-btn>
+        </v-list-item>
       </v-stepper-content>
+
+      <!-- STEP 3 -->
       <v-stepper-content step="3">
           <LogFilePathForm ref="logPathForm">
           </LogFilePathForm>
-        <v-toolbar color="grey lighten-3" dark>
-          <v-btn color="green darken-1" v-on:click="onClickDone()" width="150">
-            Done
-          </v-btn>
+        <v-list-item elevation="0">
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
           <v-spacer></v-spacer>
-          <v-btn color="grey" @click="e1 = 2">
-            Back
-          </v-btn>
+          <v-btn color="grey" rounded text @click="e1 = 2">Back</v-btn>
           <v-spacer></v-spacer>
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()">
-          </CancelDialog>
-        </v-toolbar>
+          <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
+        </v-list-item>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>

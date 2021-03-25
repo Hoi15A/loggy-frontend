@@ -1,8 +1,7 @@
 <template>
-  <v-row>
     <v-dialog v-model="dialog" persistent max-width="400">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red" dark v-bind="attrs" v-on="on">
+        <v-btn color="red" dark rounded text v-bind="attrs" v-on="on">
           Cancel
         </v-btn>
       </template>
@@ -21,7 +20,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
 </template>
 
 <script>
