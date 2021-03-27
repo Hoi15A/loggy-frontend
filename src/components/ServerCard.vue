@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import serviceApi from "@/api/serviceApi";
+import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/ServerCardSettings.vue";
 
 export default Vue.extend({

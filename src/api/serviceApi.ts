@@ -6,11 +6,12 @@ export default class ServiceApi extends Api {
     }
 
     static async makeSampleCall() {
-        return await fetch("https://zhaw.neat.moe/api/query/sample");
+        return await fetch(`${Api.getApiBaseUrl()}/query/sample`);
+
     }
 
-    async fetchServers() {
-        const res = await this.customFetch(`${Api.getApiBaseUrl()}/service/all`);
+    static async fetchServers() {
+        const res = await fetch(`${Api.getApiBaseUrl()}/service/all`);
         return res.json();
     }
 

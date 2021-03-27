@@ -21,7 +21,7 @@ import StepperDialog from "@/components/StepperDialog.vue";
 import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";
 
-const serviceApi = new ServiceApi();
+
 
 
 export default Vue.extend({
@@ -45,7 +45,7 @@ export default Vue.extend({
       this.serverCount += 1;
     },
     loadServers: async function() {
-      const servers = await serviceApi.fetchServers();
+      const servers = await ServiceApi.fetchServers();
       for(let i = 0; i < servers.length; i++) {
         this.servers.push(servers[i]);
       }
