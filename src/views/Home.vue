@@ -4,6 +4,7 @@
         <v-col v-for="server in servers" v-bind:key="`${n}${server}`" cols="12" sm="5" md="4" lg="3" xl="2" >
           <server-card v-bind:server-description="server.description"
                        v-bind:server-name="server.name"
+                       v-bind:id="server.id"
                        v-bind:log-directory="server.logDirectory"
                        v-bind:log-service-location="server.location"
                        v-bind:image="server.image"

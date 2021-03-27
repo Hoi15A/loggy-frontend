@@ -9,7 +9,7 @@
     </v-list-item>
     <div class="button-bar">
       <v-list-item>
-        <v-btn rounded plain small elevation="0" color="error" v-on:click="deleteJob()">Remove</v-btn>
+        <v-btn rounded plain small elevation="0" color="error" v-on:click="deleteJob(id)">Remove</v-btn>
         <ServerCardSettings v-on="serverSettingsDialog"
                             v-bind:log-directory="this.logDirectory"
                             v-bind:log-service-location="this.logServiceLocation"
@@ -42,7 +42,7 @@ export default Vue.extend({
 
   methods: {
     deleteJob: async function(id: number) {
-      //await serviceApi.removeServerById(id);
+      await ServiceApi.removeServerById(id);
     },
     link() {
       this.$router.push("/server");
@@ -52,6 +52,9 @@ export default Vue.extend({
     }
   },
   props: {
+    id: {
+      type: Number,
+    },
     serverDescription: {
       type: String,
     },
