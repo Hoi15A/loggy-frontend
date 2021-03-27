@@ -49,6 +49,7 @@ export default Vue.extend({
   methods: {
     deleteJob: async function(id: number) {
       await ServiceApi.removeServerById(id);
+      this.$emit("loadServers");
     },
     link() {
       this.$router.push("/server");
