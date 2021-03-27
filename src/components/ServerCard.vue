@@ -9,14 +9,16 @@
     </v-list-item>
     <div class="button-bar">
       <v-list-item>
-        <v-btn rounded plain small elevation="0" color="error" v-on:click="deleteJob(id)">Remove</v-btn>
+        <CancelDialog v-on:confirmCancel="deleteJob(id)"
+                      v-bind:button-name="buttonName"
+                      v-bind:title-message="titleMessage"></CancelDialog>
         <ServerCardSettings v-on="serverSettingsDialog"
                             v-bind:log-directory="this.logDirectory"
                             v-bind:log-service-location="this.logServiceLocation"
                             v-bind:log-config="this.logConfig"
         >
         </ServerCardSettings>
-        <v-btn rounded plain small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
+        <v-btn rounded text small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
       </v-list-item>
     </div>
   </v-card>
@@ -27,15 +29,19 @@
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/ServerCardSettings.vue";
+import CancelDialog from "@/components/CancelDialog.vue";
 
 export default Vue.extend({
   name: "ServerCard",
 
   components: {
     ServerCardSettings,
+    CancelDialog,
   },
   data () {
     return {
+      buttonName: "Remove",
+      titleMessage: "Are you sure you want to delete this server? This is not reversible",
       serverSettingsDialog: false as boolean,
     };
   },
@@ -81,7 +87,7 @@ export default Vue.extend({
 .button-bar {
   position: absolute;
   right: auto;
-  left: 5%;
+  left: 4%;
   bottom: 0;
 }
 

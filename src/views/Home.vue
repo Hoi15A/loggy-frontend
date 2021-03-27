@@ -22,9 +22,6 @@ import StepperDialog from "@/components/StepperDialog.vue";
 import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";
 
-
-
-
 export default Vue.extend({
   name: "Home",
   data: () => {

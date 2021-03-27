@@ -20,7 +20,9 @@
           <UserInfoTextField ref="userForm">
           </UserInfoTextField>
         <v-list-item elevation="0" >
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"
+                        v-bind:button-name="buttonName"
+                        v-bind:title-message="titleMessage"></CancelDialog>
           <v-spacer></v-spacer>
           <v-btn color="primary" rounded text v-on:click="onContinueInit" width="150">Continue</v-btn>
         </v-list-item>
@@ -31,7 +33,9 @@
           <ConfigSelectForm ref="configForm">
           </ConfigSelectForm>
         <v-list-item elevation="0">
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"
+                        v-bind:button-name="buttonName"
+                        v-bind:title-message="titleMessage"></CancelDialog>
           <v-spacer></v-spacer>
           <v-btn color="grey" dark rounded text @click="e1 = 1">Back</v-btn>
           <v-spacer></v-spacer>
@@ -44,7 +48,9 @@
           <LogFilePathForm ref="logPathForm">
           </LogFilePathForm>
         <v-list-item elevation="0">
-          <CancelDialog v-on:confirmCancel="onConfirmCancel()"></CancelDialog>
+          <CancelDialog v-on:confirmCancel="onConfirmCancel()"
+                        v-bind:button-name="buttonName"
+                        v-bind:title-message="titleMessage"></CancelDialog>
           <v-spacer></v-spacer>
           <v-btn color="grey" rounded text @click="e1 = 2">Back</v-btn>
           <v-spacer></v-spacer>
@@ -65,6 +71,8 @@ import LogFilePathForm from "@/components/LogFilePathForm";
 export default {
   data () {
     return {
+      buttonName: "Cancel",
+      titleMessage: "Are you sure you want to cancel the registration process?",
       e1: 1,
       userInput: [],
     };

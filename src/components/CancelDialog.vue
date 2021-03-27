@@ -1,14 +1,12 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="390">
+    <v-dialog v-model="dialog" persistent max-width="380">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red" dark rounded text v-bind="attrs" v-on="on">
-          Cancel
+        <v-btn color="error" rounded small text elevation="0" v-bind="attrs" v-on="on">
+          {{ buttonName }}
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>
-          Are you sure you want to cancel this process?
-        </v-card-title>
+        <v-card-title> {{ titleMessage }} </v-card-title>
         <v-card-actions>
           <v-btn text rounded color="red" width="150" v-on:click="onClickNo()">
             No
@@ -30,7 +28,6 @@ export default {
       dialog: false,
     };
   },
-
   methods: {
     onClickNo() {
       this.dialog = false;
@@ -41,6 +38,14 @@ export default {
       this.$emit("confirmCancel");
     },
   },
+  props: {
+    buttonName: {
+      type: String,
+    },
+    titleMessage: {
+      type: String,
+    }
+  }
 };
 </script>
 

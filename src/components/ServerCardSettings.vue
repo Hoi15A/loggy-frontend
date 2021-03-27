@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="serverSettingsDialog" width="1200px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" rounded plain small elevation="0" v-bind="attrs" v-on="on">Settings</v-btn>
+        <v-btn color="primary" rounded text small elevation="0" v-bind="attrs" v-on="on">Settings</v-btn>
       </template>
       <v-card>
         <v-card-title>
