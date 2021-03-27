@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="serverSettingsDialog" width="1200px">
+    <v-dialog v-model="settingsCardOpen" width="1200px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" rounded text small elevation="0" v-bind="attrs" v-on="on">Settings</v-btn>
       </template>
@@ -16,8 +16,8 @@
         <br>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="serverSettingsDialog = false">Disagree</v-btn>
-          <v-btn color="green darken-1" text @click="serverSettingsDialog = false">Agree</v-btn>
+          <v-btn color="primary" text rounded @click="closeCard">Close</v-btn>
+          <v-btn color="primary" text rounded @click="closeCard">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -28,8 +28,18 @@
 import Vue from "vue";
 
 export default Vue.extend ({
+  data () {
+    return {
+      settingsCardOpen: false,
+    };
+  },
+  methods: {
+    closeCard() {
+      this.settingsCardOpen = false;
+    }
+  },
   props: {
-    serverSettingsDialog: {
+    openServiceSettings: {
       type: Boolean,
     },
     logDirectory: {

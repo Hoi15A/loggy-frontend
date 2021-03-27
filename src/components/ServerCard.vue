@@ -12,7 +12,7 @@
         <CancelDialog v-on:confirmCancel="deleteJob(id)"
                       v-bind:button-name="buttonName"
                       v-bind:title-message="titleMessage"></CancelDialog>
-        <ServerCardSettings v-on="serverSettingsDialog"
+        <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
                             v-bind:log-directory="this.logDirectory"
                             v-bind:log-service-location="this.logServiceLocation"
                             v-bind:log-config="this.logConfig"
@@ -42,7 +42,7 @@ export default Vue.extend({
     return {
       buttonName: "Remove",
       titleMessage: "Are you sure you want to delete this server? This is not reversible",
-      serverSettingsDialog: false as boolean,
+      openServiceSettings: false as boolean,
     };
   },
 
@@ -54,7 +54,7 @@ export default Vue.extend({
       this.$router.push("/server");
     },
     openServerSettings() {
-      this.serverSettingsDialog = true;
+      this.openServiceSettings = true;
     }
   },
   props: {
