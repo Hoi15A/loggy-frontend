@@ -6,8 +6,6 @@
           <v-select
             :items="items"
             label="Config"
-            v-model="config"
-            placeholder="Config 1"
           ></v-select>
         </v-col>
       </v-row>
@@ -16,11 +14,26 @@
 </template>
 
 <script>
+import ServiceApi from "@/api/serviceApi";
+
 export default {
   data: () => ({
-    items: ["Config 1"],
+    items: [],
     config: "Config 1",
   }),
+
+  methods: {
+    loadConfigs: async function() {
+      const fetchedConfigs = await ServiceApi.fetchConfigs();
+      console.log(fetchedConfigs);
+      this.items = [];
+      for(let i = 0; i < fetchedConfigs.length; i++) {
+        this.items.push(fetchedConfigs[i].name);
+      }
+    },
+  }
+
+
 };
 </script>
 

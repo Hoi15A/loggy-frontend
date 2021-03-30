@@ -24,7 +24,9 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"></CancelDialog>
           <v-spacer></v-spacer>
-          <v-btn color="primary" rounded text @click="e1 = 2" width="150">Continue</v-btn>
+          <v-btn color="primary" rounded text @click="e1 = 2" v-on:click="onConfigSelect()" width="150">
+            Continue
+          </v-btn>
         </v-list-item>
       </v-stepper-content>
 
@@ -123,6 +125,10 @@ export default {
     onCancelFailure() {
       this.e1 = 1;
     },
+
+    onConfigSelect() {
+      this.$refs.configForm.loadConfigs();
+    }
   },
 
   components: {

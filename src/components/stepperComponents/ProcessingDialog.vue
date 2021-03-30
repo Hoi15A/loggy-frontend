@@ -23,9 +23,6 @@
               </v-alert>
             </v-col>
             <v-col cols="6">
-              <v-btn color="primary" rounded text width="150" v-on:click="onClickConfirm()">
-                Confirm
-              </v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -77,6 +74,8 @@ export default {
       this.processing = false;
       this.failure = false;
       this.success = true;
+
+      setTimeout(this.onClickConfirm, 1500);
     },
 
     activateFailure(e) {
