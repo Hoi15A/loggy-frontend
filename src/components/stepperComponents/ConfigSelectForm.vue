@@ -19,7 +19,7 @@
 export default {
   data: () => ({
     items: ["Config 1"],
-    config: "",
+    config: "Config 1",
   }),
 };
 </script>

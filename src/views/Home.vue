@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import ServerCard from "@/components/ServerCard.vue";
-import StepperDialog from "@/components/StepperDialog.vue";
+import StepperDialog from "@/components/stepperComponents/StepperDialog.vue";
 
 import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Stepper from "@/components/ServerStepper.vue";
+import Stepper from "@/components/stepperComponents/ServerStepper.vue";
 export default {
   data () {
     return {

@@ -57,19 +57,19 @@
           <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
         </v-list-item>
       </v-stepper-content>
-      <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()" v-on:cancelFailure="onCancelFailure()"></ProcessingDialog>
     </v-stepper-items>
+    <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()" v-on:cancelFailure="onCancelFailure()"></ProcessingDialog>
   </v-stepper>
 </template>
 
 <script>
 
 import CancelDialog from "@/components/CancelDialog";
-import UserInfoTextField from "@/components/UserInfoTextField";
-import ConfigSelectForm from "@/components/ConfigSelectForm";
-import ProcessingDialog from "@/components/ProcessingDialog";
+import UserInfoTextField from "@/components/stepperComponents/UserInfoTextField";
+import ConfigSelectForm from "@/components/stepperComponents/ConfigSelectForm";
+import ProcessingDialog from "@/components/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
-import DirectoryLocationForm from "@/components/DirectoryLocationForm";
+import DirectoryLocationForm from "@/components/stepperComponents/DirectoryLocationForm";
 
 export default {
   data () {
