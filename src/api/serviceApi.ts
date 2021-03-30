@@ -15,6 +15,11 @@ export default class ServiceApi extends Api {
         return res.json();
     }
 
+    static async fetchConfigs() {
+        const res = await fetch(`${Api.getApiBaseUrl()}/config`);
+        return res.json();
+    }
+
     static async removeServerById(id: number) {
         const res = await fetch(`${Api.getApiBaseUrl()}/service/${id}`, {
             method: "DELETE"
@@ -33,4 +38,6 @@ export default class ServiceApi extends Api {
             throw new Error(`Unable to create Service with Attributes:${JSON.stringify(jsonService)}`);
         }
     }
+
+
 }
