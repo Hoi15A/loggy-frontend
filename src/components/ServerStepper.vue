@@ -24,7 +24,7 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"></CancelDialog>
           <v-spacer></v-spacer>
-          <v-btn color="primary" rounded text v-on:click="onContinueInit" width="150">Continue</v-btn>
+          <v-btn color="primary" rounded text @click="e1 = 2" width="150">Continue</v-btn>
         </v-list-item>
       </v-stepper-content>
 
@@ -45,8 +45,8 @@
 
       <!-- STEP 3 -->
       <v-stepper-content step="3">
-          <LogFilePathForm ref="logPathForm">
-          </LogFilePathForm>
+          <DirectoryLocationForm ref="directoryLocationForm">
+          </DirectoryLocationForm>
         <v-list-item elevation="0">
           <CancelDialog v-on:confirmCancel="onConfirmCancel()"
                         v-bind:button-name="buttonName"
@@ -57,6 +57,7 @@
           <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
         </v-list-item>
       </v-stepper-content>
+      <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()" v-on:cancelFailure="onCancelFailure()"></ProcessingDialog>
     </v-stepper-items>
   </v-stepper>
 </template>
@@ -66,7 +67,9 @@
 import CancelDialog from "@/components/CancelDialog";
 import UserInfoTextField from "@/components/UserInfoTextField";
 import ConfigSelectForm from "@/components/ConfigSelectForm";
-import LogFilePathForm from "@/components/LogFilePathForm";
+import ProcessingDialog from "@/components/ProcessingDialog";
+import serviceApi from "@/api/serviceApi";
+import DirectoryLocationForm from "@/components/DirectoryLocationForm";
 
 export default {
   data () {
@@ -74,20 +77,37 @@ export default {
       buttonName: "Cancel",
       titleMessage: "Are you sure you want to cancel the registration process?",
       e1: 1,
-      userInput: [],
+
+      server: {
+        logDirectory: "",
+        name: "",
+        description: "",
+        image: "",
+        location: 1,
+        logConfig: ""
+      }
     };
   },
 
   methods: {
-    onClickDone() {
-      this.e1 = 1;
-      this.userInput[0] = this.$refs.userForm.getUserInfo()[0];
-      this.userInput[1] = this.$refs.userForm.getUserInfo()[1];
-      this.userInput[2] = this.$refs.userForm.getUserInfo()[2];
-      this.userInput[3] = this.$refs.configForm.getConfigInfo();
-      this.userInput[4] = this.$refs.logPathForm.getPathInfo();
-      console.log(this.userInput);
-      this.$emit("stepperComplete");
+    onClickDone: async function () {
+      this.$refs.processingDialog.activateProcessing();
+
+      this.server.name = this.$refs.userForm.name;
+      this.server.image = this.$refs.userForm.image;
+      this.server.description = this.$refs.userForm.description;
+      this.server.logConfig = this.$refs.configForm.config;
+      this.server.logDirectory = this.$refs.directoryLocationForm.logDirectory;
+      this.server.location = this.$refs.directoryLocationForm.location;
+
+      console.log(this.server);
+
+      try {
+        await serviceApi.addNewService(this.server);
+        this.$refs.processingDialog.activateSuccess();
+      } catch (e) {
+        this.$refs.processingDialog.activateFailure(e.toString());
+      }
     },
 
     onConfirmCancel() {
@@ -95,16 +115,22 @@ export default {
       this.$emit("stepperCancel");
     },
 
-    onContinueInit() {
-      this.e1 = 2;
-    }
+    onConfirmSuccess() {
+      this.e1 = 1;
+      this.$emit("stepperComplete");
+    },
+
+    onCancelFailure() {
+      this.e1 = 1;
+    },
   },
 
   components: {
     UserInfoTextField,
     CancelDialog,
     ConfigSelectForm,
-    LogFilePathForm,
+    DirectoryLocationForm,
+    ProcessingDialog,
   }
 };
 </script>

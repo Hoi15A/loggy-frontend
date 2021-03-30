@@ -12,7 +12,7 @@
           />
         </v-col>
       </template>
-    <StepperDialog v-on:stepperComplete="newServerCard()"></StepperDialog>
+    <StepperDialog v-on:stepperComplete="loadServers()"></StepperDialog>
   </v-row>
 </template>
 
@@ -39,10 +39,6 @@ export default Vue.extend({
   },
 
   methods: {
-    newServerCard() {
-      this.servers.push(`Server ${this.serverCount}`);
-      this.serverCount += 1;
-    },
     loadServers: async function() {
       const fetchedServers = await ServiceApi.fetchServers();
       this.servers = [];
