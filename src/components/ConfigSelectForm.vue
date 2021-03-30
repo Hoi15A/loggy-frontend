@@ -5,8 +5,9 @@
         <v-col>
           <v-select
             :items="items"
-            label="Select "
+            label="Config"
             v-model="config"
+            placeholder="Config 1"
           ></v-select>
         </v-col>
       </v-row>
@@ -17,15 +18,9 @@
 <script>
 export default {
   data: () => ({
-    items: ["Config 1", "Config 2", "Config 3", "Config 3"],
+    items: ["Config 1"],
     config: "",
   }),
-
-  methods: {
-    getConfigInfo() {
-      return this.config;
-    },
-  }
 };
 </script>
 
