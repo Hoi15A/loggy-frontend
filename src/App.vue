@@ -1,6 +1,6 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar app absolute elevation="2" height="60">
+  <v-app>
+    <v-app-bar app absolute elevation="1" height="60">
       <v-btn x-large elevation="0" v-on:click="goHome()">Logy</v-btn>
       <v-spacer></v-spacer>
       <v-toolbar-title>{{title}}</v-toolbar-title>
@@ -12,7 +12,7 @@
         <v-icon large>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main class="grey lighten-2">
+    <v-main>
       <v-container>
         <router-view/>
       </v-container>
@@ -44,3 +44,7 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+
+</style>

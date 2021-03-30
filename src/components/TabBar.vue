@@ -1,6 +1,6 @@
 <template>
-  <v-card elevation="0">
-    <v-tabs v-model="model" background-color="deep-purple accent-4" center-active dark>
+  <v-card elevation="0" max-width="100%">
+    <v-tabs v-model="model" background-color="grey" center-active dark>
       <v-tab v-for="tab in tabs" :key="tab">
         {{ tab }}
         <v-icon dense color="white" @click="closeTab($event)" right>
@@ -8,7 +8,7 @@
         </v-icon>
       </v-tab>
       <v-spacer></v-spacer>
-      <v-btn @click="openTab()" class="mx-2 align-right" fab x-small dark color="deep-purple accent-2">
+      <v-btn @click="openTab()" class="mx-2 align-right" fab x-small dark color="black">
         <v-icon centerd dense color="white">
           mdi-plus
         </v-icon>
@@ -16,7 +16,7 @@
     </v-tabs>
     <v-tabs-items v-model="model">
       <v-tab-item v-for="tab in tabs" :key="tab">
-        <LogGrid/>
+        <AgGrid/>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -24,13 +24,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import LogGrid from "@/components/LogGrid.vue";
+import AgGrid from "@/components/AgGrid.vue";
 
 export default Vue.extend({
   name: "TabBar",
 
   components: {
-    LogGrid
+    AgGrid
   },
 
   data: () => ({
