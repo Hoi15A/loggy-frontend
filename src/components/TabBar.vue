@@ -40,6 +40,9 @@ export default Vue.extend({
   }),
 
   methods: {
+    getServerId() {
+      return this.$route.query.serverId;
+    },
     openTab() {
       this.tabs.push(`Query ${this.tabCount++}`);
     },

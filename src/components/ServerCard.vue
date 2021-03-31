@@ -52,7 +52,7 @@ export default Vue.extend({
       this.$emit("loadServers");
     },
     link() {
-      this.$router.push("/server");
+      this.$router.push(`/server?serverId=${this.id}`);
     },
     openServerSettings() {
       this.openServiceSettings = true;
