@@ -2,12 +2,9 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-col>
-          <v-select
-            :items="items"
-            label="Config"
-          ></v-select>
-        </v-col>
+        <v-select :items="items" label="Config"></v-select>
+        <v-spacer></v-spacer>
+        <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>
     </v-container>
   </v-form>
@@ -15,22 +12,27 @@
 
 <script>
 import ServiceApi from "@/api/serviceApi";
+import NewConfigSideWindow from "@/components/stepperComponents/NewConfigSideWindow";
 
 export default {
+  components: {NewConfigSideWindow},
   data: () => ({
     items: [],
-    config: "Config 1",
+    cardVisible: false,
   }),
 
   methods: {
     loadConfigs: async function() {
       const fetchedConfigs = await ServiceApi.fetchConfigs();
-      console.log(fetchedConfigs);
       this.items = [];
       for(let i = 0; i < fetchedConfigs.length; i++) {
         this.items.push(fetchedConfigs[i].name);
       }
     },
+
+    onOpenCard() {
+      this.cardVisible = true;
+    }
   }
 
 

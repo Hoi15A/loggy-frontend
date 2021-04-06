@@ -39,5 +39,17 @@ export default class ServiceApi extends Api {
         }
     }
 
+    static async addNewConfig(jsonService: string) {
+        const res = await fetch(`${Api.getApiBaseUrl()}/config/`, {method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: jsonService,
+        });
+        if (!res.ok) {
+            throw new Error(`Unable to create Config: ${JSON.stringify(jsonService)}`);
+        }
+    }
+
 
 }

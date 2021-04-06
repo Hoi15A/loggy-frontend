@@ -102,8 +102,6 @@ export default {
       this.server.logDirectory = this.$refs.directoryLocationForm.logDirectory;
       this.server.location = this.$refs.directoryLocationForm.location;
 
-      console.log(this.server);
-
       try {
         await serviceApi.addNewService(this.server);
         this.$refs.processingDialog.activateSuccess();
