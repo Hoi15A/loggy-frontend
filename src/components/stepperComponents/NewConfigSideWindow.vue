@@ -36,7 +36,7 @@ export default {
   name: "newConfigSideWindow",
   data: () => ({
     newConfigJson: "{\n" +
-      "  \"name\": \"Test3\",\n" +
+      "  \"name\": \"Test\",\n" +
       "  \"columnCount\": 5,\n" +
       "  \"headerLength\": 0,\n" +
       "  \"separator\": \"    \"\n" +
