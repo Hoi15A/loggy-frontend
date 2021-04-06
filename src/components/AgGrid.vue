@@ -13,6 +13,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { AgGridVue } from "ag-grid-vue";
+import LogApi from "@/api/LogApi";
 
 export default Vue.extend({
   name: "AgGrid",
@@ -26,18 +27,32 @@ export default Vue.extend({
   components: {
     AgGridVue
   },
-  beforeMount() {
-    this.columnDefs = [
-      {headerName: "Make", field: "make", resizable: true, sortable: true, filter: true },
-      {headerName: "Model", field: "model", resizable: true, sortable: true, filter: true },
-      {headerName: "Price", field: "price", resizable: true, sortable: true, filter: true }
-    ];
-    //https://www.ag-grid.com/example-assets/row-data.json
-    //https://www.ag-grid.com/example-assets/small-row-data.json
-    fetch("https://www.ag-grid.com/example-assets/row-data.json")
-        .then(result => result.json())
+  methods: {
+    fetchFile: async function (id: number) {
+      await LogApi.fetchFileByServiceId(id)
+        .then(res => res.json())
         .then(rowData => this.rowData = rowData);
+    }
   },
+  beforeMount: async function() {
+    try {
+      await this.fetchFile(75);
+    } catch (e) {
+      console.error(e);
+    }
 
+    this.columnDefs = [
+      //will be replaced when proper headers are sent
+      {headerName: "1", field: "0", resizable: true, sortable: true, filter: true},
+      {headerName: "2", field: "1", resizable: true, sortable: true, filter: true},
+      {headerName: "3", field: "2", resizable: true, sortable: true, filter: true},
+      {headerName: "4", field: "3", resizable: true, sortable: true, filter: true},
+      {headerName: "5", field: "4", resizable: true, sortable: true, filter: true},
+      {headerName: "6", field: "5", resizable: true, sortable: true, filter: true},
+      {headerName: "7", field: "6", resizable: true, sortable: true, filter: true},
+      {headerName: "8", field: "7", resizable: true, sortable: true, filter: true},
+      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true}
+    ];
+  },
 });
 </script>
