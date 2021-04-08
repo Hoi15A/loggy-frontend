@@ -28,7 +28,10 @@ test_script:
 deploy_script:
   - sh: ./deploy.sh
 
-# We do not want to build git tags.
+on_finish:
+  - sh: npm run sonar; exit 0
+
+  # We do not want to build git tags.
 skip_tags: true
 
 # Use integers as build versions (1, 2, 3, …) instead of 1.0.X.
