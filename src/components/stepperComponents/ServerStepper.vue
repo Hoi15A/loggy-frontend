@@ -67,13 +67,14 @@
 <script>
 
 import CancelDialog from "@/components/CancelDialog";
-import UserInfoTextField from "@/components/stepperComponents/UserInfoTextField";
+import UserInfoTextField from "@/components/stepperComponents/UserInfoForm";
 import ConfigSelectForm from "@/components/stepperComponents/ConfigSelectForm";
 import ProcessingDialog from "@/components/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/stepperComponents/DirectoryLocationForm";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   data () {
     return {
       buttonName: "Cancel",
@@ -136,7 +137,7 @@ export default {
     DirectoryLocationForm,
     ProcessingDialog,
   }
-};
+});
 </script>
 
 <style>

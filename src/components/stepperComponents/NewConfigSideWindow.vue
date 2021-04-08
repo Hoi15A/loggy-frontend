@@ -31,8 +31,9 @@
 
 <script>
 import serviceApi from "@/api/serviceApi";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "newConfigSideWindow",
   data: () => ({
     newConfigJson: "{\n" +
@@ -55,7 +56,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style scoped>

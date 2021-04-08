@@ -18,7 +18,9 @@
 
 <script>
 import Stepper from "@/components/stepperComponents/ServerStepper.vue";
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   data () {
     return {
       dialog: false,
@@ -39,7 +41,7 @@ export default {
   components: {
     Stepper,
   },
-};
+});
 </script>
 
 <style scoped>

@@ -50,7 +50,9 @@
 
 <script>
 
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   data () {
     return {
       dialog: false,
@@ -75,7 +77,7 @@ export default {
       this.failure = false;
       this.success = true;
 
-      setTimeout(this.onClickConfirm, 1500);
+      setTimeout(this.confirm, 1500);
     },
 
     activateFailure(e) {
@@ -85,7 +87,7 @@ export default {
       this.errorMessage = e;
     },
 
-    onClickConfirm() {
+    confirm() {
       this.dialog = false;
       this.success = false;
       this.$emit("confirmSuccess");
@@ -97,7 +99,7 @@ export default {
       this.$emit("cancelFailure");
     },
   },
-};
+});
 </script>
 
 <style scoped>

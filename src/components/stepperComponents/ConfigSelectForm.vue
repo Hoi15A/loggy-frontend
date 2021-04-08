@@ -13,8 +13,9 @@
 <script>
 import ServiceApi from "@/api/serviceApi";
 import NewConfigSideWindow from "@/components/stepperComponents/NewConfigSideWindow";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   components: {NewConfigSideWindow},
   data: () => ({
     items: [],
@@ -36,7 +37,7 @@ export default {
   }
 
 
-};
+});
 </script>
 
 <style scoped>

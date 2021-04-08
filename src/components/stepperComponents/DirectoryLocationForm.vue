@@ -40,8 +40,9 @@
 
 <script>
 import PathApi from "@/api/pathApi";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   data () {
     return {
       location: "Local", // local (1), remote (0)
@@ -73,7 +74,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style scoped>
