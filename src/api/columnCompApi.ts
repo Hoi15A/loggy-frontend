@@ -9,4 +9,9 @@ export default class ColumnCompApi extends Api {
         const res = await fetch(`${Api.getApiBaseUrl()}/column/${id}`);
         return res.json();
     }
+
+    static async fetchAllColumnComponents() {
+        const res = await fetch(`${Api.getApiBaseUrl()}/column`);
+        return res.json();
+    }
 }
