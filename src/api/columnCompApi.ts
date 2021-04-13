@@ -1,6 +1,6 @@
 import Api from "@/api/api";
 
-export default class ColumnComApi extends Api {
+export default class ColumnCompApi extends Api {
     constructor() {
         super();
     }
