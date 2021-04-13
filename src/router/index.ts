@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import ServerView from "@/views/ServerView.vue";
 import Test from "@/views/Test.vue";
 import Configs from "@/views/Configs.vue";
+import ColumnsView from "@/views/ColumnsView.vue";
 
 
 Vue.use(VueRouter);
@@ -26,6 +27,12 @@ const routes: Array<RouteConfig> = [
     name: "Configs",
     meta: {title: "Configs"},
     component: Configs,
+  },
+  {
+    path: "/columns",
+    name: "Columns",
+    meta: {title: "Columns"},
+    component: ColumnsView,
   },
   {
     path: "/test",
