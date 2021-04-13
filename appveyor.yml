@@ -23,7 +23,6 @@ build_script:
 test_script:
   # Add proper tests
   - npm run lint
-  - npm run sonar
 
 deploy_script:
   - sh: ./deploy.sh
