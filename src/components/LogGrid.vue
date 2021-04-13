@@ -32,8 +32,10 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
+
 export default Vue.extend({
   name: "LogGrid",
+
   data: () => {
     return {
       tableData: [],
@@ -41,14 +43,16 @@ export default Vue.extend({
       search: ""
     };
   },
+
   methods: {
-    fetchSample: async function () {
+    async fetchSample() {
       const data = await ServiceApi.makeSampleCall().then(resp => resp.json());
       this.headers = data.headers;
       this.tableData = data.tableData;
     }
   },
-  beforeMount: async function () {
+
+  async beforeMount() {
     try {
       await this.fetchSample();
     } catch (e) {

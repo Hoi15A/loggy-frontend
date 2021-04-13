@@ -7,7 +7,7 @@
           mdi-close
         </v-icon>
       </v-tab>
-      <v-spacer></v-spacer>
+      <v-spacer/>
       <v-btn @click="openTab()" class="mx-2 align-right" fab x-small dark color="black">
         <v-icon centerd dense color="white">
           mdi-plus
@@ -43,9 +43,11 @@ export default Vue.extend({
     getServerId() {
       return this.$route.query.serverId;
     },
+
     openTab() {
       this.tabs.push(`Query ${this.tabCount++}`);
     },
+
     closeTab(tabId: any) {
       this.tabs.splice(this.tabs.indexOf(tabId.target.parentElement.textContent.trim()), 1);
     }

@@ -2,39 +2,39 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-select :items="items" label="Config"></v-select>
-        <v-spacer></v-spacer>
+        <v-select :items="items" label="Config"/>
+        <v-spacer/>
         <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>
     </v-container>
   </v-form>
 </template>
 
-<script>
-import ServiceApi from "@/api/serviceApi";
-import NewConfigSideWindow from "@/components/stepperComponents/NewConfigSideWindow";
+<script lang="ts">
 import Vue from "vue";
+import ServiceApi from "@/api/serviceApi";
+import NewConfigSideWindow from "@/components/stepperComponents/NewConfigSideWindow.vue";
 
 export default Vue.extend({
-  components: {NewConfigSideWindow},
+  components: {
+    NewConfigSideWindow,
+  },
+
   data: () => ({
-    items: [],
+    items: [] as string[],
     cardVisible: false,
   }),
 
   methods: {
-    loadConfigs: async function() {
+    loadConfigs: async function () {
       const fetchedConfigs = await ServiceApi.fetchConfigs();
-      this.items = [];
-      for(let i = 0; i < fetchedConfigs.length; i++) {
-        this.items.push(fetchedConfigs[i].name);
-      }
+      fetchedConfigs.forEach(config => this.items.push(config.name));
     },
 
     onOpenCard() {
       this.cardVisible = true;
-    }
-  }
+    },
+  },
 
 
 });

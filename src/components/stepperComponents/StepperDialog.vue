@@ -9,37 +9,34 @@
         </div>
       </template>
       <v-card>
-        <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()">
-        </Stepper>
+        <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()"/>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 
-<script>
-import Stepper from "@/components/stepperComponents/ServerStepper.vue";
+<script lang="ts">
 import Vue from "vue";
+import Stepper from "@/components/stepperComponents/ServerStepper.vue";
 
 export default Vue.extend({
-  data () {
-    return {
-      dialog: false,
-    };
+  components: {
+    Stepper,
   },
 
+  data: () => ({
+    dialog: false,
+  }),
+
   methods: {
-    onStepperComplete () {
+    onStepperComplete() {
       this.dialog = false;
       this.$emit("stepperComplete");
     },
 
     onStepperCancel() {
       this.dialog = false;
-    }
-  },
-
-  components: {
-    Stepper,
+    },
   },
 });
 </script>
@@ -48,7 +45,7 @@ export default Vue.extend({
 .add-button {
   position: absolute;
   top: 2%;
-  right:2%;
+  right: 2%;
 
 }
 </style>

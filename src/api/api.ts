@@ -1,9 +1,4 @@
-const apiBaseUrl = "https://zhaw.neat.moe/api";
-
 export default class Api {
-
-  static getApiBaseUrl() {
-    return apiBaseUrl;
-  }
+  static readonly apiBaseUrl = "https://zhaw.neat.moe/api";
 }
 

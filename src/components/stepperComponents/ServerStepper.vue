@@ -4,11 +4,11 @@
       <v-stepper-step :complete="e1 > 1" step="1">
         Initialize
       </v-stepper-step>
-      <v-divider></v-divider>
+      <v-divider/>
       <v-stepper-step :complete="e1 > 2" step="2">
         Connect
       </v-stepper-step>
-      <v-divider></v-divider>
+      <v-divider/>
       <v-stepper-step step="3">
         Finalize
       </v-stepper-step>
@@ -17,13 +17,12 @@
     <!-- STEP 1 -->
     <v-stepper-items>
       <v-stepper-content step="1">
-          <UserInfoTextField ref="userForm">
-          </UserInfoTextField>
-        <v-list-item elevation="0" >
+        <UserInfoTextField ref="userForm"/>
+        <v-list-item elevation="0">
           <CancelDialog v-on:confirmCancel="onConfirmCancel()"
                         v-bind:button-name="buttonName"
-                        v-bind:title-message="titleMessage"></CancelDialog>
-          <v-spacer></v-spacer>
+                        v-bind:title-message="titleMessage"/>
+          <v-spacer/>
           <v-btn color="primary" rounded text @click="e1 = 2" v-on:click="onConfigSelect()" width="150">
             Continue
           </v-btn>
@@ -32,65 +31,69 @@
 
       <!-- STEP 2 -->
       <v-stepper-content step="2">
-          <ConfigSelectForm ref="configForm">
-          </ConfigSelectForm>
+        <ConfigSelectForm ref="configForm"/>
         <v-list-item elevation="0">
           <CancelDialog v-on:confirmCancel="onConfirmCancel()"
                         v-bind:button-name="buttonName"
-                        v-bind:title-message="titleMessage"></CancelDialog>
-          <v-spacer></v-spacer>
+                        v-bind:title-message="titleMessage"/>
+          <v-spacer/>
           <v-btn color="grey" dark rounded text @click="e1 = 1">Back</v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer/>
           <v-btn color="primary" rounded text @click="e1 = 3" width="150">Continue</v-btn>
         </v-list-item>
       </v-stepper-content>
 
       <!-- STEP 3 -->
       <v-stepper-content step="3">
-          <DirectoryLocationForm ref="directoryLocationForm">
-          </DirectoryLocationForm>
+        <DirectoryLocationForm ref="directoryLocationForm"/>
         <v-list-item elevation="0">
           <CancelDialog v-on:confirmCancel="onConfirmCancel()"
                         v-bind:button-name="buttonName"
-                        v-bind:title-message="titleMessage"></CancelDialog>
-          <v-spacer></v-spacer>
+                        v-bind:title-message="titleMessage"/>
+          <v-spacer/>
           <v-btn color="grey" rounded text @click="e1 = 2">Back</v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer/>
           <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
         </v-list-item>
       </v-stepper-content>
     </v-stepper-items>
-    <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()" v-on:cancelFailure="onCancelFailure()"></ProcessingDialog>
+    <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()"
+                      v-on:cancelFailure="onCancelFailure()"/>
   </v-stepper>
 </template>
 
-<script>
-
+<script lang="js">
+import Vue from "vue";
 import CancelDialog from "@/components/CancelDialog";
 import UserInfoTextField from "@/components/stepperComponents/UserInfoForm";
 import ConfigSelectForm from "@/components/stepperComponents/ConfigSelectForm";
 import ProcessingDialog from "@/components/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/stepperComponents/DirectoryLocationForm";
-import Vue from "vue";
 
 export default Vue.extend({
-  data () {
-    return {
-      buttonName: "Cancel",
-      titleMessage: "Are you sure you want to cancel the registration process?",
-      e1: 1,
-
-      server: {
-        logDirectory: "",
-        name: "",
-        description: "",
-        image: "",
-        location: 1,
-        logConfig: ""
-      }
-    };
+  components: {
+    UserInfoTextField,
+    CancelDialog,
+    ConfigSelectForm,
+    DirectoryLocationForm,
+    ProcessingDialog,
   },
+
+  data: () => ({
+    buttonName: "Cancel",
+    titleMessage: "Are you sure you want to cancel the registration process?",
+    e1: 1,
+
+    server: {
+      logDirectory: "",
+      name: "",
+      description: "",
+      image: "",
+      location: 1,
+      logConfig: ""
+    }
+  }),
 
   methods: {
     onClickDone: async function () {
@@ -129,14 +132,6 @@ export default Vue.extend({
       this.$refs.configForm.loadConfigs();
     }
   },
-
-  components: {
-    UserInfoTextField,
-    CancelDialog,
-    ConfigSelectForm,
-    DirectoryLocationForm,
-    ProcessingDialog,
-  }
 });
 </script>
 

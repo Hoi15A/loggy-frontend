@@ -3,17 +3,19 @@
     :data="testJson"
     rootKey="view"
     :maxDepth="1"
-    :styles="{ key: '#0977e6' }"
-  />
+    :styles="{ key: '#0977e6' }"/>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-
 import { JSONView } from "vue-json-component";
+
 export default Vue.extend({
   name: "LogFile",
-  components: {"json-view": JSONView},
+
+  components: {
+    "json-view": JSONView
+  },
 
   data: () => ({
     testJson: [

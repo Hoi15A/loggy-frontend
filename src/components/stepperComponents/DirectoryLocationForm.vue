@@ -2,33 +2,29 @@
   <v-form>
     <v-container>
       <v-select
-        v-model="location"
-        :items="['Local', 'Remote']"
-        label="Log Service Location"
-      ></v-select>
+          v-model="location"
+          :items="['Local', 'Remote']"
+          label="Log Service Location"/>
       <v-row>
         <v-col>
           <v-treeview
-            v-model="selection"
-            :items="items"
-            :load-children="fetchSubfolders"
-            selectable
-            return-object
-          ></v-treeview>
+              v-model="selection"
+              :items="items"
+              :load-children="fetchSubFolders"
+              selectable
+              return-object/>
         </v-col>
-        <v-divider vertical></v-divider>
+        <v-divider vertical/>
         <v-col
-          class="pa-6"
-          cols="6"
-        >
+            class="pa-6"
+            cols="6">
           <template v-if="!selection.length">
             No nodes selected.
           </template>
           <template v-else>
             <div
-              v-for="node in selection"
-              :key="node.id"
-            >
+                v-for="node in selection"
+                :key="node.id">
               {{ node.fullpath }}
             </div>
           </template>
@@ -38,42 +34,41 @@
   </v-form>
 </template>
 
-<script>
+<script lang="ts">
 import PathApi from "@/api/pathApi";
 import Vue from "vue";
 
 export default Vue.extend({
-  data () {
-    return {
-      location: "Local", // local (1), remote (0)
-      selection: [],
-      items: []
-    };
-  },
-  beforeMount: async function(){
+  data: () => ({
+    location: "Local", // local (1), remote (0)
+    selection: [],
+    items: [],
+  }),
+
+  async beforeMount() {
     this.items = await this.fetchRootFolder();
   },
+
   methods: {
     async fetchRootFolder() {
       try {
         const res = await PathApi.getRootOfLocalServer();
-        const json = await res.json();
-        return json;
+        return await res.json();
       } catch (err) {
         console.warn(err);
         return [];
       }
     },
-    async fetchSubfolders(item) {
+
+    async fetchSubFolders(item: any) {
       try {
         const res = await PathApi.getContentOfFolder(item.fullpath);
-        const json = await res.json();
-        item.children = json;
+        item.children = await res.json();
       } catch (err) {
         console.warn(err);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

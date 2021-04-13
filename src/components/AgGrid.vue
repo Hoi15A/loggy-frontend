@@ -5,36 +5,36 @@
                :rowData="rowData"
                rowSelection="multiple"
                pagination="true"
-               enableRangeSelection=true
-  >
-  </ag-grid-vue>
+               enableRangeSelection="true"/>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { AgGridVue } from "ag-grid-vue";
-import LogApi from "@/api/LogApi";
+import {AgGridVue} from "ag-grid-vue";
+import LogApi from "@/api/logApi";
 
 export default Vue.extend({
   name: "AgGrid",
-  data: () => {
-    return {
-      columnDefs: [] as any,
-      rowData: null,
-      rowStyle: [] as any,
-    };
-  },
+
   components: {
-    AgGridVue
+    AgGridVue,
   },
+
+  data: () => ({
+    columnDefs: [] as any,
+    rowData: null,
+    rowStyle: [] as any,
+  }),
+
   methods: {
-    fetchFile: async function (id: number) {
+    async fetchFile(id: number) {
       await LogApi.fetchFileByServiceId(id)
         .then(res => res.json())
         .then(rowData => this.rowData = rowData);
-    }
+    },
   },
-  beforeMount: async function() {
+
+  async beforeMount() {
     try {
       await this.fetchFile(75);
     } catch (e) {
@@ -51,7 +51,7 @@ export default Vue.extend({
       {headerName: "6", field: "5", resizable: true, sortable: true, filter: true},
       {headerName: "7", field: "6", resizable: true, sortable: true, filter: true},
       {headerName: "8", field: "7", resizable: true, sortable: true, filter: true},
-      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true}
+      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true},
     ];
   },
 });

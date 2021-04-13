@@ -18,11 +18,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import configApi from "@/api/ConfigApi";
+import configApi from "@/api/configApi";
 
 
 export default Vue.extend({
   name: "ConfigEditor",
+
   data: () => {
     return {
       configKeys: [] as any,
@@ -32,27 +33,32 @@ export default Vue.extend({
       updatedConfigJSON: "",
     };
   },
+
   methods: {
-    addNewColumnComponent: async function() {
+    async addNewColumnComponent() {
       return 1;
     },
-    createNewConfig: async function() {
+
+    async createNewConfig() {
       this.configKeys.forEach((key: string, i: number) => this.updatedConfig[key] = this.configValues[i]);
       this.updatedConfigJSON = JSON.stringify(this.updatedConfig);
       console.log(this.updatedConfigJSON);
     },
-    parseFetchedConfig: async function() {
+
+    async parseFetchedConfig() {
       for(let i = 0; i < Object.values(this.fetchedConfig).length; i++) {
         this.configKeys.push(Object.keys(this.fetchedConfig)[i]);
         this.configValues.push(Object.values(this.fetchedConfig)[i]);
       }
     },
-    fetchConfigById: async function (name: string) {
+
+    async fetchConfigById(name: string) {
       this.fetchedConfig = await configApi.fetchConfigById(name);
       console.log(this.fetchedConfig);
     }
   },
-  beforeMount: async function() {
+
+  async beforeMount() {
     try {
       await this.fetchConfigById("Test");
       await this.parseFetchedConfig();

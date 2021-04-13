@@ -1,4 +1,5 @@
 import Api from "@/api/api";
+import {Config} from "@/models/config";
 
 export default class ServiceApi extends Api {
   constructor() {
@@ -6,31 +7,32 @@ export default class ServiceApi extends Api {
   }
 
   static async makeSampleCall() {
-    return await fetch(`${Api.getApiBaseUrl()}/query/sample`);
-
+    return await fetch(`${this.apiBaseUrl}/query/sample`);
   }
 
   static async fetchServers() {
-    const res = await fetch(`${Api.getApiBaseUrl()}/service/all`);
+    const res = await fetch(`${this.apiBaseUrl}/service/all`);
     return res.json();
   }
 
-  static async fetchConfigs() {
-    const res = await fetch(`${Api.getApiBaseUrl()}/config`);
+  // TODO: Move 'config' calls to separate file.
+  static async fetchConfigs(): Promise<Config[]> {
+    const res = await fetch(`${this.apiBaseUrl}/config`);
     return res.json();
   }
 
   static async removeServerById(id: number) {
-    const res = await fetch(`${Api.getApiBaseUrl()}/service/${id}`, {
-      method: "DELETE"
+    const res = await fetch(`${this.apiBaseUrl}/service/${id}`, {
+      method: "DELETE",
     });
-    if(!res.ok) throw new Error(`Unable to delete job with id: ${id}`);
+    if (!res.ok) throw new Error(`Unable to delete job with id: ${id}`);
   }
 
   static async addNewService(jsonService: { image: string; logConfig: string; logDirectory: string; name: string; description: string; location: number }) {
-    const res = await fetch(`${Api.getApiBaseUrl()}/service/`, {method: "POST",
+    const res = await fetch(`${this.apiBaseUrl}/service/`, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json;charset=utf-8"
+        "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(jsonService),
     });
@@ -40,9 +42,10 @@ export default class ServiceApi extends Api {
   }
 
   static async addNewConfig(jsonService: string) {
-    const res = await fetch(`${Api.getApiBaseUrl()}/config/`, {method: "POST",
+    const res = await fetch(`${this.apiBaseUrl}/config/`, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json;charset=utf-8"
+        "Content-Type": "application/json;charset=utf-8",
       },
       body: jsonService,
     });
