@@ -45,7 +45,7 @@ export default Vue.extend({
   }),
 
   methods:{
-    onSave: async function () {
+    async onSave() {
       try {
         await serviceApi.addNewConfig(this.newConfigJson);
         this.$emit("newConfigSuccess");

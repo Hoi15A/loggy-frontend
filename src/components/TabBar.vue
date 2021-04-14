@@ -8,7 +8,7 @@
         </v-icon>
       </v-tab>
       <v-spacer/>
-      <v-btn @click="openTab()" class="mx-2 align-right" fab x-small dark color="black">
+      <v-btn @click="openTab(serverId)" class="mx-2 align-right" fab x-small dark color="black">
         <v-icon centerd dense color="white">
           mdi-plus
         </v-icon>
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AgGrid from "@/components/AgGrid.vue";
+import AgGrid from "@/components/LogGrid.vue";
 
 export default Vue.extend({
   name: "TabBar",
@@ -40,18 +40,20 @@ export default Vue.extend({
   }),
 
   methods: {
-    getServerId() {
-      return this.$route.query.serverId;
-    },
-
-    openTab() {
+    openTab(serverId: number) {
       this.tabs.push(`Query ${this.tabCount++}`);
     },
 
-    closeTab(tabId: any) {
-      this.tabs.splice(this.tabs.indexOf(tabId.target.parentElement.textContent.trim()), 1);
+    closeTab(closeEvent: any) {
+      this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
     }
-  }
+  },
+
+  props: {
+    serverId: {
+      type: Number
+    }
+  },
 });
 </script>
 

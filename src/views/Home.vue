@@ -25,13 +25,11 @@ import {Server} from "@/models/server.ts";
 
 export default Vue.extend({
   name: "Home",
-  data: () => {
-    return {
-      title: "Home",
-      serverCount: 0 as number,
-      servers: [] as Server[],
-    };
-  },
+  data: () => ({
+    title: "Home",
+    serverCount: 0 as number,
+    servers: [] as Server[],
+  }),
 
   components: {
     ServerCard,
@@ -39,7 +37,7 @@ export default Vue.extend({
   },
 
   methods: {
-    loadServers: async function() {
+    async loadServers() {
       const fetchedServers = await ServiceApi.fetchServers();
       this.servers = [];
       for(let i = 0; i < fetchedServers.length; i++) {
@@ -49,7 +47,7 @@ export default Vue.extend({
     },
 
   },
-  beforeMount: async function() {
+  async beforeMount() {
     try {
       await this.loadServers();
     } catch (e) {

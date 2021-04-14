@@ -1,64 +1,58 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Logs
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="tableData"
-      :search="search"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.date }}</td>
-        <td class="text-xs-right">{{ props.item.type }}</td>
-        <td class="text-xs-right">{{ props.item.message }}</td>
-      </template>
-      <template v-slot:no-results>
-        <v-alert :value="true" color="error" icon="warning">
-          Your search for "{{ search }}" found no results.
-        </v-alert>
-      </template>
-    </v-data-table>
-  </v-card>
+  <ag-grid-vue style="width: 100%; height: 900px;"
+               class="ag-theme-material"
+               :columnDefs="columnDefinitions"
+               :rowData="rowData"
+               rowSelection="multiple"
+               pagination="true"
+               enableRangeSelection="true"/>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import ServiceApi from "@/api/serviceApi";
+import {AgGridVue} from "ag-grid-vue";
+import {ColumnDefinition} from "@/models/columnDefinition";
+import LogApi from "@/api/logApi";
 
 export default Vue.extend({
-  name: "LogGrid",
+  name: "AgGrid",
 
-  data: () => {
-    return {
-      tableData: [],
-      headers: [],
-      search: ""
-    };
+  components: {
+    AgGridVue,
   },
 
+  data: () => ({
+    columnDefinitions: [] as ColumnDefinition[],
+    rowData: null,
+  }),
+
   methods: {
-    async fetchSample() {
-      const data = await ServiceApi.makeSampleCall().then(resp => resp.json());
-      this.headers = data.headers;
-      this.tableData = data.tableData;
-    }
+    async fetchFile(id: number) {
+      await LogApi.fetchFileByServiceId(id)
+        .then(res => res.json())
+        .then(rowData => this.rowData = rowData);
+    },
   },
 
   async beforeMount() {
     try {
-      await this.fetchSample();
+      await this.fetchFile(75);
     } catch (e) {
-      // not logged in or other issue
       console.error(e);
     }
-  }
+
+    this.columnDefinitions = [
+      //will be replaced when proper headers are sent
+      {headerName: "1", field: "0", resizable: true, sortable: true, filter: true},
+      {headerName: "2", field: "1", resizable: true, sortable: true, filter: true},
+      {headerName: "3", field: "2", resizable: true, sortable: true, filter: true},
+      {headerName: "4", field: "3", resizable: true, sortable: true, filter: true},
+      {headerName: "5", field: "4", resizable: true, sortable: true, filter: true},
+      {headerName: "6", field: "5", resizable: true, sortable: true, filter: true},
+      {headerName: "7", field: "6", resizable: true, sortable: true, filter: true},
+      {headerName: "8", field: "7", resizable: true, sortable: true, filter: true},
+      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true},
+    ];
+  },
 });
 </script>

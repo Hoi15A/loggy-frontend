@@ -24,15 +24,13 @@ import configApi from "@/api/configApi";
 export default Vue.extend({
   name: "ConfigEditor",
 
-  data: () => {
-    return {
-      configKeys: [] as any,
-      configValues: [] as any,
-      fetchedConfig: {} as any,
-      updatedConfig: {} as any,
-      updatedConfigJSON: "",
-    };
-  },
+  data: () => ({
+    configKeys: [] as any,
+    configValues: [] as any,
+    fetchedConfig: {} as any,
+    updatedConfig: {} as any,
+    updatedConfigJSON: "",
+  }),
 
   methods: {
     async addNewColumnComponent() {

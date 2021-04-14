@@ -1,8 +1,7 @@
 <template>
   <div>
-    <TabBar/>
+    <TabBar v-bind:server-id="serverId"/>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -16,9 +15,10 @@ export default Vue.extend({
     TabBar
   },
 
-  data: () => ({
-  }),
-  methods: {
+  props: {
+    serverId: {
+      type: Number
+    }
   },
 });
 </script>

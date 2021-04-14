@@ -96,7 +96,7 @@ export default Vue.extend({
   }),
 
   methods: {
-    onClickDone: async function () {
+    async onClickDone() {
       this.$refs.processingDialog.activateProcessing();
 
       this.server.name = this.$refs.userForm.name;

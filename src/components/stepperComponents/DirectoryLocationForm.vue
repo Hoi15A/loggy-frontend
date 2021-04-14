@@ -35,8 +35,9 @@
 </template>
 
 <script lang="ts">
-import PathApi from "@/api/pathApi";
 import Vue from "vue";
+import PathApi from "@/api/pathApi";
+import { Directory } from "@/models/directory";
 
 export default Vue.extend({
   data: () => ({
@@ -60,7 +61,7 @@ export default Vue.extend({
       }
     },
 
-    async fetchSubFolders(item: any) {
+    async fetchSubFolders(item: Directory) {
       try {
         const res = await PathApi.getContentOfFolder(item.fullpath);
         item.children = await res.json();

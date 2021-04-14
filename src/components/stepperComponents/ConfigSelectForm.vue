@@ -26,7 +26,7 @@ export default Vue.extend({
   }),
 
   methods: {
-    loadConfigs: async function () {
+    async loadConfigs() {
       const fetchedConfigs = await ServiceApi.fetchConfigs();
       fetchedConfigs.forEach(config => this.items.push(config.name));
     },

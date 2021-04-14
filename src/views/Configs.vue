@@ -10,11 +10,9 @@ export default {
   components: {
     ConfigEditor
   },
-  data: () => {
-    return {
-      title: "Configs",
-    };
-  },
+  data: () => ({
+    title: "Configs",
+  }),
 };
 </script>
 

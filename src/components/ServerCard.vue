@@ -50,7 +50,7 @@ export default Vue.extend({
     },
 
     link() {
-      this.$router.push(`/server?serverId=${this.id}`);
+      this.$router.push(`/server/${this.id}`);
     },
 
     openServerSettings() {
