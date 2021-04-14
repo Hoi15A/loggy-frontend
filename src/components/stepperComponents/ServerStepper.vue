@@ -100,7 +100,7 @@ export default Vue.extend({
       this.server.image = this.$refs.userForm.image;
       this.server.description = this.$refs.userForm.description;
       this.server.logConfig = this.$refs.configForm.config;
-      this.server.logDirectory = this.$refs.directoryLocationForm.logDirectory;
+      this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
       this.server.location = this.$refs.directoryLocationForm.location;
 
       try {
