@@ -1,13 +1,6 @@
 <template>
   <v-row>
-    <v-dialog v-model="dialog" persistent max-width="600">
-      <template v-slot:activator="{ on, attrs }">
-        <div class="add-button">
-          <v-btn fab dark elevation="1" v-bind="attrs" v-on="on" color="light-grey" x-large>
-            <v-icon color="white" large>mdi-plus</v-icon>
-          </v-btn>
-        </div>
-      </template>
+    <v-dialog v-model="stepperDialog" persistent max-width="600">
       <v-card>
         <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()">
         </Stepper>
@@ -21,23 +14,21 @@ import Stepper from "@/components/stepperComponents/ServerStepper.vue";
 import Vue from "vue";
 
 export default Vue.extend({
-  data () {
-    return {
-      dialog: false,
-    };
+  props: {
+    stepperDialog: {
+      type: Boolean,
+    }
   },
-
   methods: {
     onStepperComplete () {
-      this.dialog = false;
+      this.stepperDialog = false;
       this.$emit("stepperComplete");
     },
 
     onStepperCancel() {
-      this.dialog = false;
-    }
+      this.stepperDialog = false;
+    },
   },
-
   components: {
     Stepper,
   },
