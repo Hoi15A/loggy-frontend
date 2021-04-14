@@ -139,7 +139,7 @@ export default Vue.extend({
       for(let i = 0; i < Object.keys(this.columnCompObject[0]).length; i++) {
         this.tableHeaders.push({
           text: Object.keys(this.columnCompObject[0])[i],
-          value: Object.keys(this.columnCompObject[0])[i], //since text is already lowercase
+          value: Object.keys(this.columnCompObject[0])[i],
         });
       }
       this.tableHeaders.push({text: "Actions", value: "actions", sortable: false});
