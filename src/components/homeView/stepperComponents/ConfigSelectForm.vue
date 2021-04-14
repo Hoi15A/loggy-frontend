@@ -13,7 +13,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
-import NewConfigSideWindow from "@/components/stepperComponents/NewConfigSideWindow.vue";
+import NewConfigSideWindow from "@/components/homeView/stepperComponents/NewConfigSideWindow.vue";
 
 export default Vue.extend({
   components: {

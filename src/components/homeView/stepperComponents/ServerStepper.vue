@@ -65,11 +65,11 @@
 <script lang="js">
 import Vue from "vue";
 import CancelDialog from "@/components/CancelDialog";
-import UserInfoTextField from "@/components/stepperComponents/UserInfoForm";
-import ConfigSelectForm from "@/components/stepperComponents/ConfigSelectForm";
-import ProcessingDialog from "@/components/stepperComponents/ProcessingDialog";
+import UserInfoTextField from "@/components/homeView/stepperComponents/UserInfoForm";
+import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSelectForm";
+import ProcessingDialog from "@/components/homeView/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
-import DirectoryLocationForm from "@/components/stepperComponents/DirectoryLocationForm";
+import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
 
 export default Vue.extend({
   components: {

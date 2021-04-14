@@ -19,8 +19,8 @@
 import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";
 
-import ServerCard from "@/components/ServerCard.vue";
-import StepperDialog from "@/components/stepperComponents/StepperDialog.vue";
+import ServerCard from "@/components/homeView/ServerCard.vue";
+import StepperDialog from "@/components/homeView/stepperComponents/StepperDialog.vue";
 import {Server} from "@/models/server.ts";
 
 export default Vue.extend({

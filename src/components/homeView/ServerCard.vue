@@ -26,7 +26,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
-import ServerCardSettings from "@/components/ServerCardSettings.vue";
+import ServerCardSettings from "@/components/homeView/ServerCardSettings.vue";
 import CancelDialog from "@/components/CancelDialog.vue";
 
 export default Vue.extend({

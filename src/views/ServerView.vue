@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import TabBar from "@/components/TabBar.vue";
+import TabBar from "@/components/serverView/TabBar.vue";
 
 export default Vue.extend({
   name: "ServerView",

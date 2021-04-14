@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Stepper from "@/components/stepperComponents/ServerStepper.vue";
+import Stepper from "@/components/homeView/stepperComponents/ServerStepper.vue";
 
 export default Vue.extend({
   components: {

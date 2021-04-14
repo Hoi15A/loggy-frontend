@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import AgGrid from "@/components/LogGrid.vue";
+import AgGrid from "@/components/serverView/LogGrid.vue";
 
 export default Vue.extend({
   name: "TabBar",
