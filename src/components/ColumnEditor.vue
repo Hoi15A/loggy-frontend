@@ -75,12 +75,12 @@ export default Vue.extend({
   name: "ColumnEditor",
   data () {
     return {
-      columnCompObject: {} as string[],
       dialog: false,
       dialogDelete: false,
-      editedIndex: -1,
+      editedIndex: -1 as number,
       tableHeaders: [] as string[],
       tableContent: [] as string[],
+      columnCompObject: {} as string[],
       editedItem: {} as ColumnComponent,
       defaultItem: {} as ColumnComponent,
     };
@@ -94,7 +94,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    formTitle () {
+    formTitle: function(): string {
       return this.editedIndex === -1 ? "New Column" : "Edit Column";
     },
   },
