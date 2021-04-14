@@ -45,7 +45,7 @@ import Vue from "vue";
 export default Vue.extend({
   data () {
     return {
-      location: "Local", // local (1), remote (0)
+      location: "LOCAL", // local (1), remote (0)
       selection: [],
       items: []
     };
