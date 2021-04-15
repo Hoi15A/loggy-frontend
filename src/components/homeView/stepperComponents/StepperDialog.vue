@@ -19,12 +19,12 @@ export default Vue.extend({
 
   methods: {
     onStepperComplete () {
-      this.stepperDialog = false;
+      this.$props.stepperDialog = false;
       this.$emit("stepperComplete");
     },
 
     onStepperCancel() {
-      this.stepperDialog = false;
+      this.$props.stepperDialog = false;
     },
   },
 
