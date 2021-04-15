@@ -41,7 +41,7 @@ import { Directory } from "@/models/directory";
 
 export default Vue.extend({
   data: () => ({
-    location: "Local", // local (1), remote (0)
+    location: "LOCAL", // local (1), remote (0)
     selection: [],
     items: [],
   }),

@@ -2,7 +2,7 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-select :items="items" label="Config"/>
+        <v-select :items="items" label="Config" v-model="config"/>
         <v-spacer/>
         <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>
@@ -23,6 +23,7 @@ export default Vue.extend({
   data: () => ({
     items: [] as string[],
     cardVisible: false,
+    config: "",
   }),
 
   methods: {
@@ -35,8 +36,6 @@ export default Vue.extend({
       this.cardVisible = true;
     },
   },
-
-
 });
 </script>
 
