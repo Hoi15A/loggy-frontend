@@ -6,17 +6,17 @@ export default class ColumnCompApi extends Api {
     }
 
     static async fetchColumnsById(id: number) {
-        const res = await fetch(`${Api.getApiBaseUrl()}/column/${id}`);
+        const res = await fetch(`${this.apiBaseUrl}/column/${id}`);
         return res.json();
     }
 
     static async fetchAllColumnComponents() {
-        const res = await fetch(`${Api.getApiBaseUrl()}/column`);
+        const res = await fetch(`${this.apiBaseUrl}/column`);
         return res.json();
     }
 
     static async createNewColumn(jsonService: {columnType: string; format: string; name: string}) {
-        const res = await fetch(`${Api.getApiBaseUrl()}/column/`, {method: "POST",
+        const res = await fetch(`${this.apiBaseUrl}/column/`, {method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         },
@@ -28,7 +28,7 @@ export default class ColumnCompApi extends Api {
     }
 
     static async removeColumnById(id: number) {
-        const res = await fetch(`${Api.getApiBaseUrl()}/column/${id}`, {
+        const res = await fetch(`${this.apiBaseUrl}/column/${id}`, {
             method: "DELETE"
         });
         if(!res.ok) throw new Error(`Unable to delete column with id: ${id}`);

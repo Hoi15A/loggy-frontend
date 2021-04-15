@@ -6,7 +6,7 @@ export default class LogApi extends Api {
   }
 
   static async fetchFileByServiceId(id: number) {
-    return await fetch(`${Api.getApiBaseUrl()}/query/${id}/null`);
+    return await fetch(`${this.apiBaseUrl}/query/${id}/null`);
   }
 
 }
