@@ -65,6 +65,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ColumnCompApi from "@/api/columnCompApi";
+import columnCompApi from "@/api/columnCompApi";
 import {ColumnComponent} from "@/models/ColumnComponent.ts";
 
 export default Vue.extend({
@@ -74,11 +75,12 @@ export default Vue.extend({
       dialog: false,
       dialogDelete: false,
       editedIndex: -1 as number,
-      tableHeaders: [] as string[],
-      tableContent: [] as string[],
-      columnCompObject: {} as string[],
+      tableHeaders: [] as object[],
+      tableContent: [] as any[],
+      columnCompObject: {} as any,
       editedItem: {} as ColumnComponent,
       defaultItem: {} as ColumnComponent,
+      headerObject: {},
     };
   },
   watch: {
@@ -95,19 +97,20 @@ export default Vue.extend({
     },
   },
   methods: {
-    editItem: async function(item) {
+    editItem: async function(item: ColumnComponent) {
       this.editedIndex = this.tableContent.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    deleteItem: async function(item) {
+    deleteItem: async function(item: ColumnComponent) {
       this.editedIndex = this.tableContent.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
     deleteItemConfirm: async function() {
       this.tableContent.splice(this.editedIndex, 1);
-      this.closeDelete();
+      await this.removeColumn(this.editedItem.id);
+      await this.closeDelete();
     },
     close: async function() {
       this.dialog = false;
@@ -120,13 +123,14 @@ export default Vue.extend({
       if (this.editedIndex > -1) {
         Object.assign(this.tableContent[this.editedIndex], this.editedItem);
       } else {
+        await this.createNewColumn();
         this.tableContent.push(this.editedItem);
       }
       await this.close();
     },
-    closeDelete () {
+    closeDelete: async function() {
       this.dialogDelete = false;
-      this.$nextTick(() => {
+      this.$nextTick(async ()  => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
@@ -134,21 +138,27 @@ export default Vue.extend({
     fillTableHeaders: async function() {
       for(let i = 0; i < Object.keys(this.columnCompObject[0]).length; i++) {
         this.tableHeaders.push({
-          text: Object.keys(this.columnCompObject[0])[i],
+          text: Object.keys(this.columnCompObject[0])[i].toUpperCase(),
           value: Object.keys(this.columnCompObject[0])[i],
         });
       }
-      this.tableHeaders.push({text: "Actions", value: "actions", sortable: false});
+      this.tableHeaders.push({text: "ACTIONS", value: "actions", sortable: false});
     },
     fillTableContent: async function() {
       for(let i = 0; i < Object.keys(this.columnCompObject).length; i++) {
         this.tableContent.push(Object.values(this.columnCompObject)[i]);
       }
-      console.log(this.columnCompObject);
     },
     fetchAllColumns: async function () {
       this.columnCompObject = await ColumnCompApi.fetchAllColumnComponents();
     },
+    createNewColumn: async function() {
+      await columnCompApi.createNewColumn(this.editedItem);
+      return 1;
+    },
+    removeColumn: async function(id: number) {
+      await columnCompApi.removeColumnById(id);
+    }
   },
   beforeMount: async function() {
     try {
