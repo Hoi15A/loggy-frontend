@@ -2,10 +2,11 @@
   <ConfigEditor/>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import ConfigEditor from "@/components/ConfigEditor.vue";
 
-export default {
+export default Vue.extend({
   name: "Configs",
   components: {
     ConfigEditor
@@ -13,7 +14,7 @@ export default {
   data: () => ({
     title: "Configs",
   }),
-};
+});
 </script>
 
 <style scoped>
