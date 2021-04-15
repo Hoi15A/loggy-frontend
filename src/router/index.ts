@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import ServerView from "@/views/ServerView.vue";
 import Test from "@/views/Test.vue";
-import Configs from "@/views/Configs.vue";
+import ConfigView from "@/views/ConfigView.vue";
 
 
 Vue.use(VueRouter);
@@ -24,9 +24,9 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/configs",
-    name: "Configs",
-    meta: {title: "Configs"},
-    component: Configs,
+    name: "ConfigView",
+    meta: {title: "ConfigView"},
+    component: ConfigView,
   },
   {
     path: "/test",
