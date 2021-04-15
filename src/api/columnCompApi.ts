@@ -33,4 +33,18 @@ export default class ColumnCompApi extends Api {
         });
         if(!res.ok) throw new Error(`Unable to delete column with id: ${id}`);
     }
+
+    static async updateColumnById(id: number, jsonService: {columnType: string; format: string; name: string}) {
+        const res = await fetch(`${this.apiBaseUrl}/column/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(jsonService)
+        });
+        if (!res.ok) throw new Error(`Unable to create a new column with Attributes: ${JSON.stringify(jsonService)}`);
+        return res.json();
+    }
+
+
 }

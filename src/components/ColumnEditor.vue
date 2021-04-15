@@ -121,6 +121,7 @@ export default Vue.extend({
     },
     save: async function() {
       if (this.editedIndex > -1) {
+        await this.updateColumnById(this.editedItem.id, this.editedItem);
         Object.assign(this.tableContent[this.editedIndex], this.editedItem);
       } else {
         await this.createNewColumn();
@@ -158,6 +159,9 @@ export default Vue.extend({
     },
     removeColumn: async function(id: number) {
       await columnCompApi.removeColumnById(id);
+    },
+    updateColumnById: async function(id: number, updatedItem: ColumnComponent) {
+      await columnCompApi.updateColumnById(id, updatedItem);
     }
   },
   beforeMount: async function() {
