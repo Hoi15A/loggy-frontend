@@ -1,17 +1,17 @@
 <template>
-  <v-row>
-    <v-expansion-panels popout>
-      <v-expansion-panel v-for="(config) in configArray" v-bind:key="config.name">
-        <v-expansion-panel-header>
-          {{ config.name}}
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <ConfigEditor>
-          </ConfigEditor>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </v-row>
+  <v-expansion-panels popout focusable multiple>
+    <v-expansion-panel v-for="(config) in configArray" v-bind:key="config.name">
+      <v-expansion-panel-header class="font-weight-medium" align="center">
+        {{ config.name}}
+      </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-toolbar flat>
+        </v-toolbar>
+        <ConfigColoumTestComponent/>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
+
 </template>
 
 
@@ -21,21 +21,25 @@
 import Vue from "vue";
 import {Config} from "@/models/Config";
 import ServiceApi from "@/api/serviceApi";
-import ConfigEditor from "@/components/ConfigEditor.vue";
+import ConfigColoumTestComponent from "@/components/configViewComponents/ConfigColoumTestComponent.vue";
 
 export default Vue.extend( {
   name: "ConfigsExpansionPanel",
   data: () => {
     return {
+      checkBoxEdit: false as boolean,
       configArray: [] as Config[],
     };
   },
 
   components: {
-    ConfigEditor
+    ConfigColoumTestComponent
   },
 
   methods: {
+    test() {
+      console.log("hallo");
+    },
 
     loadConfigs: async function() {
       console.log("loading configs");
