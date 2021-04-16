@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-dialog v-model="stepperDialog" persistent max-width="600">
+    <v-dialog v-model="$store.getters['stepper/getDialogStatus']" persistent max-width="600">
       <v-card>
         <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()">
         </Stepper>
@@ -14,19 +14,12 @@ import Stepper from "@/components/stepperComponents/ServerStepper.vue";
 import Vue from "vue";
 
 export default Vue.extend({
-  props: {
-    stepperDialog: {
-      type: Boolean,
-    }
-  },
   methods: {
     onStepperComplete () {
-      this.stepperDialog = false;
-      this.$emit("stepperComplete");
+      this.$store.commit("stepper/setDialogStatus", false);
     },
-
     onStepperCancel() {
-      this.stepperDialog = false;
+      this.$store.commit("stepper/setDialogStatus", false);
     },
   },
   components: {
@@ -34,12 +27,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style scoped>
-.add-button {
-  position: absolute;
-  top: 2%;
-  right:2%;
-
-}
-</style>
