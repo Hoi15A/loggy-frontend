@@ -21,6 +21,7 @@ export default Vue.extend({
       this.$store.commit("stepper/setDialogStatus", false);
     },
   },
+
   components: {
     Stepper,
   },
