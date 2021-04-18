@@ -45,7 +45,6 @@
     <v-main>
       <v-container>
         <router-view/>
-        <StepperDialog v-bind:stepper-dialog="stepperDialog"></StepperDialog>
       </v-container>
     </v-main>
     <v-footer app padless height="35">
@@ -62,7 +61,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import StepperDialog from "@/components/stepperComponents/StepperDialog.vue";
 
 export default Vue.extend({
   name: "App",
@@ -70,9 +68,6 @@ export default Vue.extend({
     title: function() {
       return this.$route.meta.title;
     }
-  },
-  components: {
-    StepperDialog,
   },
   data() {
     return {
@@ -84,20 +79,19 @@ export default Vue.extend({
       ],
       right: null,
       drawer: null,
-      stepperDialog: false,
     };
   },
   methods: {
     goHome() {
-      this.$router.push("/");
+      this.$router.push("/").catch(err => console.error(err));
     },
     goTo(link: string) {
       switch (link) {
         case "Home":
-          this.$router.push("/");
+          this.goHome();
           break;
         case "Create Service":
-          this.$data.stepperDialog = !this.$data.stepperDialog;
+          this.$store.commit("stepper/setDialogStatus", true);
           break;
       }
     },
