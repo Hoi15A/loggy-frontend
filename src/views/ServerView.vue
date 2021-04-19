@@ -1,13 +1,12 @@
 <template>
   <div>
-    <TabBar/>
+    <TabBar v-bind:server-id="serverId"/>
   </div>
-
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import TabBar from "@/components/TabBar.vue";
+import TabBar from "@/components/serverView/TabBar.vue";
 
 export default Vue.extend({
   name: "ServerView",
@@ -16,9 +15,10 @@ export default Vue.extend({
     TabBar
   },
 
-  data: () => ({
-  }),
-  methods: {
+  props: {
+    serverId: {
+      type: Number
+    }
   },
 });
 </script>

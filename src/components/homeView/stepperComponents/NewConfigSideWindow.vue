@@ -13,13 +13,11 @@
 
         <v-row>
           <v-col>
-            <v-textarea class="ma-1" rows="3" outlined name="input-7-4" label="Config JSON" v-model="newConfigJson">
-
-            </v-textarea>
+            <v-textarea class="ma-1" rows="3" outlined name="input-7-4" label="Config JSON" v-model="newConfigJson"/>
           </v-col>
         </v-row>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer/>
           <v-btn color="primary" text v-on:click="onSave()">
             Save
           </v-btn>
@@ -29,12 +27,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import serviceApi from "@/api/serviceApi";
 import Vue from "vue";
 
 export default Vue.extend({
   name: "newConfigSideWindow",
+
   data: () => ({
     newConfigJson: "{\n" +
       "  \"name\": \"Test\",\n" +
@@ -46,7 +45,7 @@ export default Vue.extend({
   }),
 
   methods:{
-    onSave: async function () {
+    async onSave() {
       try {
         await serviceApi.addNewConfig(this.newConfigJson);
         this.$emit("newConfigSuccess");

@@ -8,14 +8,14 @@
         <v-card-title>
           <span class="headline">Server Settings</span>
         </v-card-title>
-        <v-card-text>{{"Logdirectory from db: " + logDirectory}}</v-card-text>
+        <v-card-text>{{ "Logdirectory from db: " + logDirectory }}</v-card-text>
         <br>
-        <v-card-text>{{"logconfig from db: " + logConfig}}</v-card-text>
+        <v-card-text>{{ "logconfig from db: " + logConfig }}</v-card-text>
         <br>
-        <v-card-text>{{"location from db: " + logServiceLocation}}</v-card-text>
+        <v-card-text>{{ "location from db: " + logServiceLocation }}</v-card-text>
         <br>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer/>
           <v-btn color="primary" text rounded @click="closeCard">Close</v-btn>
           <v-btn color="primary" text rounded @click="closeCard">Save</v-btn>
         </v-card-actions>
@@ -27,17 +27,17 @@
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend ({
-  data () {
-    return {
-      settingsCardOpen: false,
-    };
-  },
+export default Vue.extend({
+  data: () => ({
+    settingsCardOpen: false,
+  }),
+
   methods: {
     closeCard() {
       this.settingsCardOpen = false;
-    }
+    },
   },
+
   props: {
     openServiceSettings: {
       type: Boolean,
@@ -50,8 +50,8 @@ export default Vue.extend ({
     },
     logConfig: {
       type: String,
-    }
-  }
+    },
+  },
 });
 </script>
 
