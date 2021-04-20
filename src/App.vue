@@ -71,12 +71,12 @@ export default Vue.extend({
   data () {
     return {
       items: [
-          { title: 'Home', icon: 'mdi-view-dashboard' },
-          { title: 'Create Service', icon: 'mdi-plus-box' },
-          { title: 'List Services', icon: 'mdi-table' },
-          { title: 'Settings', icon: 'mdi-cog'},
-        ],
-        right: null,
+        { title: "Home", icon: "mdi-view-dashboard" },
+        { title: "Create Service", icon: "mdi-plus-box" },
+        { title: "List Services", icon: "mdi-table" },
+        { title: "Settings", icon: "mdi-cog"},
+      ],
+      right: null,
     };
   },
   methods: {
