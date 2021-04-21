@@ -26,33 +26,21 @@
 
 <script lang="ts">
 import Vue from "vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  data: () => ({
-    settingsCardOpen: false,
-  }),
+@Component
+export default class ServerCardSettings extends Vue {
+  @Prop(Boolean) openServiceSettings: boolean | undefined
+  @Prop(String) logDirectory: string | undefined
+  @Prop(String) logServiceLocation: string | undefined
+  @Prop(String) logConfig: string | undefined
 
-  methods: {
-    closeCard() {
-      this.settingsCardOpen = false;
-    },
-  },
+  settingsCardOpen = false;
 
-  props: {
-    openServiceSettings: {
-      type: Boolean,
-    },
-    logDirectory: {
-      type: String,
-    },
-    logServiceLocation: {
-      type: String,
-    },
-    logConfig: {
-      type: String,
-    },
-  },
-});
+  closeCard() {
+    this.settingsCardOpen = false;
+  }
+}
 </script>
 
 <style scoped>
