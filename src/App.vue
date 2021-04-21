@@ -61,42 +61,71 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
 
-export default Vue.extend({
-  name: "App",
-  computed: {
-    title: function() {
-      return this.$route.meta.title;
+@Component
+export default class App extends Vue {
+  items =  [
+    { title: "Home", icon: "mdi-view-dashboard"},
+    { title: "Create Service", icon: "mdi-plus-box"},
+    { title: "List Services", icon: "mdi-table"},
+    { title: "Settings", icon: "mdi-cog"},
+  ];
+  right = null;
+  drawer = null;
+
+  goHome() {
+    this.$router.push("/").catch(err => console.error(err));
+  }
+
+  goTo(link: string) {
+    switch (link) {
+      case "Home":
+        this.goHome();
+        break;
+      case "Create Service":
+        this.$store.commit("stepper/setDialogStatus", true);
+        break;
     }
-  },
-  data() {
-    return {
-      items: [
-        { title: "Home", icon: "mdi-view-dashboard"},
-        { title: "Create Service", icon: "mdi-plus-box"},
-        { title: "List Services", icon: "mdi-table"},
-        { title: "Settings", icon: "mdi-cog"},
-      ],
-      right: null,
-      drawer: null,
-    };
-  },
-  methods: {
-    goHome() {
-      this.$router.push("/").catch(err => console.error(err));
-    },
-    goTo(link: string) {
-      switch (link) {
-        case "Home":
-          this.goHome();
-          break;
-        case "Create Service":
-          this.$store.commit("stepper/setDialogStatus", true);
-          break;
-      }
-    },
-  },
-});
+  }
+}
+
+
+// export Vue.extend({
+//   name: "App",
+//   computed: {
+//     title: function() {
+//       return this.$route.meta.title;
+//     }
+//   },
+//   data() {
+//     return {
+//       items: [
+//         { title: "Home", icon: "mdi-view-dashboard"},
+//         { title: "Create Service", icon: "mdi-plus-box"},
+//         { title: "List Services", icon: "mdi-table"},
+//         { title: "Settings", icon: "mdi-cog"},
+//       ],
+//       right: null,
+//       drawer: null,
+//     };
+//   },
+//   methods: {
+//     goHome() {
+//       this.$router.push("/").catch(err => console.error(err));
+//     },
+//     goTo(link: string) {
+//       switch (link) {
+//         case "Home":
+//           this.goHome();
+//           break;
+//         case "Create Service":
+//           this.$store.commit("stepper/setDialogStatus", true);
+//           break;
+//       }
+//     },
+//   },
+// });
 </script>
 
 <style scoped>
