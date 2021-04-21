@@ -40,13 +40,11 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
 
-export default Vue.extend({
-  name: "DatePicker",
-
-  data: () => ({
-    dates: ["2018-09-15", "2018-09-20"],
-    menu: false,
-  }),
-});
+@Component
+export default class DatePicker extends Vue {
+  dates = ["2018-09-15", "2018-09-20"];
+  menu = false;
+}
 </script>
