@@ -89,43 +89,6 @@ export default class App extends Vue {
     }
   }
 }
-
-
-// export Vue.extend({
-//   name: "App",
-//   computed: {
-//     title: function() {
-//       return this.$route.meta.title;
-//     }
-//   },
-//   data() {
-//     return {
-//       items: [
-//         { title: "Home", icon: "mdi-view-dashboard"},
-//         { title: "Create Service", icon: "mdi-plus-box"},
-//         { title: "List Services", icon: "mdi-table"},
-//         { title: "Settings", icon: "mdi-cog"},
-//       ],
-//       right: null,
-//       drawer: null,
-//     };
-//   },
-//   methods: {
-//     goHome() {
-//       this.$router.push("/").catch(err => console.error(err));
-//     },
-//     goTo(link: string) {
-//       switch (link) {
-//         case "Home":
-//           this.goHome();
-//           break;
-//         case "Create Service":
-//           this.$store.commit("stepper/setDialogStatus", true);
-//           break;
-//       }
-//     },
-//   },
-// });
 </script>
 
 <style scoped>
