@@ -70,8 +70,9 @@ import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSele
 import ProcessingDialog from "@/components/homeView/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
+import Component from "vue-class-component";
 
-export default Vue.extend({
+@Component({
   components: {
     UserInfoTextField,
     CancelDialog,
@@ -79,60 +80,56 @@ export default Vue.extend({
     DirectoryLocationForm,
     ProcessingDialog,
   },
+})
+export default class ServerStepper extends Vue {
+  buttonName = "Cancel";
+  titleMessage = "Are you sure you want to cancel the registration process?";
+  e1 = 1;
+  server= {
+    logDirectory: "",
+    name: "",
+    description: "",
+    image: "",
+    location: 1,
+    logConfig: ""
+  };
 
-  data: () => ({
-    buttonName: "Cancel",
-    titleMessage: "Are you sure you want to cancel the registration process?",
-    e1: 1,
+  async onClickDone() {
+    this.$refs.processingDialog.activateProcessing();
 
-    server: {
-      logDirectory: "",
-      name: "",
-      description: "",
-      image: "",
-      location: 1,
-      logConfig: ""
+    this.server.name = this.$refs.userForm.name;
+    this.server.image = this.$refs.userForm.image;
+    this.server.description = this.$refs.userForm.description;
+    this.server.logConfig = this.$refs.configForm.config;
+    this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
+    this.server.location = this.$refs.directoryLocationForm.location;
+
+    try {
+      await serviceApi.addNewService(this.server);
+      this.$refs.processingDialog.activateSuccess();
+    } catch (e) {
+      this.$refs.processingDialog.activateFailure(e.toString());
     }
-  }),
+  }
 
-  methods: {
-    async onClickDone() {
-      this.$refs.processingDialog.activateProcessing();
+  onConfirmCancel() {
+    this.e1 = 1;
+    this.$emit("stepperCancel");
+  }
 
-      this.server.name = this.$refs.userForm.name;
-      this.server.image = this.$refs.userForm.image;
-      this.server.description = this.$refs.userForm.description;
-      this.server.logConfig = this.$refs.configForm.config;
-      this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
-      this.server.location = this.$refs.directoryLocationForm.location;
+  onConfirmSuccess() {
+    this.e1 = 1;
+    this.$emit("stepperComplete");
+  }
 
-      try {
-        await serviceApi.addNewService(this.server);
-        this.$refs.processingDialog.activateSuccess();
-      } catch (e) {
-        this.$refs.processingDialog.activateFailure(e.toString());
-      }
-    },
+  onCancelFailure() {
+    this.e1 = 1;
+  }
 
-    onConfirmCancel() {
-      this.e1 = 1;
-      this.$emit("stepperCancel");
-    },
-
-    onConfirmSuccess() {
-      this.e1 = 1;
-      this.$emit("stepperComplete");
-    },
-
-    onCancelFailure() {
-      this.e1 = 1;
-    },
-
-    onConfigSelect() {
-      this.$refs.configForm.loadConfigs();
-    }
-  },
-});
+  onConfigSelect() {
+    this.$refs.configForm.loadConfigs();
+  }
+}
 </script>
 
 <style>
