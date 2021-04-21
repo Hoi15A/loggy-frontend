@@ -21,14 +21,14 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
 
-export default Vue.extend({
-  data: () => ({
-    name: "",
-    image: "http://localhost:8081/",
-    description: "",
-  }),
-});
+@Component
+export default class UserInfoForm extends Vue {
+  name = "";
+  image = "http://localhost:8081/";
+  description = "";
+}
 </script>
 
 <style scoped>
