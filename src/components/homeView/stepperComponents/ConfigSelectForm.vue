@@ -2,7 +2,7 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-select :items="items" label="Config" v-model="config"/>
+        <v-select :items="items" label="Config" v-model="selectedConfig"/>
         <v-spacer/>
         <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>
@@ -24,7 +24,7 @@ import Component from "vue-class-component";
 export default class ConfigSelectForm extends Vue {
   items = [] as string[];
   cardVisible = false;
-  config: string;
+  selectedConfig = undefined;
 
   async loadConfigs() {
     const fetchedConfigs = await ServiceApi.fetchConfigs();
