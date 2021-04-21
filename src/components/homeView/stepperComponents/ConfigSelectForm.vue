@@ -14,29 +14,27 @@
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import NewConfigSideWindow from "@/components/homeView/stepperComponents/NewConfigSideWindow.vue";
+import Component from "vue-class-component";
 
-export default Vue.extend({
+@Component({
   components: {
     NewConfigSideWindow,
   },
+})
+export default class ConfigSelectForm extends Vue {
+  items = [] as string[];
+  cardVisible = false;
+  config: string;
 
-  data: () => ({
-    items: [] as string[],
-    cardVisible: false,
-    config: "",
-  }),
+  async loadConfigs() {
+    const fetchedConfigs = await ServiceApi.fetchConfigs();
+    fetchedConfigs.forEach(config => this.items.push(config.name));
+  }
 
-  methods: {
-    async loadConfigs() {
-      const fetchedConfigs = await ServiceApi.fetchConfigs();
-      fetchedConfigs.forEach(config => this.items.push(config.name));
-    },
-
-    onOpenCard() {
-      this.cardVisible = true;
-    },
-  },
-});
+  onOpenCard() {
+    this.cardVisible = true;
+  }
+}
 </script>
 
 <style scoped>
