@@ -28,60 +28,40 @@ import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/homeView/ServerCardSettings.vue";
 import CancelDialog from "@/components/CancelDialog.vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "ServerCard",
-
+@Component({
   components: {
     ServerCardSettings,
     CancelDialog,
   },
+})
+export default class ServerCard extends Vue {
+  @Prop(Number) id: number | undefined
+  @Prop(String) serverDescription: string | undefined
+  @Prop(String) image: string | undefined
+  @Prop(String) logDirectory: string | undefined
+  @Prop(String) logServiceLocation: string | undefined
+  @Prop(String) serverName: string | undefined
+  @Prop(String) logConfig: string | undefined
 
-  data: () => ({
-    buttonName: "Remove",
-    titleMessage: "Are you sure you want to delete this server? This is not reversible",
-    openServiceSettings: false as boolean,
-  }),
+  buttonName = "Remove";
+  titleMessage = "Are you sure you want to delete this server? This is not reversible";
+  openServiceSettings = false;
 
-  methods: {
-    async deleteJob(id: number) {
-      await ServiceApi.removeServerById(id);
-      this.$emit("loadServers");
-    },
+  async deleteJob(id: number) {
+    await ServiceApi.removeServerById(id);
+    this.$emit("loadServers");
+  }
 
-    link() {
-      this.$router.push(`/server/${this.id}`);
-    },
+  link() {
+    this.$router.push(`/server/${this.id}`);
+  }
 
-    openServerSettings() {
-      this.openServiceSettings = true;
-    },
-  },
-
-  props: {
-    id: {
-      type: Number,
-    },
-    serverDescription: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-    logDirectory: {
-      type: String,
-    },
-    logServiceLocation: {
-      type: String,
-    },
-    serverName: {
-      type: String,
-    },
-    logConfig: {
-      type: String,
-    },
-  },
-});
+  openServerSettings() {
+    this.openServiceSettings = true;
+  }
+}
 </script>
 
 <style scoped>
