@@ -37,6 +37,7 @@ export default class Home extends Vue {
 
   async loadServers() {
     const fetchedServers = await ServiceApi.fetchServers();
+    this.servers = [];
     for(let i = 0; i < fetchedServers.length; i++) {
       this.servers.push(fetchedServers[i]);
     }
