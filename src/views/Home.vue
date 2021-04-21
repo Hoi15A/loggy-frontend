@@ -18,35 +18,31 @@
 <script lang="ts">
 import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";
-
+import Component from "vue-class-component";
 import ServerCard from "@/components/homeView/ServerCard.vue";
 import StepperDialog from "@/components/homeView/stepperComponents/StepperDialog.vue";
 import {Server} from "@/models/server.ts";
+import "vue-class-component/hooks";
 
-export default Vue.extend({
-  name: "Home",
-  data: () => ({
-    title: "Home",
-    serverCount: 0 as number,
-    servers: [] as Server[],
-  }),
-
+@Component({
   components: {
     ServerCard,
     StepperDialog,
-  },
+  }
+})
+export default class Home extends Vue {
+  title = "Home";
+  serverCount = 0;
+  servers = [] as Server[];
 
-  methods: {
-    async loadServers() {
-      const fetchedServers = await ServiceApi.fetchServers();
-      this.servers = [];
-      for(let i = 0; i < fetchedServers.length; i++) {
-        this.servers.push(fetchedServers[i]);
-      }
-      this.servers.sort((a,b) => (a.id < b.id ? -1: 1));
-    },
+  async loadServers() {
+    const fetchedServers = await ServiceApi.fetchServers();
+    for(let i = 0; i < fetchedServers.length; i++) {
+      this.servers.push(fetchedServers[i]);
+    }
+    this.servers.sort((a,b) => (a.id < b.id ? -1: 1));
+  }
 
-  },
   async beforeMount() {
     try {
       await this.loadServers();
@@ -54,5 +50,5 @@ export default Vue.extend({
       console.error(e);
     }
   }
-});
+}
 </script>
