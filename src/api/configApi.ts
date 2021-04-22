@@ -11,7 +11,8 @@ export default class ConfigApi extends Api {
   }
 
   static async fetchAllConfigs() {
-    return await fetch(`${this.apiBaseUrl}/config`);
+    const res =  await fetch(`${this.apiBaseUrl}/config`);
+    return res.json();
   }
 
 }

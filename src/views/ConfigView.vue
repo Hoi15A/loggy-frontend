@@ -8,14 +8,9 @@ import ConfigExpansionPanel from "@/components/configViewComponents/ConfigsExpan
 import Vue from "vue";
 
 export default Vue.extend( {
-  name: "Configs",
+  name: "ConfigView",
   components: {
     ConfigExpansionPanel
-  },
-  data: () => {
-    return {
-      title: "Configs",
-    };
   },
 });
 </script>
