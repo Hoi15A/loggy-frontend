@@ -2,7 +2,7 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-select :items="items" label="Config" v-model="config"/>
+        <v-select id="selectConfig" :items="items" label="Config" v-model="config"/>
         <v-spacer/>
         <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>

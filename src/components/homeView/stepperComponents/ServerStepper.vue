@@ -23,7 +23,7 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"/>
           <v-spacer/>
-          <v-btn color="primary" rounded text @click="e1 = 2" v-on:click="onConfigSelect()" width="150">
+          <v-btn id="userFormContinue" color="primary" rounded text @click="e1 = 2" v-on:click="onConfigSelect()" width="150">
             Continue
           </v-btn>
         </v-list-item>
@@ -39,7 +39,7 @@
           <v-spacer/>
           <v-btn color="grey" dark rounded text @click="e1 = 1">Back</v-btn>
           <v-spacer/>
-          <v-btn color="primary" rounded text @click="e1 = 3" width="150">Continue</v-btn>
+          <v-btn id="configSelectContinue" color="primary" rounded text @click="e1 = 3" width="150">Continue</v-btn>
         </v-list-item>
       </v-stepper-content>
 
@@ -53,7 +53,7 @@
           <v-spacer/>
           <v-btn color="grey" rounded text @click="e1 = 2">Back</v-btn>
           <v-spacer/>
-          <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
+          <v-btn id="finish" color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
         </v-list-item>
       </v-stepper-content>
     </v-stepper-items>
