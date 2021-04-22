@@ -20,7 +20,10 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
-        <ColumnComponentsReorder/>
+        <ColumnComponentsReorder
+            v-bind:config-name="config.name"
+        >
+        </ColumnComponentsReorder>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -55,9 +58,9 @@ export default Vue.extend( {
   },
 
   methods: {
-
     loadConfigs: async function() {
       const fetchedConfigs = await ConfigApi.fetchAllConfigs();
+      this.$store.commit("config/setConfigs", fetchedConfigs);
       this.configArray = [];
       for(let i = 0; i < fetchedConfigs.length; i++) {
         this.configArray.push(fetchedConfigs[i]);

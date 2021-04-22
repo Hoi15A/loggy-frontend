@@ -1,67 +1,64 @@
 <template>
-  <v-col>
-    <v-row>
-      <v-toolbar flat>
-        <v-row>
-          <v-col>
-            <v-checkbox v-model="checkBoxEdit" :label="'Reorder'">
-            </v-checkbox>
-          </v-col>
-          <v-col>
-            <v-btn v-if="checkBoxEdit">
-              Save
-            </v-btn>
-          </v-col>
-          <v-col>
+    <v-data-table
+        :headers="columnHeaders"
+        :items="columnData"
+    >
+      <template v-slot:body="props">
+        <draggable :list="props.items" tag="tbody">
+          <tr v-for="(entry, index) in props.items" :key="index">
+            <td> {{ entry.id }} </td>
+            <td> {{ entry.name }} </td>
+            <td> {{ entry.format }} </td>
+            <td> {{ entry.columnType }} </td>
 
-          </v-col>
-        </v-row>
-      </v-toolbar>
-    </v-row>
-    <v-row>
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-          <tr>
-            <th class="text-left">
-              Name
-            </th>
           </tr>
-          </thead>
-          <tbody>
-          <tr v-for="item in columns" :key="item.name">
-            <td>{{ item.name }}</td>
-          </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </v-row>
-  </v-col>
+        </draggable>
+      </template>
+    </v-data-table>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import {Prop, Component} from "vue-property-decorator";
+import "vue-class-component/hooks";
+import Draggable from "vuedraggable";
+import {ColumnComponent} from "@/models/columnComponent";
+import {Config} from "@/models/config";
 
-export default Vue.extend({
-  name: "ConfigColoumTestComponent",
 
-  data () {
-    return {
-      checkBoxEdit: false as boolean,
-      columns: [
-        {
-          name: "Frozen Yogurt",
-        },
-        {
-          name: "Ice cream sandwich",
-        },
-        {
-          name: "Eclair",
-        },
-      ],
-    };
-  },
-});
+
+@Component({
+  components: {
+    Draggable,
+  }
+})
+export default class ColumnComponentsReorder extends Vue {
+
+
+  @Prop(String) configName: string | undefined
+
+  columnHeaders = [] as string[];
+  columnData = [] as ColumnComponent[];
+  serviceConfig = {} as Config;
+
+  async created() {
+    await this.parseConfigs();
+    this.fillHeader();
+  }
+
+  fillHeader() {
+    this.columnHeaders.push({text: "ID"}, {text: "NAME"}, {text: "FORMAT"}, {text: "COLUMNTYPE"});
+  }
+
+  async parseConfigs() {
+    this.serviceConfig = this.$store.getters["config/getConfigById"](this.configName);
+    for(let i = 0; i < Object.keys(this.serviceConfig.columnComponents).length; i++) {
+      this.columnData.push(Object.values(this.serviceConfig.columnComponents)[i]);
+    }
+  }
+
+}
+
 </script>
 
 <style scoped>
