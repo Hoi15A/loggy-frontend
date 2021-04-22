@@ -20,7 +20,7 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
-        <ConfigColoumTestComponent/>
+        <ColumnComponentsReorder/>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -34,7 +34,7 @@
 import Vue from "vue";
 import {Config} from "@/models/config";
 import ConfigApi from "@/api/configApi";
-import ConfigColoumTestComponent from "@/components/configViewComponents/ConfigColoumTestComponent.vue";
+import ColumnComponentsReorder from "@/components/configViewComponents/ColumnComponentsReorder.vue";
 import ConfigEditor from "@/components/configViewComponents/ConfigEditor.vue";
 
 export default Vue.extend( {
@@ -50,7 +50,7 @@ export default Vue.extend( {
   },
 
   components: {
-    ConfigColoumTestComponent,
+    ColumnComponentsReorder,
     ConfigEditor
   },
 
