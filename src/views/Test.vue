@@ -13,27 +13,27 @@
 <script lang="ts">
 import Vue from "vue";
 import { AgGridVue } from "ag-grid-vue";
+import { ColumnDefinition } from "@/models/columnDefinition";
 
 export default Vue.extend({
   name: "Test",
-  data: () => {
-    return {
-      columnDefs: [] as any,
-      rowData: null,
-      rowStyle: [] as any,
-    };
-  },
+
   components: {
     AgGridVue
   },
+
+  data: () => ({
+    columnDefinitions: [] as ColumnDefinition[],
+    rowData: null,
+  }),
+
   beforeMount() {
-    this.columnDefs = [
-      {headerName: "Make", field: "make", resizable: true, sortable: true, filter: true },
-      {headerName: "Model", field: "model", resizable: true, sortable: true, filter: true },
-      {headerName: "Price", field: "price", resizable: true, sortable: true, filter: true }
+    this.columnDefinitions = [
+      {headerName: "Make", field: "make", resizable: true, sortable: true, filter: true},
+      {headerName: "Model", field: "model", resizable: true, sortable: true, filter: true},
+      {headerName: "Price", field: "price", resizable: true, sortable: true, filter: true}
     ];
-    //https://www.ag-grid.com/example-assets/row-data.json
-    //https://www.ag-grid.com/example-assets/small-row-data.json
+
     fetch("https://www.ag-grid.com/example-assets/row-data.json")
       .then(result => result.json())
       .then(rowData => this.rowData = rowData);

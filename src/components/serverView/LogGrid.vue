@@ -1,47 +1,47 @@
 <template>
   <ag-grid-vue style="width: 100%; height: 900px;"
                class="ag-theme-material"
-               :columnDefs="columnDefs"
+               :columnDefs="columnDefinitions"
                :rowData="rowData"
                rowSelection="multiple"
                pagination="true"
-               enableRangeSelection=true
-  >
-  </ag-grid-vue>
+               enableRangeSelection="true"/>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { AgGridVue } from "ag-grid-vue";
-import LogApi from "@/api/LogApi";
+import {AgGridVue} from "ag-grid-vue";
+import {ColumnDefinition} from "@/models/columnDefinition";
+import LogApi from "@/api/logApi";
 
 export default Vue.extend({
   name: "AgGrid",
-  data: () => {
-    return {
-      columnDefs: [] as any,
-      rowData: null,
-      rowStyle: [] as any,
-    };
-  },
+
   components: {
-    AgGridVue
+    AgGridVue,
   },
+
+  data: () => ({
+    columnDefinitions: [] as ColumnDefinition[],
+    rowData: null,
+  }),
+
   methods: {
-    fetchFile: async function (id: number) {
+    async fetchFile(id: number) {
       await LogApi.fetchFileByServiceId(id)
         .then(res => res.json())
         .then(rowData => this.rowData = rowData);
-    }
+    },
   },
-  beforeMount: async function() {
+
+  async beforeMount() {
     try {
-      await this.fetchFile(75);
+      await this.fetchFile(82);
     } catch (e) {
       console.error(e);
     }
 
-    this.columnDefs = [
+    this.columnDefinitions = [
       //will be replaced when proper headers are sent
       {headerName: "1", field: "0", resizable: true, sortable: true, filter: true},
       {headerName: "2", field: "1", resizable: true, sortable: true, filter: true},
@@ -51,7 +51,7 @@ export default Vue.extend({
       {headerName: "6", field: "5", resizable: true, sortable: true, filter: true},
       {headerName: "7", field: "6", resizable: true, sortable: true, filter: true},
       {headerName: "8", field: "7", resizable: true, sortable: true, filter: true},
-      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true}
+      {headerName: "9", field: "8", resizable: true, sortable: true, filter: true},
     ];
   },
 });

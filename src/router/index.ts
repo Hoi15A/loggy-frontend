@@ -17,10 +17,11 @@ const routes: Array<RouteConfig> = [
     meta: {title: "Home"},
   },
   {
-    path: "/server",
+    path: "/server/:serverId",
     name: "Server",
-    meta: {title: "Server"},
+    meta: { title: "Server" },
     component: ServerView,
+    props: true
   },
   {
     path: "/configs",
@@ -45,7 +46,7 @@ const routes: Array<RouteConfig> = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes: routes
 });
 
 export default router;
