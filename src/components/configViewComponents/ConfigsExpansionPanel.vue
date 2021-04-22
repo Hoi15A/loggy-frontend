@@ -32,7 +32,7 @@
 <script lang="ts">
 
 import Vue from "vue";
-import {Config} from "@/models/Config";
+import {Config} from "@/models/config";
 import ConfigApi from "@/api/configApi";
 import ConfigColoumTestComponent from "@/components/configViewComponents/ConfigColoumTestComponent.vue";
 import ConfigEditor from "@/components/configViewComponents/ConfigEditor.vue";
