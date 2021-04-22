@@ -23,6 +23,7 @@ build_script:
 test_script:
   # Add proper tests
   - npm run lint
+  - npm run test:ci
 
 deploy_script:
   - sh: ./deploy.sh
