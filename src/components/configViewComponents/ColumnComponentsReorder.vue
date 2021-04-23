@@ -2,6 +2,7 @@
     <v-data-table
         :headers="columnHeaders"
         :items="columnData"
+        hide-default-footer
     >
       <template v-slot:body="props">
         <draggable :list="props.items" tag="tbody">
@@ -37,7 +38,7 @@ export default class ColumnComponentsReorder extends Vue {
 
   @Prop(String) configName: string | undefined
 
-  columnHeaders = [] as string[];
+  columnHeaders = [] as object[];
   columnData = [] as ColumnComponent[];
   serviceConfig = {} as Config;
 
@@ -47,7 +48,7 @@ export default class ColumnComponentsReorder extends Vue {
   }
 
   fillHeader() {
-    this.columnHeaders.push({text: "ID"}, {text: "NAME"}, {text: "FORMAT"}, {text: "COLUMNTYPE"});
+    this.columnHeaders.push({text: "ID"}, {text: "NAME"}, {text: "FORMAT"}, {text: "COLUMNTYPE"},);
   }
 
   async parseConfigs() {
