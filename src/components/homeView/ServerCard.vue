@@ -15,6 +15,8 @@
         <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
                             v-bind:log-directory="this.logDirectory"
                             v-bind:log-service-location="this.logServiceLocation"
+                            v-bind:server-name="this.serverName"
+                            v-bind:server-description="this.serverDescription"
                             v-bind:log-config="this.logConfig"/>
         <v-btn rounded text small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
       </v-list-item>
