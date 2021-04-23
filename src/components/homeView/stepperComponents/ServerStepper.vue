@@ -70,7 +70,7 @@ import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSele
 import ProcessingDialog from "@/components/homeView/stepperComponents/ProcessingDialog";
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 
 @Component({
   components: {

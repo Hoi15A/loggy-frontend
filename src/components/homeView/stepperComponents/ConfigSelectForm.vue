@@ -14,7 +14,7 @@
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import NewConfigSideWindow from "@/components/homeView/stepperComponents/NewConfigSideWindow.vue";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 
 @Component({
   components: {

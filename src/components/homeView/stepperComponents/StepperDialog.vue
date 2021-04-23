@@ -11,7 +11,7 @@
 <script>
 import Vue from "vue";
 import Stepper from "@/components/homeView/stepperComponents/ServerStepper.vue";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 
 @Component({
   components: {

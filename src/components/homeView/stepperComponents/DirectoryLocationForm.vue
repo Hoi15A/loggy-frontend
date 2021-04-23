@@ -38,7 +38,7 @@
 import Vue from "vue";
 import PathApi from "@/api/pathApi";
 import { Directory } from "@/models/directory";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 
 @Component

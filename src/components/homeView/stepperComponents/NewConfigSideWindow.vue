@@ -30,7 +30,7 @@
 <script lang="ts">
 import serviceApi from "@/api/serviceApi";
 import Vue from "vue";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 
 @Component
 export default class NewConfigSideWindow extends Vue {

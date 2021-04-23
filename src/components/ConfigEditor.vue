@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from "vue";
 import configApi from "@/api/configApi";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 
 @Component
