@@ -24,11 +24,11 @@ import "vue-class-component/hooks";
 
 @Component
 export default class ConfigEditor extends Vue {
-  configKeys= [] as any;
-  configValues= [] as any;
-  fetchedConfig= {} as any;
-  updatedConfig= {} as any;
-  updatedConfigJSON= "";
+  configKeys = [] as any;
+  configValues = [] as any;
+  fetchedConfig = {} as any;
+  updatedConfig = {} as any;
+  updatedConfigJSON = "";
 
   async addNewColumnComponent() {
     return 1;
