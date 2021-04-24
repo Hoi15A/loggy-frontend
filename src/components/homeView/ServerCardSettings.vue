@@ -19,14 +19,14 @@
                 <v-text-field
                     label="Service Name*"
                     required
-                    v-bind:value="serverName"
+                    v-bind:value="this.server.name"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                     label="LogDirectory*"
                     required
-                    v-bind:value="logDirectory"
+                    v-bind:value="this.server.logDirectory"
                 ></v-text-field>
               </v-col>
 
@@ -43,7 +43,7 @@
               <v-col cols="12">
                 <v-textarea
                     label="Service Description"
-                    v-bind:value="serverDescription"
+                    v-bind:value="this.server.description"
                 ></v-textarea>
               </v-col>
             </v-row>
@@ -79,7 +79,8 @@ import ServiceApi from "@/api/serviceApi";
 export default Vue.extend({
   data: () => ({
     settingsCardOpen: false,
-    logConfigs: [] as string[]
+    logConfigs: [] as string[],
+    server: undefined,
   }),
 
   methods: {
@@ -88,31 +89,20 @@ export default Vue.extend({
     },
   },
 
-  async beforeMount() {
+  beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
       configs.forEach(config => this.logConfigs.push(config.name));
     });
+    this.server = this.$store.getters["homeServices/getServerById"](this.id);
   },
 
   props: {
     openServiceSettings: {
       type: Boolean,
     },
-    logDirectory: {
-      type: String,
+    id: {
+      type: Number,
     },
-    logServiceLocation: {
-      type: String,
-    },
-    logConfig: {
-      type: String,
-    },
-    serverName: {
-      type: String,
-    },
-    serverDescription: {
-      type: String,
-    }
   },
 });
 </script>
