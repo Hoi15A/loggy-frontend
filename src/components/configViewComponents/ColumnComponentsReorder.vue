@@ -6,7 +6,7 @@
     >
       <template v-slot:body="props">
         <draggable :list="props.items" tag="tbody">
-          <tr v-for="(entry, index) in props.items" :key="index">
+          <tr v-for="(entry, index) in props.items" :key="index" v-bind:style="{cursor: 'move'}">
             <td> {{ entry.id }} </td>
             <td> {{ entry.name }} </td>
             <td> {{ entry.format }} </td>
