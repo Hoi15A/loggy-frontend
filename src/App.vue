@@ -27,6 +27,45 @@
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-group
+            v-for="(subItem, i) in subGroupItems"
+            :key="i"
+            color="primary"
+            v-bind:prepend-icon="subItem.icon"
+        >
+          <template v-slot:activator>
+            <v-list-item-title>{{ subItem.text }}</v-list-item-title>
+          </template>
+
+          <v-list-item
+            v-for="entryItem in subItem.elements"
+            :key="entryItem"
+            link
+            :to="entryItem.route"
+          >
+            <v-list-item-icon>
+              <v-icon v-text="entryItem.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="entryItem.text"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+
+        <v-list-item
+            v-for="item in lastItems"
+            :key="item"
+            :to="item.route"
+            link
+        >
+          <v-list-item-icon>
+            <v-icon v-text="item.icon"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.text"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -163,9 +202,29 @@ export default Vue.extend({
     return {
       items: [
         { text: "Dashboard", icon: "mdi-view-dashboard", route: "/"},
-        { text: "Create Service", icon: "mdi-plus-box", route: "/service/create"},
-        { text: "List Configs", icon: "mdi-table", route: "/configs"},
+
+      ],
+      lastItems: [
         { text: "Settings", icon: "mdi-cog", route: ""},
+      ],
+      subGroupItems: [
+        {
+          text: "Servers", icon: "mdi-server", elements: [
+            { text: "Create", icon: "mdi-plus-box", route: "/service/create" }
+          ]
+        },
+        {
+          text: "Configs", icon: "mdi-file-cog", elements: [
+            { text: "List", icon: "mdi-clipboard-list", route: "/configs"}
+          ]
+        },
+        {
+          text: "Users", icon: "mdi-account-multiple", elements: [
+            { text: "Create", icon: "mdi-account-plus", route: "" },
+            { text: "List", icon: "mdi-account-details", route: ""},
+            { text: "Edit", icon: "mdi-account-edit", route: ""}
+          ]
+        },
       ],
       footerLinks: [
         "Home",
