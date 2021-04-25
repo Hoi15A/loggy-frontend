@@ -5,18 +5,28 @@
       clipped
       v-model="drawer"
     >
-      <v-list>
-        <v-list-item>
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="selectedItem"
+          color="primary"
+        >
+        </v-list-item-group>
+        <v-list-item
+          v-for="item in items"
+          :key="item"
+          :to="item.route"
+          link
+        >
           <v-list-item-icon>
-            <v-icon>
-              mdi-view-dashboard
-            </v-icon>
+            <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
+            <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -38,11 +48,17 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
-        icon
+          icon
       >
-        <v-icon size="26">
-          mdi-bell
-        </v-icon>
+        <v-badge
+            dot
+            overlap
+            color="red"
+        >
+          <v-icon size="26">
+            mdi-bell
+          </v-icon>
+        </v-badge>
       </v-btn>
       <v-btn
         icon
@@ -146,10 +162,10 @@ export default Vue.extend({
   data() {
     return {
       items: [
-        { title: "Home", icon: "mdi-view-dashboard"},
-        { title: "Create Service", icon: "mdi-plus-box"},
-        { title: "List Services", icon: "mdi-table"},
-        { title: "Settings", icon: "mdi-cog"},
+        { text: "Dashboard", icon: "mdi-view-dashboard", route: "/"},
+        { text: "Create Service", icon: "mdi-plus-box", route: "/service/create"},
+        { text: "List Configs", icon: "mdi-table", route: "/configs"},
+        { text: "Settings", icon: "mdi-cog", route: ""},
       ],
       footerLinks: [
         "Home",
@@ -159,7 +175,8 @@ export default Vue.extend({
       ],
       right: null,
       drawer: null,
-      panel: [0],
+      selectedItem: 0,
+      alert: 0,
     };
   },
   methods: {

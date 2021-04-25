@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import ServerView from "@/views/ServerView.vue";
 import Test from "@/views/Test.vue";
 import ConfigView from "@/views/ConfigView.vue";
+import ServerStepper from "@/components/homeView/stepperComponents/ServerStepper.vue";
 
 
 Vue.use(VueRouter);
@@ -34,6 +35,12 @@ const routes: Array<RouteConfig> = [
     component: Test,
     meta: {title: "Test"},
   },
+  {
+    path: "/service/create",
+    name: "Create Service",
+    meta: {title: "Register a new Service"},
+    component: ServerStepper,
+  }
 ];
 
 const router = new VueRouter({
