@@ -239,19 +239,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    goHome() {
-      this.$router.push("/").catch(err => console.error(err));
-    },
-    goTo(link: string) {
-      switch (link) {
-        case "Home":
-          this.goHome();
-          break;
-        case "Create Service":
-          this.$store.commit("stepper/setDialogStatus", true);
-          break;
-      }
-    },
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
