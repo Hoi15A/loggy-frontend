@@ -34,16 +34,14 @@ import {Config} from "@/models/config";
   }
 })
 export default class ColumnComponentsReorder extends Vue {
-
-
   @Prop(String) configName: string | undefined
 
   columnHeaders = [] as object[];
   columnData = [] as ColumnComponent[];
   serviceConfig = {} as Config;
 
-  async created() {
-    await this.parseConfigs();
+  created() {
+    this.parseConfigs();
     this.fillHeader();
   }
 
@@ -51,11 +49,9 @@ export default class ColumnComponentsReorder extends Vue {
     this.columnHeaders.push({text: "ID"}, {text: "NAME"}, {text: "FORMAT"}, {text: "COLUMNTYPE"},);
   }
 
-  async parseConfigs() {
+  parseConfigs() {
     this.serviceConfig = this.$store.getters["config/getConfigById"](this.configName);
-    for(let i = 0; i < Object.keys(this.serviceConfig.columnComponents).length; i++) {
-      this.columnData.push(Object.values(this.serviceConfig.columnComponents)[i]);
-    }
+    this.columnData = Object.values(this.serviceConfig.columnComponents);
   }
 
 }
