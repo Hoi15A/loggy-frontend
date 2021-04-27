@@ -1,5 +1,5 @@
 <template>
-    <v-data-table :headers="tableHeaders" :items="tableContent">
+    <v-data-table :headers="tableHeaders" :items="columnComponentsArr">
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Column Components</v-toolbar-title>
@@ -62,114 +62,103 @@
 <script lang="ts">
 import Vue from "vue";
 import ColumnCompApi from "@/api/columnCompApi";
-import columnCompApi from "@/api/columnCompApi";
 import {ColumnComponent} from "@/models/ColumnComponent.ts";
+import "vue-class-component/hooks";
+import Component from "vue-class-component";
 
-export default Vue.extend({
-  name: "ColumnEditor",
-  data () {
-    return {
-      dialog: false,
-      dialogDelete: false,
-      editedIndex: -1,
-      tableHeaders: [] as object[],
-      tableContent: [] as any[],
-      columnCompObject: {} as any,
-      editedItem: {} as ColumnComponent,
-      defaultItem: {} as ColumnComponent,
-      headerObject: {},
-    };
-  },
-  watch: {
-    dialog (val) {
-      val || this.close();
-    },
-    dialogDelete (val) {
-      val || this.closeDelete();
-    },
-  },
-  computed: {
-    formTitle(): string {
-      return this.editedIndex === -1 ? "New Column" : "Edit Column";
-    },
-  },
-  methods: {
-    async editItem(item: ColumnComponent) {
-      this.editedIndex = this.tableContent.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-    async deleteItem(item: ColumnComponent) {
-      this.editedIndex = this.tableContent.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-    async deleteItemConfirm() {
-      this.tableContent.splice(this.editedIndex, 1);
-      await this.removeColumn(this.editedItem.id);
-      await this.closeDelete();
-    },
-    async close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-    async save() {
-      if (this.editedIndex > -1) {
-        await this.updateColumnById(this.editedItem.id, this.editedItem);
-        Object.assign(this.tableContent[this.editedIndex], this.editedItem);
-      } else {
-        await this.createNewColumn();
-        this.tableContent.push(this.editedItem);
-      }
-      await this.close();
-    },
-    async closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(async ()  => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-    async fillTableHeaders() {
-      for(let i = 0; i < Object.keys(this.columnCompObject[0]).length; i++) {
-        this.tableHeaders.push({
-          text: Object.keys(this.columnCompObject[0])[i].toUpperCase(),
-          value: Object.keys(this.columnCompObject[0])[i],
-        });
-      }
-      this.tableHeaders.push({text: "ACTIONS", value: "actions", sortable: false});
-    },
-    async fillTableContent() {
-      for(let i = 0; i < Object.keys(this.columnCompObject).length; i++) {
-        this.tableContent.push(Object.values(this.columnCompObject)[i]);
-      }
-    },
-    async fetchAllColumns() {
-      this.columnCompObject = await ColumnCompApi.fetchAllColumnComponents();
-    },
-    async createNewColumn() {
-      await columnCompApi.createNewColumn(this.editedItem);
-      return 1;
-    },
-    async removeColumn(id: number) {
-      await columnCompApi.removeColumnById(id);
-    },
-    async updateColumnById(id: number, updatedItem: ColumnComponent) {
-      await columnCompApi.updateColumnById(id, updatedItem);
-    }
-  },
-  async beforeMount() {
-    try {
-      await this.fetchAllColumns();
-      await this.fillTableHeaders();
-      await this.fillTableContent();
-    }
-    catch (e) {
-      console.error(e);
-    }
+@Component
+export default class ColumnEditor extends Vue{
+  dialog = false
+  dialogDelete = false
+  editedIndex = -1
+  columnComponentsArr = [] as ColumnComponent[]
+  editedItem = {} as ColumnComponent
+  defaultItem = {} as ColumnComponent
+  tableHeaders = [] as object[];
+
+
+  get formTitle(): string {
+    return this.editedIndex === -1 ? "New Column" : "Edit Column";
   }
-});
+
+  editItem(item: ColumnComponent) {
+    this.editedIndex = this.columnComponentsArr.indexOf(item);
+    this.editedItem = Object.assign({}, item);
+    this.dialog = true;
+  }
+
+  deleteItem(item: ColumnComponent) {
+    this.editedIndex = this.columnComponentsArr.indexOf(item);
+    this.editedItem = Object.assign({}, item);
+    this.dialogDelete = true;
+  }
+
+  deleteItemConfirm() {
+    this.columnComponentsArr.splice(this.editedIndex, 1);
+    this.removeColumn(this.editedItem.id);
+    this.closeDelete();
+  }
+
+  close() {
+    this.dialog = false;
+    this.$nextTick(() => {
+      this.editedItem = Object.assign({}, this.defaultItem);
+      this.editedIndex = -1;
+    });
+  }
+
+  save() {
+    if (this.editedIndex > -1) {
+      this.updateColumnById(this.editedItem.id, this.editedItem);
+      Object.assign(this.columnComponentsArr[this.editedIndex], this.editedItem);
+    } else {
+      this.createNewColumn();
+      this.columnComponentsArr.push(this.editedItem);
+    }
+    this.close();
+  }
+
+  closeDelete() {
+    this.dialogDelete = false;
+    this.$nextTick(()  => {
+      this.editedItem = Object.assign({}, this.defaultItem);
+      this.editedIndex = -1;
+    });
+  }
+
+  fetchAllColumns() {
+    ColumnCompApi.fetchAllColumnComponents().then(columnComponents => {
+      this.columnComponentsArr = columnComponents;
+      this.fillTableHeaders();
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  fillTableHeaders() {
+    for(let i = 0; i < Object.keys(this.columnComponentsArr[0]).length; i++) {
+      this.tableHeaders.push({
+        text: Object.keys(this.columnComponentsArr[0])[i].toUpperCase(),
+        value: Object.keys(this.columnComponentsArr[0])[i], sortable: true
+      });
+    }
+    this.tableHeaders.push({text: "ACTIONS", value: "actions", sortable: false});
+  }
+
+  createNewColumn() {
+    ColumnCompApi.createNewColumn(this.editedItem);
+  }
+
+  removeColumn(id: number) {
+    ColumnCompApi.removeColumnById(id);
+  }
+
+  updateColumnById(id: number, updatedItem: ColumnComponent) {
+    ColumnCompApi.updateColumnById(id, updatedItem);
+  }
+
+  beforeMount() {
+    this.fetchAllColumns();
+  }
+}
 </script>
