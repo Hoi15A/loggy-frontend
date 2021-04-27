@@ -3,8 +3,8 @@
     <v-img src="https://www.nginx.com/wp-content/uploads/2020/07/nginx-default_featured-2020.png" height="115"/>
     <v-list-item>
       <v-list-item-content>
-        <v-card-title class="headline mb-1">{{ serverName }}</v-card-title>
-        <v-card-subtitle>{{ serverDescription }}</v-card-subtitle>
+        <v-card-title class="headline mb-1">{{ this.server.name }}</v-card-title>
+        <v-card-subtitle>{{ this.server.description }}</v-card-subtitle>
       </v-list-item-content>
     </v-list-item>
     <div class="button-bar">
@@ -13,9 +13,7 @@
                       v-bind:button-name="buttonName"
                       v-bind:title-message="titleMessage"/>
         <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
-                            v-bind:log-directory="this.logDirectory"
-                            v-bind:log-service-location="this.logServiceLocation"
-                            v-bind:log-config="this.logConfig"/>
+                            v-bind:id="this.server.id"/>
         <v-btn rounded text small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
       </v-list-item>
     </div>
@@ -38,15 +36,17 @@ export default Vue.extend({
   },
 
   data: () => ({
+    server: undefined,
     buttonName: "Remove",
     titleMessage: "Are you sure you want to delete this server? This is not reversible",
     openServiceSettings: false as boolean,
   }),
 
   methods: {
-    async deleteJob(id: number) {
-      await ServiceApi.removeServerById(id);
-      this.$emit("loadServers");
+    deleteJob(id: number) {
+      ServiceApi.removeServerById(id).then(() => {
+        this.$store.commit("homeServices/removeServerById", id);
+      });
     },
 
     link() {
@@ -58,27 +58,13 @@ export default Vue.extend({
     },
   },
 
+  beforeMount() {
+    this.server = this.$store.getters["homeServices/getServerById"](this.id);
+  },
+
   props: {
     id: {
       type: Number,
-    },
-    serverDescription: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-    logDirectory: {
-      type: String,
-    },
-    logServiceLocation: {
-      type: String,
-    },
-    serverName: {
-      type: String,
-    },
-    logConfig: {
-      type: String,
     },
   },
 });

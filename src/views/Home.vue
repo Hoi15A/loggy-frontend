@@ -1,17 +1,21 @@
 <template>
   <v-row>
     <template v-for="n in 1">
-        <v-col v-for="server in servers" v-bind:key="`${n}${server}`" cols="12" sm="5" md="4" lg="3" xl="2" >
-          <server-card v-on:loadServers="loadServers()"
-                       v-bind:server-description="server.description"
-                       v-bind:server-name="server.name"
-                       v-bind:id="server.id"
-                       v-bind:log-directory="server.logDirectory"
-                       v-bind:log-service-location="server.location"
-                       v-bind:image="server.image"/>
+        <v-col v-for="server in $store.getters['homeServices/getAllServers']"
+               v-bind:key="`${n}${server}`"
+               cols="12"
+               sm="5"
+               md="4"
+               lg="3"
+               xl="2"
+        >
+          <server-card
+              v-bind:id="server.id"
+              :key="server.id"
+          />
         </v-col>
       </template>
-    <StepperDialog v-on:stepperComplete="loadServers()"/>
+      <StepperDialog v-on:stepperComplete="loadServers()" />
   </v-row>
 </template>
 
@@ -27,8 +31,6 @@ export default Vue.extend({
   name: "Home",
   data: () => ({
     title: "Home",
-    serverCount: 0 as number,
-    servers: [] as Server[],
   }),
 
   components: {
@@ -37,22 +39,15 @@ export default Vue.extend({
   },
 
   methods: {
-    async loadServers() {
-      const fetchedServers = await ServiceApi.fetchServers();
-      this.servers = [];
-      for(let i = 0; i < fetchedServers.length; i++) {
-        this.servers.push(fetchedServers[i]);
-      }
-      this.servers.sort((a,b) => (a.id < b.id ? -1: 1));
+    loadServers() {
+      ServiceApi.fetchServers().then((servers: Server[]) => {
+        servers = servers.sort((a: Server,b: Server) => (a.id < b.id ? -1: 1));
+        this.$store.commit("homeServices/setServers", servers);
+      });
     },
-
   },
-  async beforeMount() {
-    try {
-      await this.loadServers();
-    } catch (e) {
-      console.error(e);
-    }
+  beforeMount() {
+    this.loadServers();
   }
 });
 </script>
