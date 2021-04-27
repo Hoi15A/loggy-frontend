@@ -55,6 +55,10 @@ export default class ServerCard extends Vue {
   openServerSettings() {
     this.openServiceSettings = true;
   }
+
+  beforeMount() {
+    this.server = this.$store.getters["homeServices/getServerById"](this.id);
+  }
 }
 </script>
 
