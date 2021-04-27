@@ -39,8 +39,6 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-btn x-large elevation="0" v-on:click="goHome()">Logy</v-btn>
       <v-spacer></v-spacer>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
-      <v-spacer></v-spacer>
     </v-app-bar>
     <v-main>
       <v-container>
