@@ -1,13 +1,18 @@
 <template>
   <v-expansion-panels popout focusable multiple>
-    <v-expansion-panel v-for="(config) in configArray" v-bind:key="config.name">
-      <v-expansion-panel-header class="font-weight-medium" align="center">
+    <v-expansion-panel v-for="(config) in $store.getters['config/getConfigs']"
+                       v-bind:key="config.name"
+    >
+      <v-expansion-panel-header
+          class="font-weight-medium"
+          align="center"
+      >
         {{ config.name}}
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-toolbar flat>
           <v-spacer/>
-          <v-icon class ="mr-2" @click="editConfigDialog = true">mdi-pencil </v-icon>
+          <v-icon class ="mr-2" @click="editConfigDialog = true">mdi-pencil</v-icon>
           <v-icon @click="deleteConfig()">mdi-delete</v-icon>
           <v-dialog v-model="editConfigDialog" v-bind:config="config">
             <v-card>
@@ -35,52 +40,32 @@
 <script lang="ts">
 
 import Vue from "vue";
-import {Config} from "@/models/config";
 import ConfigApi from "@/api/configApi";
 import ColumnComponentsReorder from "@/components/configViewComponents/ColumnComponentsReorder.vue";
 import ConfigEditor from "@/components/configViewComponents/ConfigEditor.vue";
+import Component from "vue-class-component";
+import "vue-class-component/hooks";
 
-export default Vue.extend( {
-
-  name: "ConfigsExpansionPanel",
-
-  data: () => {
-    return {
-      editConfigDialog: false as boolean,
-      checkBoxEdit: false as boolean,
-      configArray: [] as Config[],
-    };
-  },
-
+@Component({
   components: {
     ColumnComponentsReorder,
     ConfigEditor
   },
+})
+export default class ConfigsExpansionPanel extends Vue {
+  editConfigDialog = false;
+  checkBoxEdit = false;
 
-  methods: {
-    loadConfigs: async function() {
-      const fetchedConfigs = await ConfigApi.fetchAllConfigs();
-      this.$store.commit("config/setConfigs", fetchedConfigs);
-      this.configArray = [];
-      for(let i = 0; i < fetchedConfigs.length; i++) {
-        this.configArray.push(fetchedConfigs[i]);
-      }
-    },
-
-    deleteConfig() {
-      console.log("test");
-    },
-
-  },
-
-  beforeMount: async function() {
-    try {
-      await this.loadConfigs();
-    } catch (e) {
-      console.error(e);
-    }
+  loadConfigs() {
+    ConfigApi.fetchAllConfigs().then(configs => {
+      this.$store.commit("config/setConfigs", configs);
+    });
   }
-});
+
+  beforeMount() {
+    this.loadConfigs();
+  }
+}
 
 </script>
 

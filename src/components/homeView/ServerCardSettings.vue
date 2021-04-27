@@ -84,36 +84,30 @@
 <script lang="ts">
 import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
+import {Prop, Component} from "vue-property-decorator";
+import "vue-class-component/hooks";
 
-export default Vue.extend({
-  data: () => ({
-    settingsCardOpen: false,
-    logConfigs: [] as string[],
-    server: undefined,
-  }),
+@Component
+export default class ServerCardSettings extends Vue {
+  @Prop(Boolean) openServiceSettings: boolean | undefined
+  @Prop(Number) id: number | undefined
 
-  methods: {
-    closeCard() {
-      this.settingsCardOpen = false;
-    },
-  },
+  settingsCardOpen = false;
+  logConfigs = [] as string[];
+  server = undefined;
 
   beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
       configs.forEach(config => this.logConfigs.push(config.name));
     });
     this.server = this.$store.getters["homeServices/getServerById"](this.id);
-  },
+  }
 
-  props: {
-    openServiceSettings: {
-      type: Boolean,
-    },
-    id: {
-      type: Number,
-    },
-  },
-});
+  closeCard() {
+    this.settingsCardOpen = false;
+  }
+
+}
 </script>
 
 <style scoped>

@@ -89,57 +89,56 @@ import UserInfoTextField from "@/components/homeView/stepperComponents/UserInfoF
 import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSelectForm";
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
+import {Component} from "vue-property-decorator";
 
-export default Vue.extend({
+@Component({
   components: {
     UserInfoTextField,
     CancelDialog,
     ConfigSelectForm,
     DirectoryLocationForm,
   },
+})
+export default class ServerStepper extends Vue {
+  server = {};
+  buttonName = "Cancel";
+  titleMessage = "Are you sure you want to cancel the registration process?";
+  step = 1;
+  snackbar = false;
 
-  data: () => ({
-    server: {},
-    buttonName: "Cancel",
-    titleMessage: "Are you sure you want to cancel the registration process?",
-    step: 1,
-    snackbar: false,
-  }),
+  onClickDone() {
+    this.server.name = this.$refs.userForm.name;
+    this.server.image = this.$refs.userForm.image;
+    this.server.description = this.$refs.userForm.description;
+    this.server.logConfig = this.$refs.configForm.config;
+    this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
+    this.server.location = this.$refs.directoryLocationForm.location;
 
-  methods: {
-    onClickDone() {
-      this.server.name = this.$refs.userForm.name;
-      this.server.image = this.$refs.userForm.image;
-      this.server.description = this.$refs.userForm.description;
-      this.server.logConfig = this.$refs.configForm.config;
-      this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
-      this.server.location = this.$refs.directoryLocationForm.location;
+    serviceApi.addNewService(this.server)
+      .then(() => {
+        this.snackbar = true;
+        this.server = {};
+        this.step = 1;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 
-      serviceApi.addNewService(this.server)
-        .then(() => {
-          this.snackbar = true;
-          this.server = {};
-          this.step = 1;
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    },
+  onConfirmCancel() {
+    this.step = 1;
+    this.$emit("stepperCancel");
+  }
 
-    onConfirmCancel() {
-      this.step = 1;
-      this.$emit("stepperCancel");
-    },
+  onCancelFailure() {
+    this.step = 1;
+  }
 
-    onCancelFailure() {
-      this.step = 1;
-    },
-
-    onConfigSelect() {
-      this.$refs.configForm.loadConfigs();
-    }
-  },
-});
+  onConfigSelect() {
+    this.$refs.configForm.loadConfigs();
+  }
+  
+}
 </script>
 
 <style>

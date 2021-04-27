@@ -184,66 +184,62 @@
       </v-row>
     </v-footer>
   </v-app>
-  
+
 </template>
 
 
 <script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
 
-export default Vue.extend({
-  name: "App",
-  computed: {
-    title: function() {
-      return this.$route.meta.title;
-    }
-  },
-  data() {
-    return {
-      items: [
-        { text: "Dashboard", icon: "mdi-view-dashboard", route: "/"},
+@Component
+export default class App extends Vue {
 
-      ],
-      lastItems: [
-        { text: "Settings", icon: "mdi-cog", route: ""},
-      ],
-      subGroupItems: [
-        {
-          text: "Servers", icon: "mdi-server", elements: [
-            { text: "Create", icon: "mdi-plus-box", route: "/service/create" }
-          ]
-        },
-        {
-          text: "Configs", icon: "mdi-file-cog", elements: [
-            { text: "List", icon: "mdi-clipboard-list", route: "/configs"}
-          ]
-        },
-        {
-          text: "Users", icon: "mdi-account-multiple", elements: [
-            { text: "Create", icon: "mdi-account-plus", route: "" },
-            { text: "List", icon: "mdi-account-details", route: ""},
-            { text: "Edit", icon: "mdi-account-edit", route: ""}
-          ]
-        },
-      ],
-      footerLinks: [
-        "Home",
-        "About Us",
-        "Team",
-        "Contact Us",
-      ],
-      right: null,
-      drawer: null,
-      selectedItem: 0,
-      alert: 0,
-    };
-  },
-  methods: {
-    toggleTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+  right = null;
+  drawer = null;
+  selectedItem = 0;
+  alert = 0;
+
+  items = [
+    { text: "Dashboard", icon: "mdi-view-dashboard", route: "/"},
+  ];
+
+  lastItems = [
+    { text: "Settings", icon: "mdi-cog", route: ""},
+  ];
+      
+  subGroupItems = [
+    {
+      text: "Servers", icon: "mdi-server", elements: [
+        { text: "Create", icon: "mdi-plus-box", route: "/service/create" }
+      ]
     },
-  },
-});
+    {
+      text: "Configs", icon: "mdi-file-cog", elements: [
+        { text: "List", icon: "mdi-clipboard-list", route: "/configs"}
+      ]
+    },
+    {
+      text: "Users", icon: "mdi-account-multiple", elements: [
+        { text: "Create", icon: "mdi-account-plus", route: "" },
+        { text: "List", icon: "mdi-account-details", route: ""},
+        { text: "Edit", icon: "mdi-account-edit", route: ""}
+      ]
+    },
+  ];
+
+  footerLinks = [
+    "Home",
+    "About Us",
+    "Team",
+    "Contact Us",
+  ];
+  
+  toggleTheme() {
+    this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+  }
+  
+}
 </script>
 
 <style scoped>

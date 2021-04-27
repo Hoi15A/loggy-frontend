@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import ServerView from "@/views/ServerView.vue";
 import Test from "@/views/Test.vue";
+import ColumnsView from "@/views/ColumnsView.vue";
 import ConfigView from "@/views/ConfigView.vue";
 import ServerStepper from "@/components/homeView/stepperComponents/ServerStepper.vue";
 
@@ -28,6 +29,12 @@ const routes: Array<RouteConfig> = [
     name: "ConfigView",
     meta: {title: "ConfigView"},
     component: ConfigView,
+  },
+  {
+    path: "/columns",
+    name: "Columns",
+    meta: {title: "Columns"},
+    component: ColumnsView,
   },
   {
     path: "/test",

@@ -7,18 +7,14 @@
 <script lang="ts">
 import Vue from "vue";
 import TabBar from "@/components/serverView/TabBar.vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "ServerView",
-
+@Component({
   components: {
     TabBar
   },
-
-  props: {
-    serverId: {
-      type: Number
-    }
-  },
-});
+})
+export default class ServerView extends Vue {
+  @Prop(Number) serverId: number | undefined
+}
 </script>

@@ -38,39 +38,38 @@
 import Vue from "vue";
 import PathApi from "@/api/pathApi";
 import { Directory } from "@/models/directory";
+import {Component} from "vue-property-decorator";
+import "vue-class-component/hooks";
 
-export default Vue.extend({
-  data: () => ({
-    location: "LOCAL", // local (1), remote (0)
-    selection: [],
-    items: [],
-  }),
+@Component
+export default class DirectoryLocationForm extends Vue {
+  location = "LOCAL"; // local (1), remote (0)
+  selection = [];
+  items = [];
+
+  async fetchRootFolder() {
+    try {
+      const res = await PathApi.getRootOfLocalServer();
+      return await res.json();
+    } catch (err) {
+      console.warn(err);
+      return [];
+    }
+  }
+
+  async fetchSubFolders(item: Directory) {
+    try {
+      const res = await PathApi.getContentOfFolder(item.fullpath);
+      item.children = await res.json();
+    } catch (err) {
+      console.warn(err);
+    }
+  }
 
   async beforeMount() {
     this.items = await this.fetchRootFolder();
-  },
-
-  methods: {
-    async fetchRootFolder() {
-      try {
-        const res = await PathApi.getRootOfLocalServer();
-        return await res.json();
-      } catch (err) {
-        console.warn(err);
-        return [];
-      }
-    },
-
-    async fetchSubFolders(item: Directory) {
-      try {
-        const res = await PathApi.getContentOfFolder(item.fullpath);
-        item.children = await res.json();
-      } catch (err) {
-        console.warn(err);
-      }
-    },
-  },
-});
+  }
+}
 </script>
 
 <style scoped>

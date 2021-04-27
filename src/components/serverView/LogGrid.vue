@@ -13,26 +13,23 @@ import Vue from "vue";
 import {AgGridVue} from "ag-grid-vue";
 import {ColumnDefinition} from "@/models/columnDefinition";
 import LogApi from "@/api/logApi";
+import Component from "vue-class-component";
+import "vue-class-component/hooks";
 
-export default Vue.extend({
-  name: "AgGrid",
-
+@Component({
   components: {
     AgGridVue,
   },
+})
+export default class LogGrid extends Vue {
+  columnDefinitions = [] as ColumnDefinition[];
+  rowData = null;
 
-  data: () => ({
-    columnDefinitions: [] as ColumnDefinition[],
-    rowData: null,
-  }),
-
-  methods: {
-    async fetchFile(id: number) {
-      await LogApi.fetchFileByServiceId(id)
-        .then(res => res.json())
-        .then(rowData => this.rowData = rowData);
-    },
-  },
+  async fetchFile(id: number) {
+    await LogApi.fetchFileByServiceId(id)
+      .then(res => res.json())
+      .then(rowData => this.rowData = rowData);
+  }
 
   async beforeMount() {
     try {
@@ -40,7 +37,6 @@ export default Vue.extend({
     } catch (e) {
       console.error(e);
     }
-
     this.columnDefinitions = [
       //will be replaced when proper headers are sent
       {headerName: "1", field: "0", resizable: true, sortable: true, filter: true},
@@ -53,6 +49,6 @@ export default Vue.extend({
       {headerName: "8", field: "7", resizable: true, sortable: true, filter: true},
       {headerName: "9", field: "8", resizable: true, sortable: true, filter: true},
     ];
-  },
-});
+  }
+}
 </script>
