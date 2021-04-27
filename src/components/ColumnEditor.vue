@@ -62,7 +62,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ColumnCompApi from "@/api/columnCompApi";
-import {ColumnComponent} from "@/models/ColumnComponent.ts";
+import {ColumnComponent} from "@/models/columnComponent.ts";
 import "vue-class-component/hooks";
 import Component from "vue-class-component";
 
