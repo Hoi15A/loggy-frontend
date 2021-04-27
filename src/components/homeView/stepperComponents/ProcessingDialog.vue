@@ -49,51 +49,49 @@
 
 <script lang="ts">
 import Vue from "vue";
+import {Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  data: () => ({
-    dialog: false,
-    processing: true,
-    success: false,
-    failure: false,
-    errorMessage: "",
-  }),
+@Component
+export default class ProcessingDialog extends Vue {
+  dialog = false;
+  processing = true;
+  success = false;
+  failure = false;
+  errorMessage = "";
 
-  methods: {
-    activateProcessing() {
-      this.dialog = true;
-      this.processing = true;
-      this.success = false;
-      this.failure = false;
-    },
+  activateProcessing() {
+    this.dialog = true;
+    this.processing = true;
+    this.success = false;
+    this.failure = false;
+  }
 
-    activateSuccess() {
-      this.processing = false;
-      this.failure = false;
-      this.success = true;
-      setTimeout(this.confirm, 1500);
-    },
+  activateSuccess() {
+    this.processing = false;
+    this.failure = false;
+    this.success = true;
+    setTimeout(this.confirm, 1500);
+  }
 
-    activateFailure(e: string) {
-      this.processing = false;
-      this.success = false;
-      this.failure = true;
-      this.errorMessage = e;
-    },
+  activateFailure(e: string) {
+    this.processing = false;
+    this.success = false;
+    this.failure = true;
+    this.errorMessage = e;
+  }
 
-    confirm() {
-      this.dialog = false;
-      this.success = false;
-      this.$emit("confirmSuccess");
-    },
+  confirm() {
+    this.dialog = false;
+    this.success = false;
+    this.$emit("confirmSuccess");
+  }
 
-    onClickCancel() {
-      this.dialog = false;
-      this.failure = false;
-      this.$emit("cancelFailure");
-    },
-  },
-});
+  onClickCancel() {
+    this.dialog = false;
+    this.failure = false;
+    this.$emit("cancelFailure");
+  }
+}
 </script>
 
 <style scoped>

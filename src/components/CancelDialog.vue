@@ -21,36 +21,23 @@
 </template>
 
 <script lang="ts">
-
 import Vue from "vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  data: () => ({
-    dialog: false,
-  }),
+@Component
+export default class CancelDialog extends Vue {
+  @Prop(String) buttonName: string | undefined
+  @Prop(String) titleMessage: string | undefined
 
-  methods: {
-    onClickNo() {
-      this.dialog = false;
-    },
+  dialog = false;
 
-    onClickYes() {
-      this.dialog = false;
-      this.$emit("confirmCancel");
-    },
-  },
+  onClickNo() {
+    this.dialog = false;
+  }
 
-  props: {
-    buttonName: {
-      type: String,
-    },
-    titleMessage: {
-      type: String,
-    },
-  },
-});
+  onClickYes() {
+    this.dialog = false;
+    this.$emit("confirmCancel");
+  }
+}
 </script>
-
-<style scoped>
-
-</style>

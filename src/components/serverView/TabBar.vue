@@ -25,36 +25,28 @@
 <script lang="ts">
 import Vue from "vue";
 import AgGrid from "@/components/serverView/LogGrid.vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "TabBar",
-
+@Component({
   components: {
     AgGrid
   },
+})
+export default class TabBar extends Vue {
+  @Prop(Number) serverId: number | undefined
 
-  data: () => ({
-    tabs: [] as string[],
-    tabCount: 1 as number,
-    model: "tab"
-  }),
+  tabs = [] as string[];
+  tabCount = 1 as number;
+  model = "tab";
 
-  methods: {
-    openTab(serverId: number) {
-      this.tabs.push(`Query ${this.tabCount++}`);
-    },
+  openTab(serverId: number) {
+    this.tabs.push(`Query ${this.tabCount++}`);
+  }
 
-    closeTab(closeEvent: any) {
-      this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
-    }
-  },
-
-  props: {
-    serverId: {
-      type: Number
-    }
-  },
-});
+  closeTab(closeEvent: any) {
+    this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
+  }
+}
 </script>
 
 <style>

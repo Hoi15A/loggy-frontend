@@ -30,32 +30,30 @@
 <script lang="ts">
 import serviceApi from "@/api/serviceApi";
 import Vue from "vue";
+import {Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "newConfigSideWindow",
+@Component
+export default class NewConfigSideWindow extends Vue {
+  newConfigJson = `
+    {
+    name: Test,
+    columnCount: 5,
+    headerLength: 0,
+    separator: " "
+    }
+  `;
+  menu = false;
 
-  data: () => ({
-    newConfigJson: "{\n" +
-      "  \"name\": \"Test\",\n" +
-      "  \"columnCount\": 5,\n" +
-      "  \"headerLength\": 0,\n" +
-      "  \"separator\": \"    \"\n" +
-      "}",
-    menu: false,
-  }),
-
-  methods:{
-    async onSave() {
-      try {
-        await serviceApi.addNewConfig(this.newConfigJson);
-        this.$emit("newConfigSuccess");
-        this.menu = false;
-      } catch (e) {
-        console.log(this.newConfigJson);
-      }
+  async onSave() {
+    try {
+      await serviceApi.addNewConfig(this.newConfigJson);
+      this.$emit("newConfigSuccess");
+      this.menu = false;
+    } catch (e) {
+      console.log(this.newConfigJson);
     }
   }
-});
+}
 </script>
 
 <style scoped>

@@ -26,48 +26,36 @@ import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/homeView/ServerCardSettings.vue";
 import CancelDialog from "@/components/CancelDialog.vue";
+import {Prop, Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "ServerCard",
-
+@Component({
   components: {
     ServerCardSettings,
     CancelDialog,
   },
+})
+export default class ServerCard extends Vue {
+  @Prop(Number) id: number | undefined
 
-  data: () => ({
-    server: undefined,
-    buttonName: "Remove",
-    titleMessage: "Are you sure you want to delete this server? This is not reversible",
-    openServiceSettings: false as boolean,
-  }),
+  server = undefined
+  buttonName = "Remove";
+  titleMessage = "Are you sure you want to delete this server? This is not reversible";
+  openServiceSettings = false;
 
-  methods: {
-    deleteJob(id: number) {
-      ServiceApi.removeServerById(id).then(() => {
-        this.$store.commit("homeServices/removeServerById", id);
-      });
-    },
+  deleteJob(id: number) {
+    ServiceApi.removeServerById(id).then(() => {
+      this.$store.commit("homeServices/removeServerById", id);
+    });
+  }
 
-    link() {
-      this.$router.push(`/server/${this.id}`);
-    },
+  link() {
+    this.$router.push(`/server/${this.id}`);
+  }
 
-    openServerSettings() {
-      this.openServiceSettings = true;
-    },
-  },
-
-  beforeMount() {
-    this.server = this.$store.getters["homeServices/getServerById"](this.id);
-  },
-
-  props: {
-    id: {
-      type: Number,
-    },
-  },
-});
+  openServerSettings() {
+    this.openServiceSettings = true;
+  }
+}
 </script>
 
 <style scoped>

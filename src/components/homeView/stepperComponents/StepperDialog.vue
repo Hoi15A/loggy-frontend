@@ -11,19 +11,20 @@
 <script>
 import Vue from "vue";
 import Stepper from "@/components/homeView/stepperComponents/ServerStepper.vue";
+import {Component} from "vue-property-decorator";
 
-export default Vue.extend({
-  methods: {
-    onStepperComplete () {
-      this.$store.commit("stepper/setDialogStatus", false);
-    },
-    onStepperCancel() {
-      this.$store.commit("stepper/setDialogStatus", false);
-    },
-  },
-
+@Component({
   components: {
     Stepper,
   },
-});
+})
+export default class StepperDialog extends Vue {
+  onStepperComplete () {
+    this.$store.commit("stepper/setDialogStatus", false);
+  }
+
+  onStepperCancel() {
+    this.$store.commit("stepper/setDialogStatus", false);
+  }
+}
 </script>
