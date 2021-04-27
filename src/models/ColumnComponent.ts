@@ -1,6 +1,6 @@
 export interface ColumnComponent {
-    columnType: string;
-    format: string;
-    id: number;
-    name: string;
+  id: number;
+  name: string;
+  format: string;
+  columnType: string;
 }
