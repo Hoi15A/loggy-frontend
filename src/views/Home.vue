@@ -1,8 +1,8 @@
 <template>
   <v-row>
-    <template v-for="n in 1">
-        <v-col v-for="server in $store.getters['homeServices/getAllServers']"
-               v-bind:key="`${n}${server}`"
+    <template>
+        <v-col v-for="(server, i) in $store.getters['homeServices/getAllServers']"
+               v-bind:key="'server' + i"
                cols="12"
                sm="5"
                md="4"
@@ -11,7 +11,6 @@
         >
           <server-card
               v-bind:id="server.id"
-              :key="server.id"
           />
         </v-col>
       </template>
