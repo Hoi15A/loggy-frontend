@@ -1,7 +1,14 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="380">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="error" rounded small text elevation="0" v-bind="attrs" v-on="on">
+      <v-btn
+          color="error"
+          rounded
+          small
+          text
+          v-bind="attrs"
+          v-on="on"
+      >
         {{ buttonName }}
       </v-btn>
     </template>

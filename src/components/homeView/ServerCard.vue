@@ -14,7 +14,7 @@
                       v-bind:title-message="titleMessage"/>
         <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
                             v-bind:id="this.server.id"/>
-        <v-btn rounded text small elevation="0" color="primary" v-on:click="link()">Logs</v-btn>
+        <v-btn rounded text small color="primary" v-on:click="link()">Logs</v-btn>
       </v-list-item>
     </div>
   </v-card>
