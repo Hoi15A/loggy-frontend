@@ -17,50 +17,46 @@
 <script lang="ts">
 import Vue from "vue";
 import configApi from "@/api/configApi";
+import Component from "vue-class-component";
+import "vue-class-component/hooks";
 
+@Component
+export default class ConfigEditor extends Vue {
+  configKeys = [] as any;
+  configValues = [] as any;
+  updatedConfig = {} as any;
+  updatedConfigJSON = "";
 
-export default Vue.extend({
-  name: "ConfigEditor",
+  addNewColumnComponent() {
+    return 1;
+  }
 
-  data: () => ({
-    configKeys: [] as any,
-    configValues: [] as any,
-    updatedConfig: {} as any,
-    updatedConfigJSON: "",
-  }),
+  createNewConfig() {
+    this.configKeys.forEach((key: string, i: number) => this.updatedConfig[key] = this.configValues[i]);
+    this.updatedConfigJSON = JSON.stringify(this.updatedConfig);
+    console.log(this.updatedConfigJSON);
+  }
 
-  methods: {
-    async addNewColumnComponent() {
-      return 1;
-    },
-
-    async createNewConfig() {
-      this.configKeys.forEach((key: string, i: number) => this.updatedConfig[key] = this.configValues[i]);
-      this.updatedConfigJSON = JSON.stringify(this.updatedConfig);
-      console.log(this.updatedConfigJSON);
-    },
-
-    async parseFetchedConfig(configJson: string) {
-      for(let i = 0; i < Object.values(configJson).length; i++) {
-        this.configKeys.push(Object.keys(configJson)[i]);
-        this.configValues.push(Object.values(configJson)[i]);
-      }
-    },
-
-    async fetchConfigById(name: string) {
-      return await configApi.fetchConfigById(name);
+  parseFetchedConfig(configJson: string) {
+    for(let i = 0; i < Object.values(configJson).length; i++) {
+      this.configKeys.push(Object.keys(configJson)[i]);
+      this.configValues.push(Object.values(configJson)[i]);
     }
-  },
+  }
+
+  async fetchConfigById(name: string) {
+    return await configApi.fetchConfigById(name);
+  }
 
   async beforeMount() {
     try {
       const configJson = await this.fetchConfigById("Apache");
       console.log(configJson);
-      await this.parseFetchedConfig(configJson);
+      this.parseFetchedConfig(configJson);
     } catch (e) {
       console.error(e);
     }
-  },
+  }
 
-});
+}
 </script>
