@@ -15,8 +15,8 @@
         >
         </v-list-item-group>
         <v-list-item
-          v-for="item in items"
-          :key="item"
+          v-for="(item, i) in items"
+          :key="'item' + i"
           :to="item.route"
           link
         >
@@ -30,7 +30,7 @@
 
         <v-list-group
             v-for="(subItem, i) in subGroupItems"
-            :key="i"
+            :key="'subgroup' + i"
             color="primary"
             v-bind:prepend-icon="subItem.icon"
         >
@@ -39,8 +39,8 @@
           </template>
 
           <v-list-item
-            v-for="entryItem in subItem.elements"
-            :key="entryItem"
+            v-for="(entryItem, i) in subItem.elements"
+            :key="'subitem' + i"
             link
             :to="entryItem.route"
           >
@@ -54,8 +54,8 @@
         </v-list-group>
 
         <v-list-item
-            v-for="item in lastItems"
-            :key="item"
+            v-for="(item, i) in lastItems"
+            :key="'lastitem' + i"
             :to="item.route"
             link
         >
