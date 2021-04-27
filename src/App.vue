@@ -10,7 +10,7 @@
             <v-list-item-subtitle>
               Logged In
             </v-list-item-subtitle>
-            
+
           </v-list-item-content>
           <v-list-item-avatar>
               <img src="https://randomuser.me/api/portraits/men/85.jpg">
@@ -55,7 +55,7 @@
       </v-row>
     </v-footer>
   </v-app>
-  
+
 </template>
 
 
