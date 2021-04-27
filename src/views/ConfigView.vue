@@ -1,16 +1,16 @@
 <template>
-  <ConfigExpansionPanel/>
+  <ConfigsTable />
 </template>
 
 <script lang="ts">
 
-import ConfigExpansionPanel from "@/components/configViewComponents/ConfigsExpansionPanel.vue";
+import ConfigsTable from "@/components/configViewComponents/ConfigsTable.vue";
 import Vue from "vue";
 
 export default Vue.extend( {
   name: "ConfigView",
   components: {
-    ConfigExpansionPanel
+    ConfigsTable,
   },
 });
 </script>
