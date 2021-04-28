@@ -15,50 +15,22 @@
             </v-card-title>
 
             <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedConfig.name"
-                        label="Config Name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedConfig.columnCount"
-                        label="Column Count"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedConfig.headerLength"
-                        label="Header Length"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                  >
-                    <v-text-field
-                        v-model="editedConfig.separator"
-                        label="Separator"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <v-text-field
+                  v-model="editedConfig.name"
+                  label="Config Name"
+              ></v-text-field>
+              <v-text-field
+                  v-model="editedConfig.columnCount"
+                  label="Column Count"
+              ></v-text-field>
+              <v-text-field
+                  v-model="editedConfig.headerLength"
+                  label="Header Length"
+              ></v-text-field>
+              <v-text-field
+                  v-model="editedConfig.separator"
+                  label="Separator"
+              ></v-text-field>
             </v-card-text>
 
             <v-card-actions>
