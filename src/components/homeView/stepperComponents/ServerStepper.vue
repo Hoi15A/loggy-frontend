@@ -110,7 +110,7 @@ export default class ServerStepper extends Vue {
     this.server.name = this.$refs.userForm.name;
     this.server.image = this.$refs.userForm.image;
     this.server.description = this.$refs.userForm.description;
-    this.server.logConfig = this.$refs.configForm.config;
+    this.server.logConfig = this.$refs.configForm.selectedConfig;
     this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
     this.server.location = this.$refs.directoryLocationForm.location;
 
