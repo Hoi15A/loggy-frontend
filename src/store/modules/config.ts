@@ -1,32 +1,34 @@
 import {Config} from "@/models/config";
+import {Module, Mutation, VuexModule} from "vuex-module-decorators";
 
-const state = () => ({
-  configs: [] as Config [],
-});
+@Module({name: "configstore"})
+export default class ConfigStore extends VuexModule {
+  configs = [] as Config[];
 
-const getters = {
-  getConfigs: (state: any) => state.configs,
-  getConfigById: (state: any) => (configName: string) => {
-    return state.configs.find((config: Config) => config.name === configName);
+  @Mutation
+  setConfigs (configs: Config[]) {
+    this.configs = configs;
   }
-};
 
-const mutations = {
-  setConfigs (state: any, configs: Config[]) {
-    state.configs = configs;
-  },
-  removeConfig(state: any, index: number) {
-    state.configs.splice(index, 1);
-  },
-  updateConfig(state: any, config: Config) {
-    const index = state.configs.indexOf(state.configs.find((oldConfig: Config) => oldConfig.name === config.name));
-    state.configs[index] = config;
-  },
-};
+  @Mutation
+  removeConfig(index: number) {
+    this.configs.splice(index, 1);
+  }
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations
-};
+  @Mutation
+  updateConfig(config: Config) {
+    const oldConfig = this.configs.find(oConfig => oConfig.name === config.name) as Config;
+    const index = this.configs.indexOf(oldConfig);
+    this.configs[index] = config;
+  }
+
+  get getConfigs() {
+    return this.configs;
+  }
+
+  get getConfigById() {
+    return (configName: string) => {
+      return this.configs.find((config: Config) => config.name === configName);
+    };
+  }
+}

@@ -1,20 +1,15 @@
-const state = () => ({
-  dialog: false,
-});
+import {Module, Mutation, VuexModule} from "vuex-module-decorators";
 
-const getters = {
-  getDialogStatus: (state: any) => state.dialog,
-};
+@Module
+export default class StepperStore extends VuexModule {
+  dialog = false;
 
-const mutations = {
-  setDialogStatus(state: any, value: boolean) {
-    state.dialog = value;
-  },
-};
+  @Mutation
+  setDialogStatus(value: boolean) {
+    this.dialog = value;
+  }
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations
-};
+  get getDialogStatus() {
+    return this.dialog;
+  }
+}
