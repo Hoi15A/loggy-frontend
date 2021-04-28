@@ -98,7 +98,7 @@ export default class ServerCardSettings extends Vue {
 
   beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
-      configs.forEach(config => this.logConfigs.push(config.name));
+      this.logConfigs = configs.map(config => config.name);
     });
     this.server = this.$store.getters["homeServices/getServerById"](this.id);
   }
