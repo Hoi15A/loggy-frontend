@@ -68,12 +68,12 @@ import Component from "vue-class-component";
 
 @Component
 export default class ColumnEditor extends Vue{
-  dialog = false
-  dialogDelete = false
-  editedIndex = -1
-  columnComponentsArr = [] as ColumnComponent[]
-  editedItem = {} as ColumnComponent
-  defaultItem = {} as ColumnComponent
+  dialog = false;
+  dialogDelete = false;
+  editedIndex = -1;
+  columnComponentsArr = [] as ColumnComponent[];
+  editedItem = {} as ColumnComponent;
+  defaultItem = {} as ColumnComponent;
   tableHeaders = [] as object[];
 
 
