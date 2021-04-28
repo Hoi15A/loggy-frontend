@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <template>
-        <v-col v-for="(server, i) in $store.getters['homeServices/getAllServers']"
+        <v-col v-for="(server, i) in homeServicesStore.getAllServers"
                :key="'server' + i"
                cols="12"
                sm="5"
@@ -26,6 +26,8 @@ import ServerCard from "@/components/homeView/ServerCard.vue";
 import StepperDialog from "@/components/homeView/stepperComponents/StepperDialog.vue";
 import {Server} from "@/models/server.ts";
 import "vue-class-component/hooks";
+import {getModule} from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component({
   components: {
@@ -35,11 +37,12 @@ import "vue-class-component/hooks";
 })
 export default class Home extends Vue {
   title = "Home";
+  homeServicesStore = getModule(HomeServicesStore, this.$store);
 
   loadServers() {
     ServiceApi.fetchServers().then((servers: Server[]) => {
       servers = servers.sort((a: Server,b: Server) => (a.id < b.id ? -1: 1));
-      this.$store.commit("homeServices/setServers", servers);
+      this.homeServicesStore.setServers(servers);
     });
   }
 

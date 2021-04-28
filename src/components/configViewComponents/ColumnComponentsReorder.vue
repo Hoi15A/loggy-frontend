@@ -1,7 +1,8 @@
 <template>
     <v-data-table
         :headers="columnHeaders"
-        :items="Object.values($store.getters['config/getConfigById'](this.configName).columnComponents)"
+        :items="Object.values(configStore.getConfigById(configName).columnComponents)"
+        v-if="configName"
         hide-default-footer
     >
       <template v-slot:body="props">
@@ -28,6 +29,8 @@ import Vue from "vue";
 import {Prop, Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import Draggable from "vuedraggable";
+import {getModule} from "vuex-module-decorators";
+import ConfigStore from "@/store/modules/config";
 
 @Component({
   components: {
@@ -37,6 +40,7 @@ import Draggable from "vuedraggable";
 export default class ColumnComponentsReorder extends Vue {
   @Prop(String) configName: string | undefined
 
+  configStore = getModule(ConfigStore, this.$store);
   columnHeaders = [
     { text: "ID", value: "id"},
     { text: "Name", value: "name"},

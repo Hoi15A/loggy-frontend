@@ -86,21 +86,23 @@ import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import {Prop, Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
+import {getModule} from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component
 export default class ServerCardSettings extends Vue {
   @Prop(Boolean) openServiceSettings: boolean | undefined
   @Prop(Number) id: number | undefined
 
+  homeServicesStore = getModule(HomeServicesStore, this.$store);
   settingsCardOpen = false;
   logConfigs = [] as string[];
-  server = undefined;
+  server = this.homeServicesStore.getServerById(this.id as number);
 
   beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
       this.logConfigs = configs.map(config => config.name);
     });
-    this.server = this.$store.getters["homeServices/getServerById"](this.id);
   }
 
   closeCard() {

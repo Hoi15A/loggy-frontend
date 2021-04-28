@@ -1,7 +1,8 @@
 <template>
   <v-data-table
       :headers="headers"
-      :items="$store.getters['config/getConfigs']"
+      :items="configStore.getConfigs"
+      item-key=""
       class="elevation-1"
   >
     <template v-slot:top>
@@ -105,6 +106,8 @@ import {Config} from "@/models/config";
 import ConfigApi from "@/api/configApi";
 import Component from "vue-class-component";
 import "vue-class-component/hooks";
+import {getModule} from "vuex-module-decorators";
+import ConfigStore from "@/store/modules/config";
 
 @Component({
   components: {
@@ -112,6 +115,7 @@ import "vue-class-component/hooks";
   },
 })
 export default class ConfigsTable extends Vue {
+  configStore = getModule(ConfigStore, this.$store);
   dialog = false;
   dialogDelete = false;
   editedConfig = {} as Config;
@@ -125,20 +129,20 @@ export default class ConfigsTable extends Vue {
   ];
 
   editConfig(config: Config) {
-    this.editedIndex = this.$store.getters["config/getConfigs"].indexOf(config);
+    this.editedIndex = this.configStore.getConfigs.indexOf(config);
     this.editedConfig = Object.assign({}, config);
     this.dialog = true;
   }
 
   deleteConfig(config: Config) {
-    this.editedIndex = this.$store.getters["config/getConfigs"].indexOf(config);
+    this.editedIndex = this.configStore.getConfigs.indexOf(config);
     this.editedConfig = Object.assign({}, config);
     this.dialogDelete = true;
   }
 
   deleteConfigConfirm() {
-    ConfigApi.removeConfigById(this.$store.getters["config/getConfigs"][this.editedIndex].name).then();
-    this.$store.commit("config/removeConfig", this.editedIndex);
+    ConfigApi.removeConfigById(this.configStore.getConfigs[this.editedIndex].name).then();
+    this.configStore.removeConfig(this.editedIndex);
     this.closeDelete();
   }
 
@@ -153,14 +157,15 @@ export default class ConfigsTable extends Vue {
   }
 
   save() {
-    ConfigApi.updateConfig(this.editedConfig).then();
-    this.$store.commit("config/updateConfig", this.editedConfig);
+    ConfigApi.updateConfig(this.editedConfig)
+      .catch(err => console.log(err));
+    this.configStore.updateConfig(this.editedConfig);
     this.close();
   }
 
   beforeMount() {
     ConfigApi.fetchAllConfigs().then(configs => {
-      this.$store.commit("config/setConfigs", configs);
+      this.configStore.setConfigs(configs);
     });
   }
 

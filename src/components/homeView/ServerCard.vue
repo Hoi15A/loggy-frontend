@@ -27,6 +27,8 @@ import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/homeView/ServerCardSettings.vue";
 import CancelDialog from "@/components/CancelDialog.vue";
 import {Prop, Component} from "vue-property-decorator";
+import {getModule} from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component({
   components: {
@@ -37,14 +39,15 @@ import {Prop, Component} from "vue-property-decorator";
 export default class ServerCard extends Vue {
   @Prop(Number) id: number | undefined
 
-  server = undefined
+  homeServicesStore = getModule(HomeServicesStore, this.$store);
+  server = this.homeServicesStore.getServerById(this.id as number);
   buttonName = "Remove";
   titleMessage = "Are you sure you want to delete this server? This is not reversible";
   openServiceSettings = false;
 
   deleteJob(id: number) {
     ServiceApi.removeServerById(id).then(() => {
-      this.$store.commit("homeServices/removeServerById", id);
+      this.homeServicesStore.removeServerById(id);
     });
   }
 
@@ -56,9 +59,6 @@ export default class ServerCard extends Vue {
     this.openServiceSettings = true;
   }
 
-  beforeMount() {
-    this.server = this.$store.getters["homeServices/getServerById"](this.id);
-  }
 }
 </script>
 
