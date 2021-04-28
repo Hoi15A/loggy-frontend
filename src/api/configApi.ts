@@ -22,7 +22,11 @@ export default class ConfigApi extends Api {
   }
 
   static async updateConfig(config: Config) {
-    const res = await fetch(`${this.apiBaseUrl}/config/`, {method: "PUT", body: JSON.stringify(config)});
+    const res = await fetch(`${this.apiBaseUrl}/config/`, {
+      method: "PUT",
+      body: JSON.stringify(config),
+      headers: { "Content-Type": "application/json" },
+    });
     return res.json();
   }
 
