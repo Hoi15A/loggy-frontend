@@ -12,9 +12,16 @@ const getters = {
 };
 
 const mutations = {
-  setConfigs (state: any, configs: Config) {
+  setConfigs (state: any, configs: Config[]) {
     state.configs = configs;
-  }
+  },
+  removeConfig(state: any, index: number) {
+    state.configs.splice(index, 1);
+  },
+  updateConfig(state: any, config: Config) {
+    const index = state.configs.indexOf(state.configs.find((oldConfig: Config) => oldConfig.name === config.name));
+    state.configs[index] = config;
+  },
 };
 
 export default {
