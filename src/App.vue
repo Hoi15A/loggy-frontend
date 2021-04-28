@@ -205,7 +205,8 @@ export default class App extends Vue {
   ];
 
   lastItems = [
-    { text: "Settings", icon: "mdi-cog", route: ""},
+    { text: "Column Components", icon: "mdi-toy-brick", route: "/columns" },
+    { text: "Settings", icon: "mdi-cog", route: "" },
   ];
       
   subGroupItems = [
