@@ -6,10 +6,12 @@ export default class PathApi extends Api {
   }
 
   static async getRootOfLocalServer() {
-    return await fetch(`${this.apiBaseUrl}/path`);
+    const res = await fetch(`${this.apiBaseUrl}/path`);
+    return res.json();
   }
 
   static async getContentOfFolder(folder: string) {
-    return await fetch(`${this.apiBaseUrl}/path?folder=${folder}`);
+    const res = await fetch(`${this.apiBaseUrl}/path?folder=${folder}`);
+    return res.json();
   }
 }

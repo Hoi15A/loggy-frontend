@@ -47,27 +47,25 @@ export default class DirectoryLocationForm extends Vue {
   selection = [];
   items = [];
 
-  async fetchRootFolder() {
-    try {
-      const res = await PathApi.getRootOfLocalServer();
-      return await res.json();
-    } catch (err) {
-      console.warn(err);
-      return [];
-    }
+  fetchRootFolder() {
+    PathApi.getRootOfLocalServer().then(res => {
+      this.items = res;
+    }).catch((err) => {
+      this.items = [];
+      console.error(err);
+    });
   }
 
-  async fetchSubFolders(item: Directory) {
-    try {
-      const res = await PathApi.getContentOfFolder(item.fullpath);
-      item.children = await res.json();
-    } catch (err) {
+  fetchSubFolders(item: Directory) {
+    PathApi.getContentOfFolder(item.fullpath).then(res => {
+      item.children = res;
+    }).catch((err) => {
       console.warn(err);
-    }
+    });
   }
 
-  async beforeMount() {
-    this.items = await this.fetchRootFolder();
+  beforeMount() {
+    this.fetchRootFolder();
   }
 }
 </script>
