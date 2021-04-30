@@ -94,7 +94,7 @@ export default class ServerCardSettings extends Vue {
   @Prop(Boolean) openServiceSettings: boolean | undefined
   @Prop(Number) id: number | undefined
 
-  homeServicesStore = getModule(HomeServicesStore, this.$store);
+  homeServicesStore = getModule(HomeServicesStore);
   settingsCardOpen = false;
   logConfigs = [] as string[];
   server = this.homeServicesStore.getServerById(this.id as number);

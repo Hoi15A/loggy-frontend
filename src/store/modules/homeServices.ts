@@ -1,7 +1,8 @@
 import {Server} from "@/models/server";
 import {Module, Mutation, VuexModule} from "vuex-module-decorators";
+import store from "@/store";
 
-@Module({name: "homeservices"})
+@Module({store, name: "homeservices", dynamic: true})
 export default class HomeServicesStore extends VuexModule {
   servers = [] as Server[];
 

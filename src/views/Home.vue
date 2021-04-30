@@ -24,7 +24,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import ServerCard from "@/components/homeView/ServerCard.vue";
 import StepperDialog from "@/components/homeView/stepperComponents/StepperDialog.vue";
-import {Server} from "@/models/server.ts";
+import {Server} from "@/models/server";
 import "vue-class-component/hooks";
 import {getModule} from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
@@ -37,7 +37,7 @@ import HomeServicesStore from "@/store/modules/homeServices";
 })
 export default class Home extends Vue {
   title = "Home";
-  homeServicesStore = getModule(HomeServicesStore, this.$store);
+  homeServicesStore = getModule(HomeServicesStore);
 
   loadServers() {
     ServiceApi.fetchServers().then((servers: Server[]) => {

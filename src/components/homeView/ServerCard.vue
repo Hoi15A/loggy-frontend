@@ -41,7 +41,7 @@ import HomeServicesStore from "@/store/modules/homeServices";
 export default class ServerCard extends Vue {
   @Prop(Number) id: number | undefined
 
-  homeServicesStore = getModule(HomeServicesStore, this.$store);
+  homeServicesStore = getModule(HomeServicesStore);
   server = this.homeServicesStore.getServerById(this.id as number);
   buttonName = "Remove";
   titleMessage = "Remove Server";
