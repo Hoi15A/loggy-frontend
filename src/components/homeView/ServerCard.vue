@@ -11,7 +11,9 @@
       <v-list-item>
         <CancelDialog v-on:confirmCancel="deleteJob(id)"
                       v-bind:button-name="buttonName"
-                      v-bind:title-message="titleMessage"/>
+                      v-bind:title-message="titleMessage"
+                      v-bind:message="message"
+                      />
         <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
                             v-bind:id="this.server.id"/>
         <v-btn rounded text small color="primary" v-on:click="link()">Logs</v-btn>
@@ -42,7 +44,8 @@ export default class ServerCard extends Vue {
   homeServicesStore = getModule(HomeServicesStore, this.$store);
   server = this.homeServicesStore.getServerById(this.id as number);
   buttonName = "Remove";
-  titleMessage = "Are you sure you want to delete this server? This is not reversible";
+  titleMessage = "Remove Server";
+  message = "Are you sure you want to delete this server? This is not reversible";
   openServiceSettings = false;
 
   deleteJob(id: number) {
