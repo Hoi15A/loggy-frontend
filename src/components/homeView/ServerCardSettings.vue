@@ -92,7 +92,7 @@ import HomeServicesStore from "@/store/modules/homeServices";
 @Component
 export default class ServerCardSettings extends Vue {
   @Prop(Boolean) openServiceSettings: boolean | undefined
-  @Prop(Number) id: number | undefined
+  @Prop(Number) id!: number
 
   homeServicesStore = getModule(HomeServicesStore);
   settingsCardOpen = false;

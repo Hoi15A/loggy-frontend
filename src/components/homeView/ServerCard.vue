@@ -39,7 +39,7 @@ import HomeServicesStore from "@/store/modules/homeServices";
   },
 })
 export default class ServerCard extends Vue {
-  @Prop(Number) id: number | undefined
+  @Prop(Number) id!: number
 
   homeServicesStore = getModule(HomeServicesStore);
   server = this.homeServicesStore.getServerById(this.id as number);
