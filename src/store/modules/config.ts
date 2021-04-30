@@ -1,7 +1,8 @@
 import {Config} from "@/models/config";
 import {Module, Mutation, VuexModule} from "vuex-module-decorators";
+import store from "@/store";
 
-@Module({name: "configstore"})
+@Module({dynamic: true, store, name: "configstore"})
 export default class ConfigStore extends VuexModule {
   configs = [] as Config[];
 

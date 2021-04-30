@@ -114,7 +114,7 @@ import ConfigStore from "@/store/modules/config";
   },
 })
 export default class ConfigsTable extends Vue {
-  configStore = getModule(ConfigStore, this.$store);
+  configStore = getModule(ConfigStore);
   dialog = false;
   dialogDelete = false;
   editedConfig = {} as Config;

@@ -40,7 +40,7 @@ import ConfigStore from "@/store/modules/config";
 export default class ColumnComponentsReorder extends Vue {
   @Prop(String) configName: string | undefined
 
-  configStore = getModule(ConfigStore, this.$store);
+  configStore = getModule(ConfigStore);
   columnHeaders = [
     { text: "ID", value: "id"},
     { text: "Name", value: "name"},
