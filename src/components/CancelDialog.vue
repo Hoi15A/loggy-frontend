@@ -16,12 +16,18 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title> {{ titleMessage }}</v-card-title>
+      <v-card-title class="headline">
+        {{ titleMessage }}
+      </v-card-title>
+      <v-card-text>
+        {{ message }}
+      </v-card-text>
+
+      <v-divider></v-divider>
       <v-card-actions>
         <v-btn
             text
             rounded
-            color="red"
             width="150"
             v-on:click="onClickNo()"
         >
@@ -31,6 +37,7 @@
         <v-btn
             text
             rounded
+            color="red"
             width="150"
             v-on:click="onClickYes()"
         >
@@ -49,6 +56,7 @@ import {Prop, Component} from "vue-property-decorator";
 export default class CancelDialog extends Vue {
   @Prop(String) buttonName: string | undefined
   @Prop(String) titleMessage: string | undefined
+  @Prop(String) message: string | undefined
 
   dialog = false;
 
