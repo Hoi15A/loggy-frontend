@@ -14,7 +14,6 @@
           />
         </v-col>
       </template>
-      <StepperDialog v-on:stepperComplete="loadServers()" />
   </v-row>
 </template>
 
@@ -23,7 +22,6 @@ import ServiceApi from "@/api/serviceApi";
 import Vue from "vue";
 import Component from "vue-class-component";
 import ServerCard from "@/components/homeView/ServerCard.vue";
-import StepperDialog from "@/components/homeView/stepperComponents/StepperDialog.vue";
 import {Server} from "@/models/server";
 import "vue-class-component/hooks";
 import {getModule} from "vuex-module-decorators";
@@ -32,7 +30,6 @@ import HomeServicesStore from "@/store/modules/homeServices";
 @Component({
   components: {
     ServerCard,
-    StepperDialog,
   }
 })
 export default class Home extends Vue {
