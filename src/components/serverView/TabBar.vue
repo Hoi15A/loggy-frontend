@@ -32,6 +32,14 @@
                   :key="item.name"
                 >
                   <td>{{ item.name }}</td>
+                  <td>
+                    <v-select
+                      label="FilterType"
+                      :items="getFilterTypes(item)"
+                    >
+
+                    </v-select>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -51,6 +59,7 @@ import "vue-class-component/hooks";
 import ConfigApi from "@/api/configApi";
 import { Server } from "@/models/server";
 import { Config } from "@/models/config";
+import { FilterType } from "@/models/filterType";
 
 @Component({
   components: {
@@ -63,7 +72,7 @@ export default class TabBar extends Vue {
   model = "tab";
   headers = [
     "Column Components",
-    "Query Type",
+    "Query Criteria",
     "Query"
   ];
   components = [] as ColumnComponent[];
@@ -76,11 +85,25 @@ export default class TabBar extends Vue {
     this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
   }
 
+  getFilterTypes(item: ColumnComponent) {
+    return item.filterTypes.map(filterType => FilterType[filterType]);
+  }
+
+  /*
+    This is only a mock delete when filter type is provided by config
+  */
   beforeMount() {
     const id = this.$route.params.serverId;
     const service = this.$store.getters["homeServices/getServerById"](id) as Server;
     ConfigApi.fetchConfigById(service.logConfig).then((config: Config) => {
-      this.components = config.columnComponents;
+      for (const c of Object.values(config.columnComponents)) {
+        c.filterTypes = [];
+        for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
+          c.filterTypes.push(Math.floor(Math.random() * 4));
+        }
+        this.components.push(c);
+      }
+      //this.components = config.columnComponents;
     });
   }
 }
