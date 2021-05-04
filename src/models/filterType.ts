@@ -1,4 +1,4 @@
-enum FilterType {
+export enum FilterType {
     RANGE,
     REGEX,
     CONTAINS,
