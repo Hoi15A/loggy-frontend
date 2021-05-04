@@ -47,6 +47,10 @@ import Vue from "vue";
 import AgGrid from "@/components/serverView/LogGrid.vue";
 import {Component} from "vue-property-decorator";
 import { ColumnComponent } from "@/models/columnComponent";
+import "vue-class-component/hooks";
+import ConfigApi from "@/api/configApi";
+import { Server } from "@/models/server";
+import { Config } from "@/models/config";
 
 @Component({
   components: {
@@ -70,6 +74,14 @@ export default class TabBar extends Vue {
 
   closeTab(closeEvent: any) {
     this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
+  }
+
+  beforeMount() {
+    const id = this.$route.params.serverId;
+    const service = this.$store.getters["homeServices/getServerById"](id) as Server;
+    ConfigApi.fetchConfigById(service.logConfig).then((config: Config) => {
+      this.components = config.columnComponents;
+    });
   }
 }
 </script>
