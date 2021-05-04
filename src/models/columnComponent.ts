@@ -1,3 +1,4 @@
+import {FilterType} from "@/models/filterType";
 export interface ColumnComponent {
   id: number;
   name: string;
