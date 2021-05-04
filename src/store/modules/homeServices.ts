@@ -7,6 +7,7 @@ const state = () => ({
 const getters = {
   getAllServers: (state: any) => state.servers,
   getServerById: (state: any) => (id: number) =>  state.servers.find((server: Server) => server.id == id),
+  isEmpty: (state: any) => state.servers.length === 0,
 };
 
 const mutations = {
