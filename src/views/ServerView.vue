@@ -1,13 +1,13 @@
 <template>
   <div>
-    <TabBar v-bind:server-id="serverId"/>
+    <TabBar/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import TabBar from "@/components/serverView/TabBar.vue";
-import {Prop, Component} from "vue-property-decorator";
+import {Component} from "vue-property-decorator";
 
 @Component({
   components: {
@@ -15,6 +15,6 @@ import {Prop, Component} from "vue-property-decorator";
   },
 })
 export default class ServerView extends Vue {
-  @Prop(Number) serverId: number | undefined
+  
 }
 </script>
