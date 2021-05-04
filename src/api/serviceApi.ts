@@ -1,5 +1,6 @@
 import Api from "@/api/api";
 import {Config} from "@/models/config";
+import { Server } from "@/models/server";
 
 export default class ServiceApi extends Api {
   constructor() {
@@ -19,6 +20,10 @@ export default class ServiceApi extends Api {
   static async fetchConfigs(): Promise<Config[]> {
     const res = await fetch(`${this.apiBaseUrl}/config`);
     return res.json();
+  }
+
+  static async fetchServerById(id: number): Promise<Server> {
+    return (await fetch(`${this.apiBaseUrl}/service/${id}`)).json();
   }
 
   static async removeServerById(id: number) {
