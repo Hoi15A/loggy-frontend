@@ -3,4 +3,5 @@ export interface ColumnComponent {
   name: string;
   format: string;
   columnType: string;
+  filterTypes: FilterType[];
 }
