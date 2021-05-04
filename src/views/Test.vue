@@ -1,25 +1,17 @@
 <template>
-  <ag-grid-vue style="width: 100%; height: 940px;"
-               class="ag-theme-material"
-               :columnDefs="columnDefs"
-               :rowData="rowData"
-               rowSelection="multiple"
-               pagination="true"
-               enableRangeSelection=true
-  >
-  </ag-grid-vue>
+  <DateFilter v-bind:id="'column1'"/>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { AgGridVue } from "ag-grid-vue";
+import DateFilter from "@/components/serverView/filterInput/DateFilter.vue";
 import { ColumnDefinition } from "@/models/columnDefinition";
 
 export default Vue.extend({
   name: "Test",
 
   components: {
-    AgGridVue
+    DateFilter
   },
 
   data: () => ({
