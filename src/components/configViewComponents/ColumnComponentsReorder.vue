@@ -1,13 +1,12 @@
 <template>
     <v-data-table
         :headers="columnHeaders"
-        :items="Object.values(configStore.getConfigById(configName).columnComponents)"
-        v-if="configName"
+        :items="columnComponents"
         hide-default-footer
     >
       <template v-slot:body="props">
         <draggable
-            :list="props.items"
+            v-model="columnComponents"
             tag="tbody"
         >
           <tr v-for="entry in props.items"
@@ -26,11 +25,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {Prop, Component} from "vue-property-decorator";
+import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import Draggable from "vuedraggable";
 import {getModule} from "vuex-module-decorators";
 import ConfigStore from "@/store/modules/config";
+import { ColumnComponent } from "@/models/columnComponent";
+import { ColumnComponentOrder } from "@/models/columnComponentOrder";
 
 @Component({
   components: {
@@ -38,8 +39,6 @@ import ConfigStore from "@/store/modules/config";
   }
 })
 export default class ColumnComponentsReorder extends Vue {
-  @Prop(String) configName: string | undefined
-
   configStore = getModule(ConfigStore);
   columnHeaders = [
     { text: "ID", value: "id"},
@@ -47,6 +46,20 @@ export default class ColumnComponentsReorder extends Vue {
     { text: "Format", value: "format"},
     { text: "Column Type", value: "columnType"},
   ];
+
+  get columnComponents() {
+    return Object.values(this.configStore.getEditedConfig.columnComponents);
+  }
+  
+  set columnComponents(components: ColumnComponent[]) {
+    const config = this.configStore.getEditedConfig;
+    const componentOrder = {} as ColumnComponentOrder;
+    for (let i = 0; i < components.length; i++) {
+      componentOrder[i.toString()] = components[i];
+    }
+    config.columnComponents = componentOrder;
+    this.configStore.setEditedConfig(config);
+  }
 }
 
 </script>

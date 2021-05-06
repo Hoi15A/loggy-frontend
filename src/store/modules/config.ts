@@ -5,10 +5,16 @@ import store from "@/store";
 @Module({dynamic: true, store, name: "configstore"})
 export default class ConfigStore extends VuexModule {
   configs = [] as Config[];
+  editedConfig = {} as Config;
 
   @Mutation
   setConfigs (configs: Config[]) {
     this.configs = configs;
+  }
+
+  @Mutation
+  setEditedConfig(config: Config) {
+    this.editedConfig = config;
   }
 
   @Mutation
@@ -25,6 +31,10 @@ export default class ConfigStore extends VuexModule {
 
   get getConfigs() {
     return this.configs;
+  }
+
+  get getEditedConfig() {
+    return this.editedConfig;
   }
 
   get getConfigById() {

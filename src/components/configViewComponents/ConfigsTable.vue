@@ -16,22 +16,22 @@
 
             <v-card-text>
               <v-text-field
-                  v-model="editedConfig.name"
+                  v-model="configStore.getEditedConfig.name"
                   label="Config Name"
               ></v-text-field>
               <v-text-field
-                  v-model="editedConfig.columnCount"
+                  v-model="configStore.getEditedConfig.columnCount"
                   label="Column Count"
               ></v-text-field>
               <v-text-field
-                  v-model="editedConfig.headerLength"
+                  v-model="configStore.getEditedConfig.headerLength"
                   label="Header Length"
               ></v-text-field>
               <v-text-field
-                  v-model="editedConfig.separator"
+                  v-model="configStore.getEditedConfig.separator"
                   label="Separator"
               ></v-text-field>
-              <ColumnComponentsReorder v-bind:config-name="editedConfig.name" />
+              <ColumnComponentsReorder />
             </v-card-text>
 
             <v-card-actions>
@@ -129,13 +129,15 @@ export default class ConfigsTable extends Vue {
 
   editConfig(config: Config) {
     this.editedIndex = this.configStore.getConfigs.indexOf(config);
-    this.editedConfig = Object.assign({}, config);
+    //this.editedConfig = Object.assign({}, config);
+    this.configStore.setEditedConfig(config);
     this.dialog = true;
   }
 
   deleteConfig(config: Config) {
     this.editedIndex = this.configStore.getConfigs.indexOf(config);
-    this.editedConfig = Object.assign({}, config);
+    //this.editedConfig = Object.assign({}, config);
+    this.configStore.setEditedConfig(config);
     this.dialogDelete = true;
   }
 
@@ -147,8 +149,7 @@ export default class ConfigsTable extends Vue {
 
   close() {
     this.dialog = false;
-    this.editedConfig = {} as Config;
-    this.editedIndex = -1;
+    //this.editedConfig = {} as Config;
   }
 
   closeDelete() {
@@ -156,9 +157,9 @@ export default class ConfigsTable extends Vue {
   }
 
   save() {
-    ConfigApi.updateConfig(this.editedConfig)
+    ConfigApi.updateConfig(this.configStore.getEditedConfig)
       .catch(err => console.log(err));
-    this.configStore.updateConfig(this.editedConfig);
+    this.configStore.updateConfig(this.configStore.getEditedConfig);
     this.close();
   }
 
