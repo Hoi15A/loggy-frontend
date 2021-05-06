@@ -9,7 +9,8 @@
         offset-y
         min-width="auto">
       <template v-slot:activator="{ on, attrs }">
-        <v-text-field v-model="date"
+        <v-text-field @input="updateDateRange()"
+                      v-model="date"
                       label="Pick date range"
                       prepend-icon="mdi-calendar"
                       v-bind="attrs"
@@ -17,7 +18,7 @@
       </template>
       <v-date-picker v-model="date" range no-title scrollable>
         <v-spacer/>
-        <v-btn text color="primary" @click="updateDateRange()">
+        <v-btn text color="primary" @click="$refs.menu.save(date)">
           OK
         </v-btn>
       </v-date-picker>
@@ -30,10 +31,9 @@ import Vue from "vue";
 import  { Prop, Component } from "vue-property-decorator";
 
 @Component
-export default class DateFilter extends Vue {
+export default class DateFilterInput extends Vue {
   @Prop(String) id: string | undefined
 
-  dates: string[] = [];
   date = "";
   menu = false;
 
