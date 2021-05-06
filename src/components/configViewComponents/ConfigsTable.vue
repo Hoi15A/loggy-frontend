@@ -117,7 +117,6 @@ export default class ConfigsTable extends Vue {
   configStore = getModule(ConfigStore);
   dialog = false;
   dialogDelete = false;
-  editedConfig = {} as Config;
   editedIndex = -1;
   headers = [
     { text: "Name", value: "name" },
@@ -129,14 +128,12 @@ export default class ConfigsTable extends Vue {
 
   editConfig(config: Config) {
     this.editedIndex = this.configStore.getConfigs.indexOf(config);
-    //this.editedConfig = Object.assign({}, config);
     this.configStore.setEditedConfig(config);
     this.dialog = true;
   }
 
   deleteConfig(config: Config) {
     this.editedIndex = this.configStore.getConfigs.indexOf(config);
-    //this.editedConfig = Object.assign({}, config);
     this.configStore.setEditedConfig(config);
     this.dialogDelete = true;
   }
@@ -149,7 +146,6 @@ export default class ConfigsTable extends Vue {
 
   close() {
     this.dialog = false;
-    //this.editedConfig = {} as Config;
   }
 
   closeDelete() {
