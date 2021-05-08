@@ -42,7 +42,7 @@ export default class ColumnCompApi extends Api {
       },
       body: JSON.stringify(jsonService)
     });
-    if (!res.ok) throw new Error(`Unable to create a new column with Attributes: ${JSON.stringify(jsonService)}`);
+    if (!res.ok) throw new Error(`Unable to update a column with Attributes: ${JSON.stringify(jsonService)}`);
     return res.json();
   }
 
