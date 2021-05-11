@@ -27,7 +27,8 @@ export default class HomeServicesStore extends VuexModule {
 
   get getServerById() {
     return (id: number) => {
-      return this.servers.find((server: Server) => server.id == id);
+      const requestedServer = this.servers.find((server: Server) => server.id == id);
+      return requestedServer == undefined ? {} as Server : requestedServer;
     };
   }
 
