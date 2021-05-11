@@ -41,8 +41,7 @@ export default class DateFilterInput extends Vue {
 
   updateDateRange() {
     this.queryStore.addQuery([this.id, this.date]);
-    // @ts-ignore
-    this.$refs.menu.save(this.date);
+    //this.$refs.menu.save(this.date);
     this.menu = false;
   }
 }

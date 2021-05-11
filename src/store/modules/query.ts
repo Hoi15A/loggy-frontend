@@ -20,6 +20,6 @@ export default class QueryStore extends VuexModule {
   get getQuery() {
     return (label: string) => {
       return this.queries[label];
-    }
+    };
   }
 }

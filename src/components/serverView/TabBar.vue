@@ -29,21 +29,33 @@
               <tbody>
                 <tr
                   v-for="item in components"
-                  :key="item.name"
+                  :key="item.id"
                 >
                   <td>{{ item.name }}</td>
                   <td>
                     <v-select
                       label="FilterType"
                       :items="getFilterTypes(item)"
+                      v-model="selectedFilters[item.id]"
                     >
                     </v-select>
                   </td>
-                  <td id="componentField"></td>
+                  <td id="componentField">
+                    <DateFilterInput v-bind:id="item.id.toString()" v-if="selectedFilters[item.id] === 'DATE'" />
+                    <RangeFilterInput v-bind:id="item.id.toString()" v-if="selectedFilters[item.id] === 'RANGE'" />
+                    <SingleFilterInput v-bind:id="item.id.toString()" v-bind:label="item.name" v-if="selectedFilters[item.id] === 'EXACT' || selectedFilters[item.id] === 'CONTAINS' || selectedFilters[item.id] === 'REGEX'" />
+                  </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
+          <v-btn
+            depressed
+            color="primary"
+            @click="query()"
+          >
+            Query
+          </v-btn>
         </template>
       </v-tab-item>
     </v-tabs-items>
@@ -53,6 +65,9 @@
 <script lang="ts">
 import Vue from "vue";
 import AgGrid from "@/components/serverView/LogGrid.vue";
+import DateFilterInput from "@/components/serverView/filterInput/DateFilterInput.vue";
+import RangeFilterInput from "@/components/serverView/filterInput/RangeFilterInput.vue";
+import SingleFilterInput from "@/components/serverView/filterInput/SingleFilterInput.vue";
 import {Component} from "vue-property-decorator";
 import { ColumnComponent } from "@/models/columnComponent";
 import "vue-class-component/hooks";
@@ -63,14 +78,21 @@ import { FilterType } from "@/models/filterType";
 import ServiceApi from "@/api/serviceApi";
 import { getModule } from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
+import QueryStore from "@/store/modules/query";
+import QueryApi from "@/api/queryApi";
 
 @Component({
   components: {
-    AgGrid
+    AgGrid,
+    DateFilterInput,
+    RangeFilterInput,
+    SingleFilterInput
   },
 })
 export default class TabBar extends Vue {
   homeServices = getModule(HomeServicesStore)
+  queryStore = getModule(QueryStore);
+
   tabs = [] as string[];
   tabCount = 1 as number;
   model = "tab";
@@ -80,7 +102,7 @@ export default class TabBar extends Vue {
     "Query"
   ];
   components = [] as ColumnComponent[];
-
+  selectedFilters: {[key: number]: string} = {};
   openTab(serverId: number) {
     this.tabs.push(`Query ${this.tabCount++}`);
   }
@@ -91,6 +113,22 @@ export default class TabBar extends Vue {
 
   getFilterTypes(item: ColumnComponent) {
     return item.filterTypes.map(filterType => FilterType[filterType]);
+  }
+
+  query() {
+    const queries = [];
+    for (const id of Object.keys(this.selectedFilters)) {
+      let queryItem = {"id": id, "filterType": this.selectedFilters[parseInt(id)]};
+
+      if (queryItem.filterType === "RANGE" || queryItem.filterType === "DATE") {
+        const range = this.queryStore.getQuery(id);
+        queryItem = Object.assign(queryItem, {"from": range[0], "to": range[1]});
+      } else if (queryItem.filterType !== "") {
+        queryItem = Object.assign(queryItem, {[this.selectedFilters[parseInt(id)].toLowerCase()]: this.queryStore.getQuery(id)});
+      }
+      queries.push(queryItem); 
+    }
+    QueryApi.query(parseInt(this.$route.params.serverId)).catch(err => console.log(err));
   }
 
   /*
