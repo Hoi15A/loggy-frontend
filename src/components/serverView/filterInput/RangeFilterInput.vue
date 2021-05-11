@@ -14,18 +14,21 @@
 </template>
 
 <script lang="ts">
+import QueryStore from "@/store/modules/query";
+import { getModule } from "vuex-module-decorators";
 import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 
 @Component
 export default class RangeFilterInput extends Vue {
-  @Prop(String) id: string | undefined;
+  @Prop(String) id!: string;
+  queryStore = getModule(QueryStore);
 
   fromValue = "";
   toValue = "";
 
   updateValues() {
-    this.$store.commit("query/addQuery", [this.id, [this.fromValue, this.toValue]]);
+    this.queryStore.addQuery([this.id, [this.fromValue, this.toValue]]);
   }
 }
 </script>

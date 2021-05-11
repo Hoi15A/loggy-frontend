@@ -26,18 +26,21 @@
 </template>
 
 <script lang="ts">
+import QueryStore from "@/store/modules/query";
+import { getModule } from "vuex-module-decorators";
 import Vue from "vue";
 import  { Prop, Component } from "vue-property-decorator";
 
 @Component
 export default class DateFilterInput extends Vue {
-  @Prop(String) id: string | undefined
+  @Prop(String) id!: string
 
   date = "";
   menu = false;
+  queryStore = getModule(QueryStore);
 
   updateDateRange() {
-    this.$store.commit("query/addQuery", [this.id, this.date]);
+    this.queryStore.addQuery([this.id, this.date]);
     // @ts-ignore
     this.$refs.menu.save(this.date);
     this.menu = false;

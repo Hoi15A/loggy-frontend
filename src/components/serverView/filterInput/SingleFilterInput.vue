@@ -7,18 +7,21 @@
 </template>
 
 <script lang="ts">
+import QueryStore from "@/store/modules/query";
+import { getModule } from "vuex-module-decorators";
 import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
 
 @Component
 export default class SingleFilterInput extends Vue {
-  @Prop(String) id: string | undefined;
-  @Prop(String) label: string | undefined;
+  @Prop(String) id!: string;
+  @Prop(String) label!: string;
 
+  queryStore = getModule(QueryStore);
   value = "";
 
   updateValue() {
-    this.$store.commit("query/addQuery", [this.id, this.value]);
+    this.queryStore.addQuery([this.id, this.value]);
   }
 }
 </script>
