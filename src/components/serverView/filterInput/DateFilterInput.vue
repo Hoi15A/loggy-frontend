@@ -30,15 +30,16 @@ import Vue from "vue";
 import  { Prop, Component } from "vue-property-decorator";
 
 @Component
-export default class DateFilter extends Vue {
+export default class DateFilterInput extends Vue {
   @Prop(String) id: string | undefined
 
-  dates: string[] = [];
   date = "";
   menu = false;
 
   updateDateRange() {
     this.$store.commit("query/addQuery", [this.id, this.date]);
+    // @ts-ignore
+    this.$refs.menu.save(this.date);
     this.menu = false;
   }
 }
