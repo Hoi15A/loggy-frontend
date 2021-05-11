@@ -61,6 +61,8 @@ import { Server } from "@/models/server";
 import { Config } from "@/models/config";
 import { FilterType } from "@/models/filterType";
 import ServiceApi from "@/api/serviceApi";
+import { getModule } from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component({
   components: {
@@ -68,6 +70,7 @@ import ServiceApi from "@/api/serviceApi";
   },
 })
 export default class TabBar extends Vue {
+  homeServices = getModule(HomeServicesStore)
   tabs = [] as string[];
   tabCount = 1 as number;
   model = "tab";
@@ -97,11 +100,11 @@ export default class TabBar extends Vue {
     const id = parseInt(this.$route.params.serverId);    
     let service = {} as Server;
     
-    if (this.$store.getters["homeServices/isEmpty"]) {
+    if (this.homeServices.isEmpty) {
       service = await ServiceApi.fetchServerById(id);
     } else {
-      service = this.$store.getters["homeServices/getServerById"](id);
-      this.$store.commit("homeServices/setServers", await ServiceApi.fetchServers());
+      service = this.homeServices.getServerById(id);
+      this.homeServices.setServers(await ServiceApi.fetchServers());
     }
 
     const config = await ConfigApi.fetchConfigById(service.logConfig) as Config;
