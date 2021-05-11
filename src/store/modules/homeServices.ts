@@ -30,4 +30,8 @@ export default class HomeServicesStore extends VuexModule {
       return this.servers.find((server: Server) => server.id == id);
     };
   }
+
+  get isEmpty() {
+    return this.servers.length === 0;
+  }
 }
