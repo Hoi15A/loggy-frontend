@@ -14,7 +14,7 @@
           />
         </v-col>
       </template>
-      <StepperDialog v-on:stepperComplete="loadServers()" />
+      <StepperDialog/>
   </v-row>
 </template>
 

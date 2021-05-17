@@ -2,13 +2,13 @@
   <v-form>
     <v-container>
       <v-select
-          v-model="location"
+          v-model="setLocation"
           :items="['Local', 'Remote']"
           label="Log Service Location"/>
       <v-row>
         <v-col>
           <v-treeview
-              v-model="selection"
+              v-model="setLogDirectory"
               :items="items"
               :load-children="fetchSubFolders"
               selectable
@@ -40,12 +40,25 @@ import PathApi from "@/api/pathApi";
 import { Directory } from "@/models/directory";
 import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
+import {Server} from "@/models/server";
 
 @Component
 export default class DirectoryLocationForm extends Vue {
-  location = "LOCAL"; // local (1), remote (0)
-  selection = [];
   items = [];
+  selection = []
+
+  set setLocation(value: string) {
+    const server = this.$store.getters["stepper/getServer"] as Server;
+    server["location"] = value;
+    this.$store.commit("stepper/setServer", server);
+  }
+
+  set setLogDirectory(value: []) {
+    const server = this.$store.getters["stepper/getServer"] as Server;
+    server["logDirectory"] = value;
+    this.selection = value;
+    this.$store.commit("stepper/setServer", server);
+  }
 
   fetchRootFolder() {
     PathApi.getRootOfLocalServer().then(res => {

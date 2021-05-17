@@ -1,8 +1,9 @@
 export interface Server {
-  readonly description: string;
-  readonly id: number;
-  readonly image: string;
-  readonly location: string;
-  readonly logConfig: string;
-  readonly name: string;
+  description: string;
+  id: number;
+  image: string;
+  location: string;
+  logDirectory: [];
+  logConfig: string;
+  name: string;
 }

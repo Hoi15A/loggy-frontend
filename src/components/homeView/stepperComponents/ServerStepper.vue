@@ -71,6 +71,7 @@ import ProcessingDialog from "@/components/homeView/stepperComponents/Processing
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
 import {Component} from "vue-property-decorator";
+import {Server} from "@/models/server";
 
 @Component({
   components: {
@@ -97,15 +98,17 @@ export default class ServerStepper extends Vue {
   async onClickDone() {
     this.$refs.processingDialog.activateProcessing();
 
-    this.server.name = this.$refs.userForm.name;
-    this.server.image = this.$refs.userForm.image;
-    this.server.description = this.$refs.userForm.description;
-    this.server.logConfig = this.$refs.configForm.selectedConfig;
-    this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
-    this.server.location = this.$refs.directoryLocationForm.location;
+    const server = this.$store.getters["stepper/getServer"];
+
+    //this.server.name = this.$refs.userForm.name;
+    //this.server.image = this.$refs.userForm.image;
+    //this.server.description = this.$refs.userForm.description;
+    //this.server.logConfig = this.$refs.configForm.selectedConfig;
+    //this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
+    //this.server.location = this.$refs.directoryLocationForm.location;
 
     try {
-      await serviceApi.addNewService(this.server);
+      await serviceApi.addNewService(server);
       this.$refs.processingDialog.activateSuccess();
     } catch (e) {
       this.$refs.processingDialog.activateFailure(e.toString());
