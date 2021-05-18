@@ -1,11 +1,11 @@
 <template>
-  <v-stepper v-model="e1">
+  <v-stepper v-model="$store.getters['stepper/getStepIndex']">
     <v-stepper-header>
-      <v-stepper-step :complete="e1 > 1" step="1">
+      <v-stepper-step :complete="$store.getters['stepper/getStepIndex'] > 1" step="1">
         Initialize
       </v-stepper-step>
       <v-divider/>
-      <v-stepper-step :complete="e1 > 2" step="2">
+      <v-stepper-step :complete="$store.getters['stepper/getStepIndex'] > 2" step="2">
         Connect
       </v-stepper-step>
       <v-divider/>
@@ -23,7 +23,7 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"/>
           <v-spacer/>
-          <v-btn color="primary" rounded text @click="e1 = 2" v-on:click="onConfigSelect()" width="150">
+          <v-btn color="primary" rounded text @click="gotoStep(2)" v-on:click="onConfigSelect()" width="150">
             Continue
           </v-btn>
         </v-list-item>
@@ -37,9 +37,9 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"/>
           <v-spacer/>
-          <v-btn color="grey" dark rounded text @click="e1 = 1">Back</v-btn>
+          <v-btn color="grey" dark rounded text @click="gotoStep(1)">Back</v-btn>
           <v-spacer/>
-          <v-btn color="primary" rounded text @click="e1 = 3" width="150">Continue</v-btn>
+          <v-btn color="primary" rounded text @click="gotoStep(3)" width="150">Continue</v-btn>
         </v-list-item>
       </v-stepper-content>
 
@@ -51,14 +51,13 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"/>
           <v-spacer/>
-          <v-btn color="grey" rounded text @click="e1 = 2">Back</v-btn>
+          <v-btn color="grey" rounded text @click="gotoStep(2)">Back</v-btn>
           <v-spacer/>
           <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
         </v-list-item>
       </v-stepper-content>
     </v-stepper-items>
-    <ProcessingDialog ref="processingDialog" v-on:confirmSuccess="onConfirmSuccess()"
-                      v-on:cancelFailure="onCancelFailure()"/>
+    <ProcessingDialog ref="processingDialog"/>
   </v-stepper>
 </template>
 
@@ -71,7 +70,7 @@ import ProcessingDialog from "@/components/homeView/stepperComponents/Processing
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
 import {Component} from "vue-property-decorator";
-import {Server} from "@/models/server";
+import ServiceApi from "@/api/serviceApi";
 
 @Component({
   components: {
@@ -85,52 +84,40 @@ import {Server} from "@/models/server";
 export default class ServerStepper extends Vue {
   buttonName = "Cancel";
   titleMessage = "Are you sure you want to cancel the registration process?";
-  e1 = 1;
-  server= {
-    logDirectory: "",
-    name: "",
-    description: "",
-    image: "",
-    location: 1,
-    logConfig: ""
-  };
 
   async onClickDone() {
-    this.$refs.processingDialog.activateProcessing();
+    this.$store.commit("stepper/setProcessingDialog", true);
 
     const server = this.$store.getters["stepper/getServer"];
 
-    //this.server.name = this.$refs.userForm.name;
-    //this.server.image = this.$refs.userForm.image;
-    //this.server.description = this.$refs.userForm.description;
-    //this.server.logConfig = this.$refs.configForm.selectedConfig;
-    //this.server.logDirectory = this.$refs.directoryLocationForm.selection[0].fullpath;
-    //this.server.location = this.$refs.directoryLocationForm.location;
-
     try {
       await serviceApi.addNewService(server);
-      this.$refs.processingDialog.activateSuccess();
+      this.$store.commit("stepper/setProcessingResponse", 1);
+      this.$store.commit("stepper/setServer", {});
     } catch (e) {
-      this.$refs.processingDialog.activateFailure(e.toString());
+      this.$store.commit("stepper/setFailureMessage", e);
+      this.$store.commit("stepper/setProcessingResponse", 2);
+    }
+  }
+
+  gotoStep(value) {
+    this.$store.commit("stepper/setStepIndex", value);
+    if(value === 2) {
+      this.loadConfigs();
     }
   }
 
   onConfirmCancel() {
-    this.e1 = 1;
-    this.$emit("stepperCancel");
+    this.$store.commit("stepper/setStepIndex", 1);
+    this.$store.commit("stepper/setServer", {});
+    this.$store.commit("stepper/setDialogStatus", false);
   }
 
-  onConfirmSuccess() {
-    this.e1 = 1;
-    this.$emit("stepperComplete");
-  }
-
-  onCancelFailure() {
-    this.e1 = 1;
-  }
-
-  onConfigSelect() {
-    this.$refs.configForm.loadConfigs();
+  async loadConfigs() {
+    const fetchedConfigs = await ServiceApi.fetchConfigs();
+    const configsByName = [];
+    fetchedConfigs.forEach(config => configsByName.push(config.name));
+    this.$store.commit("stepper/setConfigsByName", configsByName);
   }
 }
 </script>

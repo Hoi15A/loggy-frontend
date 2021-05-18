@@ -2,7 +2,7 @@
   <v-row>
     <v-dialog v-model="$store.getters['stepper/getDialogStatus']" persistent max-width="600">
       <v-card>
-        <Stepper v-on:stepperComplete="onStepperComplete()" v-on:stepperCancel="onStepperCancel()"/>
+        <Stepper/>
       </v-card>
     </v-dialog>
   </v-row>
@@ -19,12 +19,6 @@ import {Component} from "vue-property-decorator";
   },
 })
 export default class StepperDialog extends Vue {
-  onStepperComplete () {
-    this.$store.commit("stepper/setDialogStatus", false);
-  }
 
-  onStepperCancel() {
-    this.$store.commit("stepper/setDialogStatus", false);
-  }
 }
 </script>

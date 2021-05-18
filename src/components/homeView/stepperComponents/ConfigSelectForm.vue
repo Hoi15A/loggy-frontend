@@ -2,7 +2,7 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-select :items="items" label="Config" v-model="setConfigName"/>
+        <v-select :items="$store.getters['stepper/getConfigsByName']" label="Config" v-model="setConfigName"/>
         <v-spacer/>
         <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
       </v-row>
@@ -23,13 +23,7 @@ import {Server} from "@/models/server";
   },
 })
 export default class ConfigSelectForm extends Vue {
-  items = [] as string[];
   cardVisible = false;
-
-  async loadConfigs() {
-    const fetchedConfigs = await ServiceApi.fetchConfigs();
-    fetchedConfigs.forEach(config => this.items.push(config.name));
-  }
 
   set setConfigName(value: string) {
     const server = this.$store.getters["stepper/getServer"] as Server;
