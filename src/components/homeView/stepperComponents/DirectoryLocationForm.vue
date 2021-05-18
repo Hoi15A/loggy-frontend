@@ -55,8 +55,8 @@ export default class DirectoryLocationForm extends Vue {
 
   set setLogDirectory(value: []) {
     const server = this.$store.getters["stepper/getServer"] as Server;
-    server["logDirectory"] = value;
     this.selection = value;
+    server["logDirectory"] = value[0].fullpath;
     this.$store.commit("stepper/setServer", server);
   }
 
