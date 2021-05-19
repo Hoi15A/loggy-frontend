@@ -23,12 +23,11 @@ import { Prop, Component } from "vue-property-decorator";
 export default class RangeFilterInput extends Vue {
   @Prop(String) id!: string;
   queryStore = getModule(QueryStore);
-
   fromValue = "";
   toValue = "";
-
   updateValues() {
-    this.queryStore.addQuery([this.id, [this.fromValue, this.toValue]]);
+    const rangeObject = {"from": this.fromValue, "to": this.toValue};
+    this.queryStore.addRangeQuery([this.id, rangeObject]);
   }
 }
 </script>
