@@ -35,15 +35,31 @@
                   <td>
                     <v-select
                       label="FilterType"
-                      :items="getFilterTypes(item)"
+                      :items="item.filterTypes"
                       v-model="selectedFilters[item.id]"
                     >
                     </v-select>
                   </td>
                   <td id="componentField">
-                    <DateFilterInput v-bind:id="item.id.toString()" v-if="selectedFilters[item.id] === 'DATE'" />
-                    <RangeFilterInput v-bind:id="item.id.toString()" v-if="selectedFilters[item.id] === 'RANGE'" />
-                    <SingleFilterInput v-bind:id="item.id.toString()" v-bind:label="item.name" v-if="selectedFilters[item.id] === 'EXACT' || selectedFilters[item.id] === 'CONTAINS' || selectedFilters[item.id] === 'REGEX'" />
+                    <ExactDateFilterInput
+                        v-bind:id="item.id.toString()"
+                        v-bind:filtertype="selectedFilters[item.id]"
+                        v-if="item.columnType === 'DATE' && selectedFilters[item.id] === 'EXACT'" />
+                    <RangeDateFilterInput
+                        v-bind:id="item.id.toString()"
+                        v-bind:filtertype="selectedFilters[item.id]"
+                        v-if="item.columnType === 'DATE'
+                        && selectedFilters[item.id] === 'RANGE'" />
+                    <RangeFilterInput
+                        v-bind:id="item.id.toString()"
+                        v-if="selectedFilters[item.id] === 'RANGE'
+                        && item.columnType !== 'DATE'" />
+                    <SingleFilterInput
+                        v-bind:id="item.id.toString()" v-bind:label="item.name"
+                        v-if="(selectedFilters[item.id] === 'EXACT'
+                        || selectedFilters[item.id] === 'CONTAINS'
+                        || selectedFilters[item.id] === 'REGEX')
+                        && item.columnType !== 'DATE'" />
                   </td>
                 </tr>
               </tbody>
@@ -65,7 +81,7 @@
 <script lang="ts">
 import Vue from "vue";
 import AgGrid from "@/components/serverView/LogGrid.vue";
-import DateFilterInput from "@/components/serverView/filterInput/DateFilterInput.vue";
+import RangeDateFilterInput from "@/components/serverView/filterInput/RangeDateFilterInput.vue";
 import RangeFilterInput from "@/components/serverView/filterInput/RangeFilterInput.vue";
 import SingleFilterInput from "@/components/serverView/filterInput/SingleFilterInput.vue";
 import {Component} from "vue-property-decorator";
@@ -80,11 +96,13 @@ import { getModule } from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
 import QueryStore from "@/store/modules/query";
 import QueryApi from "@/api/queryApi";
+import ExactDateFilterInput from "@/components/serverView/filterInput/ExactDateFilterInput.vue";
 
 @Component({
   components: {
+    ExactDateFilterInput,
     AgGrid,
-    DateFilterInput,
+    RangeDateFilterInput,
     RangeFilterInput,
     SingleFilterInput
   },
@@ -111,29 +129,21 @@ export default class TabBar extends Vue {
     this.tabs.splice(this.tabs.indexOf(closeEvent.target.parentElement.textContent.trim()), 1);
   }
 
-  getFilterTypes(item: ColumnComponent) {
-    return item.filterTypes.map(filterType => FilterType[filterType]);
-  }
-
   query() {
     const queries = [];
     for (const id of Object.keys(this.selectedFilters)) {
-      let queryItem = {"id": id, "filterType": this.selectedFilters[parseInt(id)]};
-
-      if (queryItem.filterType === "RANGE" || queryItem.filterType === "DATE") {
-        const range = this.queryStore.getQuery(id);
-        queryItem = Object.assign(queryItem, {"from": range[0], "to": range[1]});
+      let queryItem = {"columnComponentId": id, "filterType": this.selectedFilters[parseInt(id)]};
+      if (queryItem.filterType === "RANGE") {
+        const rangeObject = this.queryStore.getQuery(id);
+        queryItem = Object.assign(queryItem, rangeObject);
       } else if (queryItem.filterType !== "") {
         queryItem = Object.assign(queryItem, {[this.selectedFilters[parseInt(id)].toLowerCase()]: this.queryStore.getQuery(id)});
       }
-      queries.push(queryItem); 
+      queries.push(queryItem);
     }
-    QueryApi.query(parseInt(this.$route.params.serverId)).catch(err => console.log(err));
+    QueryApi.query(parseInt(this.$route.params.serverId), queries).catch(err => console.log(err));
   }
 
-  /*
-    This is only a mock delete when filter type is provided by config
-  */
   async beforeMount() {
     const id = parseInt(this.$route.params.serverId);    
     let service = {} as Server;
@@ -146,12 +156,7 @@ export default class TabBar extends Vue {
     }
 
     const config = await ConfigApi.fetchConfigById(service.logConfig) as Config;
-
     for (const c of Object.values(config.columnComponents)) {
-      c.filterTypes = [];
-      for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
-        c.filterTypes.push(Math.floor(Math.random() * 4));
-      }
       this.components.push(c);
     }
   }
