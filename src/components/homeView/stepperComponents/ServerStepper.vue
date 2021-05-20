@@ -61,7 +61,7 @@
   </v-stepper>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import Vue from "vue";
 import CancelDialog from "@/components/CancelDialog";
 import UserInfoTextField from "@/components/homeView/stepperComponents/UserInfoForm";
@@ -71,6 +71,8 @@ import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
 import {Component} from "vue-property-decorator";
 import ServiceApi from "@/api/serviceApi";
+import {Server} from "@/models/server";
+
 
 @Component({
   components: {
@@ -93,11 +95,18 @@ export default class ServerStepper extends Vue {
     try {
       await serviceApi.addNewService(server);
       this.$store.commit("stepper/setProcessingResponse", 1);
-      this.$store.commit("stepper/setServer", {});
+      this.loadServers();
     } catch (e) {
       this.$store.commit("stepper/setFailureMessage", e);
       this.$store.commit("stepper/setProcessingResponse", 2);
     }
+  }
+
+  loadServers() {
+    ServiceApi.fetchServers().then((servers: Server[]) => {
+      servers = servers.sort((a: Server,b: Server) => (a.id < b.id ? -1: 1));
+      this.$store.commit("homeServices/setServers", servers);
+    });
   }
 
   gotoStep(value) {
@@ -109,7 +118,6 @@ export default class ServerStepper extends Vue {
 
   onConfirmCancel() {
     this.$store.commit("stepper/setStepIndex", 1);
-    this.$store.commit("stepper/setServer", {});
     this.$store.commit("stepper/setDialogStatus", false);
   }
 
