@@ -73,7 +73,6 @@ import {Component} from "vue-property-decorator";
 import ServiceApi from "@/api/serviceApi";
 import {Server} from "@/models/server";
 
-
 @Component({
   components: {
     UserInfoTextField,
@@ -109,7 +108,7 @@ export default class ServerStepper extends Vue {
     });
   }
 
-  gotoStep(value) {
+  gotoStep(value: number) {
     this.$store.commit("stepper/setStepIndex", value);
     if(value === 2) {
       this.loadConfigs();
