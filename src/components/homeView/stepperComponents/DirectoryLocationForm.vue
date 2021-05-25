@@ -1,37 +1,48 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-select
-          v-model="location"
-          :items="['Local', 'Remote']"
-          label="Log Service Location"/>
-      <v-row>
-        <v-col>
-          <v-treeview
-              v-model="selection"
-              :items="items"
-              :load-children="fetchSubFolders"
-              selectable
-              return-object/>
-        </v-col>
-        <v-divider vertical/>
-        <v-col
-            class="pa-6"
-            cols="6">
-          <template v-if="!selection.length">
-            No nodes selected.
-          </template>
-          <template v-else>
-            <div
-                v-for="node in selection"
-                :key="node.id">
-              {{ node.fullpath }}
-            </div>
-          </template>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+  <ValidationObserver>
+    <v-form>
+      <v-container>
+        <ValidationProvider 
+          rules="required" 
+          v-slot="{ errors }"
+          name="log service location"
+        >
+          <v-select
+              v-model="location"
+              outlined
+              :items="['Local', 'Remote']"
+              label="Log Service Location"
+              :error-messages="errors"
+          />
+        </ValidationProvider>
+        <v-row>
+          <v-col>
+            <v-treeview
+                v-model="selection"
+                :items="items"
+                :load-children="fetchSubFolders"
+                selectable
+                return-object/>
+          </v-col>
+          <v-divider vertical/>
+          <v-col
+              class="pa-6"
+              cols="6">
+            <template v-if="!selection.length">
+              No nodes selected.
+            </template>
+            <template v-else>
+              <div
+                  v-for="node in selection"
+                  :key="node.id">
+                {{ node.fullpath }}
+              </div>
+            </template>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+  </ValidationObserver>
 </template>
 
 <script lang="ts">
