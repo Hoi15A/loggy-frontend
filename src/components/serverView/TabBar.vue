@@ -105,6 +105,7 @@ import { getModule } from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
 import QueryStore from "@/store/modules/query";
 import QueryApi from "@/api/queryApi";
+import ColumnCompApi from "@/api/columnCompApi";
 import ExactDateFilterInput from "@/components/serverView/filterInput/ExactDateFilterInput.vue";
 
 interface QueryResponse {
@@ -170,10 +171,14 @@ export default class TabBar extends Vue {
     }
   }
 
-  buildQuery() {
+  async buildQuery() {
     const queries = [];
     for (const id of Object.keys(this.selectedFilters)) {
       let queryItem = {"columnComponentId": id, "filterType": this.selectedFilters[parseInt(id)]};
+      const columnCompObject = await ColumnCompApi.fetchColumnsById(parseInt(id));
+      if (columnCompObject.columnType === "DATE") {
+        queryItem = Object.assign(queryItem, {"dateFormat": "yyyy-MM-dd"});
+      }
       if (queryItem.filterType === "RANGE") {
         const rangeObject = this.queryStore.getQuery(id);
         queryItem = Object.assign(queryItem, rangeObject);
@@ -181,21 +186,24 @@ export default class TabBar extends Vue {
         queryItem = Object.assign(queryItem, {[this.selectedFilters[parseInt(id)].toLowerCase()]: this.queryStore.getQuery(id)});
       }
       queries.push(queryItem);
+      console.log(queries);
     }
     return queries;
   }
 
   query() {
-    QueryApi.query(parseInt(this.$route.params.serverId), this.buildQuery())
-      .then((response: QueryResponse) => this.transformToRowData(response))
-      .catch(err => console.log(err));
-    this.showQueryOptions = false;
+    this.buildQuery().then(query => {
+      QueryApi.query(parseInt(this.$route.params.serverId), query)
+        .then((response: QueryResponse) => this.transformToRowData(response))
+        .catch(err => console.log(err));
+      this.showQueryOptions = false;
+    });
   }
 
   async beforeMount() {
-    const id = parseInt(this.$route.params.serverId);    
+    const id = parseInt(this.$route.params.serverId);
     let service = {} as Server;
-    
+
     if (this.homeServices.isEmpty) {
       service = await ServiceApi.fetchServerById(id);
     } else {
@@ -207,6 +215,7 @@ export default class TabBar extends Vue {
     for (const c of Object.values(config.columnComponents)) {
       this.components.push(c);
     }
+    console.log(JSON.stringify(this.components));
   }
 }
 </script>
