@@ -9,49 +9,72 @@
             v-model="dialog"
             max-width="650px"
         >
-          <v-card>
-            <v-card-title>
-              <span class="headline">Edit Config</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-text-field
-                  v-model="configStore.getEditedConfig.name"
-                  label="Config Name"
-              ></v-text-field>
-              <v-text-field
-                  v-model="configStore.getEditedConfig.columnCount"
-                  label="Column Count"
-              ></v-text-field>
-              <v-text-field
-                  v-model="configStore.getEditedConfig.headerLength"
-                  label="Header Length"
-              ></v-text-field>
-              <v-text-field
-                  v-model="configStore.getEditedConfig.separator"
-                  label="Separator"
-              ></v-text-field>
-              <ColumnComponentsReorder />
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="close"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="save"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+          <ValidationObserver v-slot="{ invalid }">
+            <v-card>
+              <v-card-title>
+                <span class="headline">Edit Config</span>
+              </v-card-title>
+              
+                <v-card-text>
+                  <ValidationProvider 
+                    rules="required" 
+                    v-slot="{ errors }"
+                    name="config name"
+                  >
+                  <v-text-field
+                      v-model="configStore.getEditedConfig.name"
+                      label="Config Name"
+                      :error-messages="errors"
+                  />
+                  </ValidationProvider>
+                  <ValidationProvider 
+                    rules="required" 
+                    v-slot="{ errors }"
+                    name="column count"
+                  >
+                  <v-text-field
+                      v-model="configStore.getEditedConfig.columnCount"
+                      label="Column Count"
+                      :error-messages="errors"
+                  />
+                  </ValidationProvider>
+                  <ValidationProvider 
+                    rules="required" 
+                    v-slot="{ errors }"
+                    name="header length"
+                  >
+                  <v-text-field
+                      v-model="configStore.getEditedConfig.headerLength"
+                      label="Header Length"
+                      :error-messages="errors"
+                  />
+                  </ValidationProvider>
+                  <v-text-field
+                      v-model="configStore.getEditedConfig.separator"
+                      label="Separator"
+                  />
+                  <ColumnComponentsReorder />
+                </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="close"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    :disabled="invalid"
+                    @click="save"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </ValidationObserver>
         </v-dialog>
         <v-dialog
             v-model="dialogDelete"
