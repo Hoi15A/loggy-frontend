@@ -26,7 +26,13 @@ export default class RangeFilterInput extends Vue {
   fromValue = "";
   toValue = "";
   updateValues() {
-    const rangeObject = {"from": this.fromValue, "to": this.toValue};
+    let rangeObject = {};
+    if (this.fromValue !== "") {
+      rangeObject = {"from": this.fromValue};
+    }
+    if (this.toValue !== "") {
+      rangeObject = {...rangeObject, "to": this.toValue};
+    }
     this.queryStore.addRangeQuery([this.id, rangeObject]);
   }
 }

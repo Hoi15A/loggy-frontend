@@ -83,7 +83,13 @@ export default class RangeDateFilterInput extends Vue {
   updateDateRange() {
     this.menu1 = false;
     this.menu2 = false;
-    const rangeObject = {"dateFormat": "yyyy-MM-dd", "from": this.fromDate, "to": this.toDate};
+    let rangeObject = {};
+    if (this.fromDate !== "") {
+      rangeObject = {"from": this.fromDate};
+    }
+    if (this.toDate !== "") {
+      rangeObject = {...rangeObject, "to": this.toDate};
+    }
     this.queryStore.addRangeQuery([this.id, rangeObject]);
   }
 }

@@ -42,9 +42,8 @@ export default class ExactDateFilterInput extends Vue {
   queryStore = getModule(QueryStore);
   updateDateRange() {
     this.menu1 = false;
-    const rangeObject = {"dateFormat": "yyyy-MM-dd", "from": this.exactDate, "to": this.exactDate};
-    this.queryStore.addRangeQuery([this.id, rangeObject]);  }
-
+    this.queryStore.addRangeQuery([this.id, this.exactDate]);
+  }
 }
 
 
