@@ -59,5 +59,18 @@ export default class ServiceApi extends Api {
     }
   }
 
+  static async updateService(service: Server) {
+    const res = await fetch(`${this.apiBaseUrl}/service/${service.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(service),
+    });
+    if (!res.ok) {
+      throw new Error(`Unable to update Service with Attributes:${JSON.stringify(service)}`);
+    }
+  }
+
 
 }
