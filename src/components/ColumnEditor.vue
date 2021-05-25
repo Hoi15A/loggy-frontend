@@ -15,44 +15,68 @@
               v-model="dialog"
               max-width="650px"
           >
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ titleName }}</span>
-            </v-card-title>
+          <ValidationObserver v-slot="{ invalid }">
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ titleName }}</span>
+              </v-card-title>
 
-            <v-card-text>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.name"
-                  label="Name"
-              ></v-text-field>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.format"
-                  label="Format"
-              ></v-text-field>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.columnType"
-                  label="Type"
-              ></v-text-field>
-            </v-card-text>
+              <v-card-text>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="column name"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.name"
+                    label="Name"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="log format"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.format"
+                    label="Format"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="column type"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.columnType"
+                    label="Type"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="close"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="save"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="close"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="save"
+                    :disabled="invalid"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </ValidationObserver>
         </v-dialog>
         <v-dialog
             v-model="dialogDelete"
