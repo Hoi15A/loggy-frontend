@@ -1,13 +1,26 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-row>
-        <v-select :items="items" label="Config" v-model="selectedConfig"/>
-        <v-spacer/>
-        <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
-      </v-row>
-    </v-container>
-  </v-form>
+  <ValidationObserver>
+    <v-form>
+      <v-container>
+        <v-row>
+          <ValidationProvider 
+            rules="required" 
+            v-slot="{ errors }"
+            name="log config"
+          >
+          <v-select 
+            :items="items" 
+            label="Config" 
+            v-model="selectedConfig"
+            :error-messages="errors"
+          />
+          </ValidationProvider>
+          <v-spacer/>
+          <NewConfigSideWindow v-on:newConfigSuccess="loadConfigs()"/>
+        </v-row>
+      </v-container>
+    </v-form>
+  </ValidationObserver>
 </template>
 
 <script lang="ts">
