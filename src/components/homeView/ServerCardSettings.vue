@@ -17,102 +17,105 @@
             Settings
           </v-btn>
         </template>
-        <v-card>
-          <v-card-title>
-            <span class="headline">Service Configuration</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <ValidationObserver>
-                <v-form>
-                  <v-row>
-                    <v-col cols="12">
-                      <ValidationProvider
-                        rules="required|max:30"
-                        name="service name"
-                        v-slot="{ errors }"
-                      >
-                      <v-text-field
-                        label="Service Name*"
-                        required
-                        counter="30"
-                        :value="server.name"
-                        :error-messages="errors"
-                      />
-                      </ValidationProvider>
-                    </v-col>
-                    <v-col cols="12">
-                      <ValidationProvider
-                        rules="required"
-                        name="log directory"
-                        v-slot="{ errors }"
-                      >
+        <ValidationObserver v-slot="{ invalid }">
+          <v-card>
+            <v-card-title>
+              <span class="headline">Service Configuration</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                
+                  <v-form>
+                    <v-row>
+                      <v-col cols="12">
+                        <ValidationProvider
+                          rules="required|max:30"
+                          name="service name"
+                          v-slot="{ errors }"
+                        >
                         <v-text-field
-                          label="LogDirectory*"
+                          label="Service Name*"
                           required
+                          counter="30"
+                          :value="server.name"
                           :error-messages="errors"
-                          :value="server.logDirectory"
                         />
-                      </ValidationProvider>
-                    </v-col>
+                        </ValidationProvider>
+                      </v-col>
+                      <v-col cols="12">
+                        <ValidationProvider
+                          rules="required"
+                          name="log directory"
+                          v-slot="{ errors }"
+                        >
+                          <v-text-field
+                            label="LogDirectory*"
+                            required
+                            :error-messages="errors"
+                            :value="server.logDirectory"
+                          />
+                        </ValidationProvider>
+                      </v-col>
 
-                    <v-col
-                        cols="12"
-                        sm="6"
-                    >
-                      <ValidationProvider
-                        rules="required"
-                        name="log config"
-                        v-slot="{ errors }"
+                      <v-col
+                          cols="12"
+                          sm="6"
                       >
-                      <v-select
-                        :items="logConfigs"
-                        :error-messages="errors"
-                        :value="server.logConfig"
-                        label="LogConfig*"
-                        required
-                      />
-                      </ValidationProvider>
-                    </v-col>
-                    <v-col cols="12">
-                      <ValidationProvider
-                        rules="required|max:200"
-                        name="log config"
-                        v-slot="{ errors }"
-                      >
-                        <v-textarea
-                          label="Service Description"
-                          outlined
-                          counter="200"
-                          :value="server.description"
+                        <ValidationProvider
+                          rules="required"
+                          name="log config"
+                          v-slot="{ errors }"
+                        >
+                        <v-select
+                          :items="logConfigs"
                           :error-messages="errors"
+                          :value="server.logConfig"
+                          label="LogConfig*"
+                          required
                         />
-                      </ValidationProvider>
-                    </v-col>
-                  </v-row>
-                </v-form>
-              </ValidationObserver>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="red darken-1"
-                text
-                @click="closeCard()"
-            >
-              Close
-            </v-btn>
-            <v-btn
-                color="green darken-1"
-                text
-                @click="saveChanges()"
-            >
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+                        </ValidationProvider>
+                      </v-col>
+                      <v-col cols="12">
+                        <ValidationProvider
+                          rules="required|max:200"
+                          name="log config"
+                          v-slot="{ errors }"
+                        >
+                          <v-textarea
+                            label="Service Description"
+                            outlined
+                            counter="200"
+                            :value="server.description"
+                            :error-messages="errors"
+                          />
+                        </ValidationProvider>
+                      </v-col>
+                    </v-row>
+                  </v-form>
+
+              </v-container>
+              <small>*indicates required field</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  color="red darken-1"
+                  text
+                  @click="closeCard()"
+              >
+                Close
+              </v-btn>
+              <v-btn
+                  color="green darken-1"
+                  text
+                  :disabled="invalid"
+                  @click="saveChanges()"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </ValidationObserver>
       </v-dialog>
     </v-row>
 </template>
