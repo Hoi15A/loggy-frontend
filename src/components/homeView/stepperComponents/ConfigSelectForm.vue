@@ -12,6 +12,7 @@
             :items="items" 
             label="Config" 
             v-model="selectedConfig"
+            outlined
             :error-messages="errors"
           />
           </ValidationProvider>
