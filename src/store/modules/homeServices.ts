@@ -1,33 +1,38 @@
 import {Server} from "@/models/server";
+import {Module, Mutation, VuexModule} from "vuex-module-decorators";
+import store from "@/store";
 
-const state = () => ({
-  servers: [] as Server[],
-});
+@Module({store, name: "homeservices", dynamic: true})
+export default class HomeServicesStore extends VuexModule {
+  servers = [] as Server[];
 
-const getters = {
-  getAllServers: (state: any) => state.servers,
-  getServerById: (state: any) => (id: number) =>  state.servers.find((server: Server) => server.id == id),
-  isEmpty: (state: any) => state.servers.length === 0,
-};
-
-const mutations = {
-  setDialogStatus(state: any, value: boolean) {
-    state.dialog = value;
-  },
-  setServers(state: any, servers: Server[]) {
-    state.servers = servers;
-  },
-  addServer(state: any, server: Server) {
-    state.servers.push(server);
-  },
-  removeServerById(state: any, id: number) {
-    state.servers = state.servers.filter((server: Server) => server.id != id);
+  @Mutation
+  setServers(servers: Server[]) {
+    this.servers = servers;
   }
-};
 
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations
-};
+  @Mutation
+  addServer(server: Server) {
+    this.servers.push(server);
+  }
+
+  @Mutation
+  removeServerById(id: number) {
+    this.servers = this.servers.filter((server: Server) => server.id != id);
+  }
+
+  get getAllServers() {
+    return this.servers;
+  }
+
+  get getServerById() {
+    return (id: number) => {
+      const requestedServer = this.servers.find((server: Server) => server.id == id);
+      return requestedServer == undefined ? {} as Server : requestedServer;
+    };
+  }
+
+  get isEmpty() {
+    return this.servers.length === 0;
+  }
+}

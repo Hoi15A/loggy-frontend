@@ -6,7 +6,16 @@
         max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" rounded text small elevation="0" v-bind="attrs" v-on="on">Settings</v-btn>
+        <v-btn
+            color="primary"
+            rounded
+            text
+            small
+            v-bind="attrs"
+            v-on="on"
+        >
+          Settings
+        </v-btn>
       </template>
       <v-card>
         <v-card-title>
@@ -77,21 +86,23 @@ import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import {Prop, Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
+import {getModule} from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component
 export default class ServerCardSettings extends Vue {
   @Prop(Boolean) openServiceSettings: boolean | undefined
-  @Prop(Number) id: number | undefined
+  @Prop(Number) id!: number
 
+  homeServicesStore = getModule(HomeServicesStore);
   settingsCardOpen = false;
   logConfigs = [] as string[];
-  server = undefined;
+  server = this.homeServicesStore.getServerById(this.id as number);
 
   beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
-      configs.forEach(config => this.logConfigs.push(config.name));
+      this.logConfigs = configs.map(config => config.name);
     });
-    this.server = this.$store.getters["homeServices/getServerById"](this.id);
   }
 
   closeCard() {

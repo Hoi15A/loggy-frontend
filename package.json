@@ -22,6 +22,7 @@
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.0",
     "vuex": "^3.6.2",
+    "vuex-class": "^0.3.2",
     "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "typescript": "~3.9.3",
     "vue-cli-plugin-vuetify": "^2.2.0",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
+    "vuetify-loader": "^1.7.0",
+    "vuex-module-decorators": "^1.0.1"
   }
 }

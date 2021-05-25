@@ -11,7 +11,9 @@
       <v-list-item>
         <CancelDialog v-on:confirmCancel="deleteJob(id)"
                       v-bind:button-name="buttonName"
-                      v-bind:title-message="titleMessage"/>
+                      v-bind:title-message="titleMessage"
+                      v-bind:message="message"
+                      />
         <ServerCardSettings v-on:serverSettingsDialog="openServerSettings"
                             v-bind:id="this.server.id"/>
         <v-btn rounded text small elevation="0" color="primary" :to="{name: 'Server', params: {serverId: this.id}}">Logs</v-btn>
@@ -27,6 +29,8 @@ import ServiceApi from "@/api/serviceApi";
 import ServerCardSettings from "@/components/homeView/ServerCardSettings.vue";
 import CancelDialog from "@/components/CancelDialog.vue";
 import {Prop, Component} from "vue-property-decorator";
+import {getModule} from "vuex-module-decorators";
+import HomeServicesStore from "@/store/modules/homeServices";
 
 @Component({
   components: {
@@ -35,16 +39,18 @@ import {Prop, Component} from "vue-property-decorator";
   },
 })
 export default class ServerCard extends Vue {
-  @Prop(Number) id: number | undefined
+  @Prop(Number) id!: number
 
-  server = undefined
+  homeServicesStore = getModule(HomeServicesStore);
+  server = this.homeServicesStore.getServerById(this.id as number);
   buttonName = "Remove";
-  titleMessage = "Are you sure you want to delete this server? This is not reversible";
+  titleMessage = "Remove Server";
+  message = "Are you sure you want to delete this server? This is not reversible";
   openServiceSettings = false;
 
   deleteJob(id: number) {
     ServiceApi.removeServerById(id).then(() => {
-      this.$store.commit("homeServices/removeServerById", id);
+      this.homeServicesStore.removeServerById(id);
     });
   }
 
@@ -52,9 +58,6 @@ export default class ServerCard extends Vue {
     this.openServiceSettings = true;
   }
 
-  beforeMount() {
-    this.server = this.$store.getters["homeServices/getServerById"](this.id);
-  }
 }
 </script>
 
