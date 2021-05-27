@@ -37,7 +37,7 @@
                           label="Service Name*"
                           required
                           counter="30"
-                          :value="server.name"
+                          v-model="server.name"
                           :error-messages="errors"
                         />
                         </ValidationProvider>
@@ -52,7 +52,7 @@
                             label="LogDirectory*"
                             required
                             :error-messages="errors"
-                            :value="server.logDirectory"
+                            v-model="server.logDirectory"
                           />
                         </ValidationProvider>
                       </v-col>
@@ -69,7 +69,7 @@
                         <v-select
                           :items="logConfigs"
                           :error-messages="errors"
-                          :value="server.logConfig"
+                          v-model="server.logConfig"
                           label="LogConfig*"
                           required
                         />
@@ -77,7 +77,7 @@
                       </v-col>
                       <v-col cols="12">
                         <ValidationProvider
-                          rules="required|max:200"
+                          rules="max:200"
                           name="log config"
                           v-slot="{ errors }"
                         >
@@ -85,7 +85,7 @@
                             label="Service Description"
                             outlined
                             counter="200"
-                            :value="server.description"
+                            v-model="server.description"
                             :error-messages="errors"
                           />
                         </ValidationProvider>
