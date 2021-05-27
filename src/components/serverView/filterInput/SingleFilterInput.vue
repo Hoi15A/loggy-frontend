@@ -2,6 +2,7 @@
   <v-text-field class="range-input"
                 v-model="value"
                 v-bind:label=label
+                v-bind:disabled="disabled"
                 clearable
                 @input="updateValue"/>
 </template>
@@ -18,6 +19,7 @@ export default class SingleFilterInput extends Vue {
   @Prop(String) label!: string;
   @Prop(Map) query!: Map<string, QueryComponent>;
   @Prop(String) filterType!: string;
+  @Prop(Boolean) disabled!: boolean;
 
   value = "";
 

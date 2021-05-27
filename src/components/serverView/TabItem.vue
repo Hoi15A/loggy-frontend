@@ -25,31 +25,30 @@
                 <template v-if="!selectedFilters[item.id]">
                   <SingleFilterInput
                       v-bind:id="item.id.toString()"
-                      v-bind:label="item.name"
+                      v-bind:label="'Please select a filter type'"
                       v-bind:query="queryItems"
+                      v-bind:disabled="true"
                       v-bind:filterType="selectedFilters[item.id]"/>
                 </template>
                 <template v-else>
                   <ExactDateFilterInput
                       v-bind:id="item.id.toString()"
                       v-bind:query="queryItems"
-                      v-if="item.columnType === 'DATE'
-                          && selectedFilters[item.id] === 'EXACT'"/>
+                      v-if="item.columnType === 'DATE' && selectedFilters[item.id] === 'EXACT'"/>
                   <RangeDateFilterInput
                       v-bind:id="item.id.toString()"
                       v-bind:query="queryItems"
-                      v-if="item.columnType === 'DATE'
-                          && selectedFilters[item.id] === 'RANGE'"/>
+                      v-if="item.columnType === 'DATE' && selectedFilters[item.id] === 'RANGE'"/>
                   <RangeFilterInput
                       v-bind:id="item.id.toString()"
                       v-bind:query="queryItems"
-                      v-if="item.columnType !== 'DATE'
-                        && selectedFilters[item.id] === 'RANGE'"/>
+                      v-if="item.columnType !== 'DATE' && selectedFilters[item.id] === 'RANGE'"/>
                   <SingleFilterInput
                       v-bind:id="item.id.toString()"
                       v-bind:label="item.name"
                       v-bind:query="queryItems"
                       v-bind:filterType="selectedFilters[item.id]"
+                      v-bind:disabled="false"
                       v-if="item.columnType !== 'DATE' && selectedFilters[item.id] !== 'RANGE'"/>
                 </template>
               </td>
@@ -57,13 +56,12 @@
           </tbody>
         </template>
       </v-simple-table>
-      <v-btn
-          class="button"
-          depressed
-          color="primary"
-          @click="query()">
-        Query
-      </v-btn>
+      <div class="button">
+        <v-btn
+            depressed
+            color="primary"
+            @click="query()">Query</v-btn>
+      </div>
     </template>
     <template v-else>
       <div class="ag-theme-material">
@@ -155,5 +153,8 @@ export default class TabItem extends Vue {
 <style scoped>
 .button {
   padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 </style>
