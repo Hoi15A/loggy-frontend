@@ -56,7 +56,20 @@
                           />
                         </ValidationProvider>
                       </v-col>
-
+                      <v-col cols="12">
+                        <ValidationProvider
+                          rules="required"
+                          name="Service Image"
+                          v-slot="{ errors }"
+                        >
+                          <v-text-field
+                            label="Service Image"
+                            required
+                            :error-messages="errors"
+                            v-model="server.image"
+                          />
+                        </ValidationProvider>
+                      </v-col>
                       <v-col
                           cols="12"
                           sm="6"
