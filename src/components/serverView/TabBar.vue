@@ -69,13 +69,12 @@ export default class TabBar extends Vue {
     let service = {} as Server;
 
     if (this.homeServices.isEmpty) {
-      ServiceApi.fetchServerById(id).then(res => {
-        service = res;
-      })
-        .catch(err => {
-          this.localErrorMessage = err;
-          this.isSnackBarOpen = true;
-        });
+      try {
+        service = await ServiceApi.fetchServerById(id);
+      } catch (err) {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      }
     } else {
       service = this.homeServices.getServerById(id);
       this.homeServices.setServers(await ServiceApi.fetchServers());
@@ -85,6 +84,7 @@ export default class TabBar extends Vue {
     for (const c of Object.values(config.columnComponents)) {
       this.components.push(c);
     }
+    console.log(this.components);
   }
 }
 </script>
