@@ -9,7 +9,7 @@
           <v-toolbar-title>Column Components</v-toolbar-title>
           <v-divider class="mx-4" inset vertical/>
           <v-spacer/>
-          <v-btn color="primary" @click="createNewColumnComponent(newColumnComponent)">Add Column Component</v-btn>
+          <v-btn color="success" @click="createNewColumnComponent(newColumnComponent)">Add Column Component</v-btn>
         </v-toolbar>
           <v-dialog
               v-model="dialog"
