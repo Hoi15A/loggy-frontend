@@ -37,7 +37,7 @@
 <script lang="ts">
 import Vue from "vue";
 import PathApi from "@/api/pathApi";
-import { Directory } from "@/models/directory";
+import {Directory} from "@/models/directory";
 import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import {Server} from "@/models/server";
@@ -45,7 +45,7 @@ import {Server} from "@/models/server";
 @Component
 export default class DirectoryLocationForm extends Vue {
   items = [];
-  selection = []
+  selection: Directory[] = [];
 
   set setLocation(value: string) {
     const server = this.$store.getters["stepper/getServer"] as Server;
@@ -53,11 +53,13 @@ export default class DirectoryLocationForm extends Vue {
     this.$store.commit("stepper/setServer", server);
   }
 
-  set setLogDirectory(value: []) {
-    const server = this.$store.getters["stepper/getServer"] as Server;
+  set setLogDirectory(value: Directory[]) {
     this.selection = value;
-    server["logDirectory"] = value[0].fullpath;
-    this.$store.commit("stepper/setServer", server);
+    if (value.length > 0) {
+      const server = this.$store.getters["stepper/getServer"] as Server;
+      server["logDirectory"] = value[0].fullpath;
+      this.$store.commit("stepper/setServer", server);
+    }
   }
 
   fetchRootFolder() {

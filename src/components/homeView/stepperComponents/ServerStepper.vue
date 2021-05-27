@@ -23,7 +23,7 @@
                         v-bind:button-name="buttonName"
                         v-bind:title-message="titleMessage"/>
           <v-spacer/>
-          <v-btn color="primary" rounded text @click="gotoStep(2)" v-on:click="onConfigSelect()" width="150">
+          <v-btn color="primary" rounded text @click="gotoStep(2)" width="150">
             Continue
           </v-btn>
         </v-list-item>
@@ -63,12 +63,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CancelDialog from "@/components/CancelDialog";
-import UserInfoTextField from "@/components/homeView/stepperComponents/UserInfoForm";
-import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSelectForm";
-import ProcessingDialog from "@/components/homeView/stepperComponents/ProcessingDialog";
+import CancelDialog from "@/components/CancelDialog.vue";
+import UserInfoTextField from "@/components/homeView/stepperComponents/UserInfoForm.vue";
+import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSelectForm.vue";
+import ProcessingDialog from "@/components/homeView/stepperComponents/ProcessingDialog.vue";
 import serviceApi from "@/api/serviceApi";
-import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
+import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm.vue";
 import {Component} from "vue-property-decorator";
 import ServiceApi from "@/api/serviceApi";
 import {Server} from "@/models/server";
@@ -121,8 +121,8 @@ export default class ServerStepper extends Vue {
   }
 
   async loadConfigs() {
+    const configsByName: string[] = [];
     const fetchedConfigs = await ServiceApi.fetchConfigs();
-    const configsByName = [];
     fetchedConfigs.forEach(config => configsByName.push(config.name));
     this.$store.commit("stepper/setConfigsByName", configsByName);
   }

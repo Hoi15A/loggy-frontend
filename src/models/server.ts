@@ -3,7 +3,7 @@ export interface Server {
   id: number;
   image: string;
   location: string;
-  logDirectory: [];
+  logDirectory: string;
   logConfig: string;
   name: string;
 }

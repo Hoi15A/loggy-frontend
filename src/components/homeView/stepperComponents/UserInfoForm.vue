@@ -11,7 +11,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-textarea counter maxlength="200" no-resize rows="3" outlined name="input-7-4" label="Description" v-model="setDescription"/>
+          <v-textarea counter maxlength="200" no-resize rows="3" outlined name="input-7-4" label="Description" :value="setDescription"/>
         </v-col>
       </v-row>
     </v-container>

@@ -42,7 +42,7 @@ const mutations = {
     state.server = server;
   },
 
-  setConfigsByName(state: any, value: []) {
+  setConfigsByName(state: any, value: string[]) {
     state.configsByName = value;
   },
 
