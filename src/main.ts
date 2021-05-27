@@ -4,7 +4,7 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import "ag-grid-enterprise";
 import store from "./store";
-import {ValidationProvider} from "vee-validate/dist/vee-validate.full.esm";
+import {ValidationProvider} from "vee-validate";
 import {ValidationObserver} from "vee-validate";
 
 Vue.component("ValidationProvider", ValidationProvider);
