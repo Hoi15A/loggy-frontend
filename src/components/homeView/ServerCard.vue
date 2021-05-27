@@ -1,6 +1,6 @@
 <template>
   <v-card class="rounded-xl" width="300" height="330" outlined>
-    <v-img src="https://www.nginx.com/wp-content/uploads/2020/07/nginx-default_featured-2020.png" height="115"/>
+    <v-img :src="server.image" height="115" />
     <v-list-item>
       <v-list-item-content>
         <v-card-title class="headline mb-1">{{ this.server.name }}</v-card-title>
