@@ -44,7 +44,7 @@ export default class ServiceApi extends Api {
       body: JSON.stringify(jsonService),
     });
     if (!res.ok) {
-      throw new Error(`Unable to create Service with Attributes:${JSON.stringify(jsonService)}`);
+      throw new Error(`Unable to create Service with Attributes: \n${JSON.stringify(jsonService)}`);
     }
   }
 
