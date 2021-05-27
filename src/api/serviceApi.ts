@@ -7,18 +7,20 @@ export default class ServiceApi extends Api {
     super();
   }
 
-  static async makeSampleCall() {
-    return await fetch(`${this.apiBaseUrl}/query/sample`);
-  }
-
   static async fetchServers() {
     const res = await fetch(`${this.apiBaseUrl}/service/all`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch servers: \n ${res}`);
+    }
     return res.json();
   }
 
   // TODO: Move 'config' calls to separate file.
   static async fetchConfigs(): Promise<Config[]> {
     const res = await fetch(`${this.apiBaseUrl}/config`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch configs: \n ${res}`);
+    }
     return res.json();
   }
 

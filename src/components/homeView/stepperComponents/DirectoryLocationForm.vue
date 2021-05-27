@@ -42,6 +42,10 @@
         </v-row>
       </v-container>
     </v-form>
+    <ErrorSnackbar
+        v-bind:snackbar="isSnackBarOpen"
+        v-bind:error-message="localErrorMessage"
+      ></ErrorSnackbar>
   </ValidationObserver>
 </template>
 
@@ -53,13 +57,17 @@ import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import { extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 
 extend("required", required);
-
-@Component
+@Component({
+  components: {ErrorSnackbar}
+})
 export default class DirectoryLocationForm extends Vue {
   location = "LOCAL"; // local (1), remote (0)
   selection = [];
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   items = [];
 
   fetchRootFolder() {
@@ -67,7 +75,8 @@ export default class DirectoryLocationForm extends Vue {
       this.items = res;
     }).catch((err) => {
       this.items = [];
-      console.error(err);
+      this.localErrorMessage = err;
+      this.isSnackBarOpen = true;
     });
   }
 
@@ -75,7 +84,8 @@ export default class DirectoryLocationForm extends Vue {
     PathApi.getContentOfFolder(item.fullpath).then(res => {
       item.children = res;
     }).catch((err) => {
-      console.warn(err);
+      this.localErrorMessage = err;
+      this.isSnackBarOpen = true;
     });
   }
 

@@ -10,6 +10,9 @@ export default class QueryApi extends Api {
       },
       body: JSON.stringify(queries),
     });
+    if(!res.ok) {
+      throw new Error(`Unable to query id: ${id} with queries: \n ${queries}`);
+    }
     return res.json();
   }
 }

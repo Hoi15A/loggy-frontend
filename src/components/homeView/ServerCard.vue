@@ -45,13 +45,19 @@ export default class ServerCard extends Vue {
   server = this.homeServicesStore.getServerById(this.id as number);
   buttonName = "Remove";
   titleMessage = "Remove Server";
+  isSnackBarOpen = false;
+  localErrorMessage = "";
   message = "Are you sure you want to delete this server? This is not reversible";
   openServiceSettings = false;
 
   deleteJob(id: number) {
     ServiceApi.removeServerById(id).then(() => {
       this.homeServicesStore.removeServerById(id);
-    });
+    })
+      .catch(err => {
+        this.isSnackBarOpen = true;
+        this.localErrorMessage = err;
+      });
   }
 
   openServerSettings() {

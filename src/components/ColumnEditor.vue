@@ -109,6 +109,11 @@
         <v-icon  class="mr-2" @click="editColumnComponent(item)">mdi-pencil</v-icon>
         <v-icon  @click="deleteColumnComponent(item)">mdi-delete</v-icon>
       </template>
+      <ErrorSnackbar
+      v-bind:error-message="localErrorMessage"
+      v-bind:snackbar="isSnackBarOpen"
+      >
+      </ErrorSnackbar>
     </v-data-table>
 </template>
 
@@ -120,14 +125,17 @@ import Component from "vue-class-component";
 import {getModule} from "vuex-module-decorators";
 import ColumnCompStore from "@/store/modules/columnComponents";
 import {ColumnComponent} from "@/models/columnComponent";
-
-
-@Component
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
+@Component({
+  components: {ErrorSnackbar}
+})
 export default class ColumnEditor extends Vue{
   ccStore = getModule(ColumnCompStore);
   dialog = false
   dialogDelete = false
   titleName = ""
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   isNewItem = false
   editedIndex = -1;
   newColumnComponent = {
@@ -163,7 +171,11 @@ export default class ColumnEditor extends Vue{
   }
 
   deleteConfigConfirm() {
-    ColumnCompApi.removeColumnById(this.ccStore.getColumnComponents[this.editedIndex].id).then();
+    ColumnCompApi.removeColumnById(this.ccStore.getColumnComponents[this.editedIndex].id).then()
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
     this.ccStore.removeColumnComponent(this.editedIndex);
     this.closeDelete();
   }
@@ -171,12 +183,18 @@ export default class ColumnEditor extends Vue{
   save() {
     if(this.isNewItem) {
       ColumnCompApi.createNewColumn(this.ccStore.getEditedColumnComponent)
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
       this.ccStore.updateColumnComponents(this.ccStore.getEditedColumnComponent);
       this.close();
     } else {
       ColumnCompApi.updateColumnById(this.ccStore.getEditedColumnComponent.id, this.ccStore.getEditedColumnComponent)
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
       this.ccStore.updateColumnComponents(this.ccStore.getEditedColumnComponent);
       this.close();
     }
@@ -193,7 +211,11 @@ export default class ColumnEditor extends Vue{
   beforeMount() {
     ColumnCompApi.fetchAllColumnComponents().then(columnComponents => {
       this.ccStore.setColumnComponents(columnComponents);
-    });
+    })
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
   }
 
 }
