@@ -78,6 +78,10 @@
         <v-btn color="green" dark rounded text v-on:click="onClickDone()" width="150">Finish</v-btn>
       </v-list-item>
     </v-stepper-content>
+    <ErrorSnackbar
+    v-bind:snackbar="isSnackBarOpen"
+    v-bind:error-message="localErrorMessage"
+    ></ErrorSnackbar>
   </v-stepper>
 
 </template>
@@ -90,9 +94,11 @@ import ConfigSelectForm from "@/components/homeView/stepperComponents/ConfigSele
 import serviceApi from "@/api/serviceApi";
 import DirectoryLocationForm from "@/components/homeView/stepperComponents/DirectoryLocationForm";
 import {Component} from "vue-property-decorator";
+import ErrorSnackbar from "@/components/ErrorSnackbar";
 
 @Component({
   components: {
+    ErrorSnackbar,
     UserInfoTextField,
     CancelDialog,
     ConfigSelectForm,
@@ -102,6 +108,8 @@ import {Component} from "vue-property-decorator";
 export default class ServerStepper extends Vue {
   server = {};
   buttonName = "Cancel";
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   titleMessage = "Are you sure you want to cancel the registration process?";
   step = 1;
   snackbar = false;
@@ -121,7 +129,8 @@ export default class ServerStepper extends Vue {
         this.step = 1;
       })
       .catch(err => {
-        console.error(err);
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
       });
   }
 

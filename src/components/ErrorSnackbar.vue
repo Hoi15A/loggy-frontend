@@ -1,21 +1,12 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" @click="snackbar = false">
     <v-snackbar
         v-model="snackbar"
+        :multi-line="multiLine"
         :timeout="timeout"
+        color="red"
     >
       {{ errorMessage }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
     </v-snackbar>
   </div>
 </template>
@@ -28,7 +19,8 @@ import {Component, Prop} from "vue-property-decorator";
 export default class ErrorSnackbar extends Vue {
   @Prop(Boolean) snackbar = false;
   @Prop(String) errorMessage!: string
-  timeout = 2000;
+  multiLine = true;
+  timeout = 4000;
 
 }
 

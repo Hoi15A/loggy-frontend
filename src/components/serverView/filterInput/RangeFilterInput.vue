@@ -14,26 +14,26 @@
 </template>
 
 <script lang="ts">
-import QueryStore from "@/store/modules/query";
-import { getModule } from "vuex-module-decorators";
 import Vue from "vue";
 import { Prop, Component } from "vue-property-decorator";
+import { QueryComponent } from "@/models/queryComponent";
+import { FilterType } from "@/models/filterType";
 
 @Component
 export default class RangeFilterInput extends Vue {
   @Prop(String) id!: string;
-  queryStore = getModule(QueryStore);
+  @Prop(Map) query!: Map<string, QueryComponent>;
+
   fromValue = "";
   toValue = "";
   updateValues() {
-    let rangeObject = {};
-    if (this.fromValue !== "") {
-      rangeObject = {"from": this.fromValue};
-    }
-    if (this.toValue !== "") {
-      rangeObject = {...rangeObject, "to": this.toValue};
-    }
-    this.queryStore.addRangeQuery([this.id, rangeObject]);
+    const queryComponent: QueryComponent = {
+      columnComponentId: parseInt(this.id),
+      filterType: FilterType.RANGE,
+      from: this.fromValue,
+      to: this.toValue
+    };
+    this.query.set(this.id, queryComponent);
   }
 }
 </script>
