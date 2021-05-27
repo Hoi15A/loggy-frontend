@@ -118,6 +118,11 @@
         mdi-delete
       </v-icon>
     </template>
+    <ErrorSnackbar
+    v-bind:snackbar="isSnackBarOpen"
+    v-bind:error-message="localErrorMessage"
+    >
+    </ErrorSnackbar>
   </v-data-table>
 </template>
 
@@ -130,9 +135,11 @@ import Component from "vue-class-component";
 import "vue-class-component/hooks";
 import {getModule} from "vuex-module-decorators";
 import ConfigStore from "@/store/modules/config";
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 
 @Component({
   components: {
+    ErrorSnackbar,
     ColumnComponentsReorder
   },
 })
@@ -141,6 +148,8 @@ export default class ConfigsTable extends Vue {
   dialog = false;
   dialogDelete = false;
   editedIndex = -1;
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   headers = [
     { text: "Name", value: "name" },
     { text: "Column Count", value: "columnCount" },
@@ -162,7 +171,11 @@ export default class ConfigsTable extends Vue {
   }
 
   deleteConfigConfirm() {
-    ConfigApi.removeConfigById(this.configStore.getConfigs[this.editedIndex].name).then();
+    ConfigApi.removeConfigById(this.configStore.getConfigs[this.editedIndex].name).then()
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
     this.configStore.removeConfig(this.editedIndex);
     this.closeDelete();
   }
@@ -177,7 +190,10 @@ export default class ConfigsTable extends Vue {
 
   save() {
     ConfigApi.updateConfig(this.configStore.getEditedConfig)
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
     this.configStore.updateConfig(this.configStore.getEditedConfig);
     this.close();
   }
@@ -185,7 +201,12 @@ export default class ConfigsTable extends Vue {
   beforeMount() {
     ConfigApi.fetchAllConfigs().then(configs => {
       this.configStore.setConfigs(configs);
-    });
+    })
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
+
   }
 
 }

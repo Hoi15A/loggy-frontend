@@ -85,6 +85,10 @@
         </template>
       </v-tab-item>
     </v-tabs-items>
+    <ErrorSnackbar
+        v-bind:error-message="localErrorMessage"
+        v-bind:snackbar="isSnackBarOpen"
+      ></ErrorSnackbar>
   </v-card>
 </template>
 
@@ -107,6 +111,7 @@ import QueryStore from "@/store/modules/query";
 import QueryApi from "@/api/queryApi";
 import ColumnCompApi from "@/api/columnCompApi";
 import ExactDateFilterInput from "@/components/serverView/filterInput/ExactDateFilterInput.vue";
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 
 interface QueryResponse {
   [key: number]: string[];
@@ -118,6 +123,7 @@ interface StringMap {
 
 @Component({
   components: {
+    ErrorSnackbar,
     ExactDateFilterInput,
     AgGridVue,
     RangeDateFilterInput,
@@ -128,7 +134,8 @@ interface StringMap {
 export default class TabBar extends Vue {
   homeServices = getModule(HomeServicesStore)
   queryStore = getModule(QueryStore);
-
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   tabs = [] as string[];
   tabCount = 1 as number;
   model = "tab";
@@ -195,7 +202,10 @@ export default class TabBar extends Vue {
     this.buildQuery().then(query => {
       QueryApi.query(parseInt(this.$route.params.serverId), query)
         .then((response: QueryResponse) => this.transformToRowData(response))
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
       this.showQueryOptions = false;
     });
   }
@@ -205,7 +215,13 @@ export default class TabBar extends Vue {
     let service = {} as Server;
 
     if (this.homeServices.isEmpty) {
-      service = await ServiceApi.fetchServerById(id);
+      ServiceApi.fetchServerById(id).then(res => {
+        service = res;
+      })
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
     } else {
       service = this.homeServices.getServerById(id);
       this.homeServices.setServers(await ServiceApi.fetchServers());

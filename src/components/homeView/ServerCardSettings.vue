@@ -117,6 +117,10 @@
           </v-card>
         </ValidationObserver>
       </v-dialog>
+      <ErrorSnackbar
+      v-bind:error-message="localErrorMessage"
+      v-bind:snackbar="isSnackBarOpen"
+      ></ErrorSnackbar>
     </v-row>
 </template>
 
@@ -127,13 +131,16 @@ import {Prop, Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import {getModule} from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 import {required, max} from "vee-validate/dist/rules";
 import { extend } from "vee-validate";
 
 extend("required", required);
 extend("max", max);
 
-@Component
+@Component({
+  components: {ErrorSnackbar}
+})
 export default class ServerCardSettings extends Vue {
   @Prop(Boolean) openServiceSettings: boolean | undefined
   @Prop(Number) id!: number
@@ -142,11 +149,17 @@ export default class ServerCardSettings extends Vue {
   settingsCardOpen = false;
   logConfigs = [] as string[];
   server = this.homeServicesStore.getServerById(this.id as number);
+  localErrorMessage = "";
+  isSnackBarOpen = false;
 
   beforeMount() {
     ServiceApi.fetchConfigs().then(configs => {
       this.logConfigs = configs.map(config => config.name);
-    });
+    })
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
   }
 
   closeCard() {
@@ -155,7 +168,10 @@ export default class ServerCardSettings extends Vue {
 
   saveChanges() {
     ServiceApi.updateService(this.server)
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
     this.closeCard();
   }
 
