@@ -44,14 +44,11 @@ export default class NewConfigSideWindow extends Vue {
   `;
   menu = false;
 
-  async onSave() {
-    try {
-      await serviceApi.addNewConfig(this.newConfigJson);
-      this.$emit("newConfigSuccess");
-      this.menu = false;
-    } catch (e) {
-      console.log(this.newConfigJson);
-    }
+  onSave() {
+    serviceApi.addNewConfig(this.newConfigJson)
+      .catch(err => (console.log(err)));
+    this.$emit("newConfigSuccess");
+    this.menu = false;
   }
 }
 </script>

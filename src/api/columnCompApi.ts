@@ -7,11 +7,17 @@ export default class ColumnCompApi extends Api {
 
   static async fetchColumnsById(id: number) {
     const res = await fetch(`${this.apiBaseUrl}/column/${id}`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch columns by id with id: \n ${id}`);
+    }
     return res.json();
   }
 
   static async fetchAllColumnComponents() {
     const res = await fetch(`${this.apiBaseUrl}/column`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch columns:\n ${res}`);
+    }
     return res.json();
   }
 
@@ -23,7 +29,7 @@ export default class ColumnCompApi extends Api {
       body: JSON.stringify(jsonService),
     });
     if(!res.ok) {
-      throw new Error(`Unable to create a new column with Attributes: ${JSON.stringify(jsonService)}`);
+      throw new Error(`Unable to create a new column with Attributes:\n ${JSON.stringify(jsonService)}`);
     }
   }
 
@@ -42,7 +48,7 @@ export default class ColumnCompApi extends Api {
       },
       body: JSON.stringify(jsonService)
     });
-    if (!res.ok) throw new Error(`Unable to update a column with Attributes: ${JSON.stringify(jsonService)}`);
+    if (!res.ok) throw new Error(`Unable to update a column with Attributes: \n ${JSON.stringify(jsonService)}`);
     return res.json();
   }
 

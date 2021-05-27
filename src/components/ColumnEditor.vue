@@ -15,44 +15,68 @@
               v-model="dialog"
               max-width="650px"
           >
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ titleName }}</span>
-            </v-card-title>
+          <ValidationObserver v-slot="{ invalid }">
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ titleName }}</span>
+              </v-card-title>
 
-            <v-card-text>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.name"
-                  label="Name"
-              ></v-text-field>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.format"
-                  label="Format"
-              ></v-text-field>
-              <v-text-field
-                  v-model="ccStore.getEditedColumnComponent.columnType"
-                  label="Type"
-              ></v-text-field>
-            </v-card-text>
+              <v-card-text>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="column name"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.name"
+                    label="Name"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="log format"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.format"
+                    label="Format"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+                <ValidationProvider 
+                  rules="required" 
+                  v-slot="{ errors }"
+                  name="column type"
+                >
+                <v-text-field
+                    v-model="ccStore.getEditedColumnComponent.columnType"
+                    label="Type"
+                    :error-messages="errors"
+                />
+                </ValidationProvider>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="close"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="save"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="close"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="save"
+                    :disabled="invalid"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </ValidationObserver>
         </v-dialog>
         <v-dialog
             v-model="dialogDelete"
@@ -85,6 +109,11 @@
         <v-icon  class="mr-2" @click="editColumnComponent(item)">mdi-pencil</v-icon>
         <v-icon  @click="deleteColumnComponent(item)">mdi-delete</v-icon>
       </template>
+      <ErrorSnackbar
+      v-bind:error-message="localErrorMessage"
+      v-bind:snackbar="isSnackBarOpen"
+      >
+      </ErrorSnackbar>
     </v-data-table>
 </template>
 
@@ -96,14 +125,17 @@ import Component from "vue-class-component";
 import {getModule} from "vuex-module-decorators";
 import ColumnCompStore from "@/store/modules/columnComponents";
 import {ColumnComponent} from "@/models/columnComponent";
-
-
-@Component
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
+@Component({
+  components: {ErrorSnackbar}
+})
 export default class ColumnEditor extends Vue{
   ccStore = getModule(ColumnCompStore);
   dialog = false
   dialogDelete = false
   titleName = ""
+  localErrorMessage = "";
+  isSnackBarOpen = false;
   isNewItem = false
   editedIndex = -1;
   newColumnComponent = {
@@ -139,7 +171,11 @@ export default class ColumnEditor extends Vue{
   }
 
   deleteConfigConfirm() {
-    ColumnCompApi.removeColumnById(this.ccStore.getColumnComponents[this.editedIndex].id).then();
+    ColumnCompApi.removeColumnById(this.ccStore.getColumnComponents[this.editedIndex].id).then()
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
     this.ccStore.removeColumnComponent(this.editedIndex);
     this.closeDelete();
   }
@@ -147,12 +183,18 @@ export default class ColumnEditor extends Vue{
   save() {
     if(this.isNewItem) {
       ColumnCompApi.createNewColumn(this.ccStore.getEditedColumnComponent)
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
       this.ccStore.updateColumnComponents(this.ccStore.getEditedColumnComponent);
       this.close();
     } else {
       ColumnCompApi.updateColumnById(this.ccStore.getEditedColumnComponent.id, this.ccStore.getEditedColumnComponent)
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
       this.ccStore.updateColumnComponents(this.ccStore.getEditedColumnComponent);
       this.close();
     }
@@ -169,7 +211,11 @@ export default class ColumnEditor extends Vue{
   beforeMount() {
     ColumnCompApi.fetchAllColumnComponents().then(columnComponents => {
       this.ccStore.setColumnComponents(columnComponents);
-    });
+    })
+      .catch(err => {
+        this.localErrorMessage = err;
+        this.isSnackBarOpen = true;
+      });
   }
 
 }

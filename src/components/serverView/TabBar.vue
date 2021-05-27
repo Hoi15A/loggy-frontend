@@ -19,12 +19,15 @@
         <TabItem v-bind:column-components="components"/>
       </v-tab-item>
     </v-tabs-items>
+    <ErrorSnackbar
+        v-bind:error-message="localErrorMessage"
+        v-bind:snackbar="isSnackBarOpen"
+      ></ErrorSnackbar>
   </v-card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import AgGrid from "@/components/serverView/LogGrid.vue";
 import { Component } from "vue-property-decorator";
 import { ColumnComponent } from "@/models/columnComponent";
 import "vue-class-component/hooks";
@@ -35,15 +38,18 @@ import ServiceApi from "@/api/serviceApi";
 import { getModule } from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
 import TabItem from "@/components/serverView/TabItem.vue";
+import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 
 @Component({
   components: {
+    ErrorSnackbar,
     TabItem,
-    AgGrid,
   },
 })
 export default class TabBar extends Vue {
   homeServices = getModule(HomeServicesStore)
+  localErrorMessage = "";
+  isSnackBarOpen = false;
 
   tabs = [] as string[];
   tabCount = 1 as number;
@@ -63,7 +69,13 @@ export default class TabBar extends Vue {
     let service = {} as Server;
 
     if (this.homeServices.isEmpty) {
-      service = await ServiceApi.fetchServerById(id);
+      ServiceApi.fetchServerById(id).then(res => {
+        service = res;
+      })
+        .catch(err => {
+          this.localErrorMessage = err;
+          this.isSnackBarOpen = true;
+        });
     } else {
       service = this.homeServices.getServerById(id);
       this.homeServices.setServers(await ServiceApi.fetchServers());

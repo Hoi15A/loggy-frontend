@@ -7,18 +7,20 @@ export default class ServiceApi extends Api {
     super();
   }
 
-  static async makeSampleCall() {
-    return await fetch(`${this.apiBaseUrl}/query/sample`);
-  }
-
   static async fetchServers() {
     const res = await fetch(`${this.apiBaseUrl}/service/all`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch servers: \n ${res}`);
+    }
     return res.json();
   }
 
   // TODO: Move 'config' calls to separate file.
   static async fetchConfigs(): Promise<Config[]> {
     const res = await fetch(`${this.apiBaseUrl}/config`);
+    if(!res.ok) {
+      throw new Error(`Unable to fetch configs: \n ${res}`);
+    }
     return res.json();
   }
 
@@ -42,7 +44,7 @@ export default class ServiceApi extends Api {
       body: JSON.stringify(jsonService),
     });
     if (!res.ok) {
-      throw new Error(`Unable to create Service with Attributes:${JSON.stringify(jsonService)}`);
+      throw new Error(`Unable to create Service with Attributes: \n${JSON.stringify(jsonService)}`);
     }
   }
 
@@ -56,6 +58,19 @@ export default class ServiceApi extends Api {
     });
     if (!res.ok) {
       throw new Error(`Unable to create Config: ${JSON.stringify(jsonService)}`);
+    }
+  }
+
+  static async updateService(service: Server) {
+    const res = await fetch(`${this.apiBaseUrl}/service/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(service),
+    });
+    if (!res.ok) {
+      throw new Error(`Unable to update Service with Attributes:${JSON.stringify(service)}`);
     }
   }
 
