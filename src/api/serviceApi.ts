@@ -60,7 +60,7 @@ export default class ServiceApi extends Api {
   }
 
   static async updateService(service: Server) {
-    const res = await fetch(`${this.apiBaseUrl}/service/${service.id}`, {
+    const res = await fetch(`${this.apiBaseUrl}/service/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
