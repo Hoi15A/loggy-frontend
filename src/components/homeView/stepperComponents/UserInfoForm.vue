@@ -48,6 +48,11 @@
 <script lang="ts">
 import Vue from "vue";
 import {Component} from "vue-property-decorator";
+import { extend } from "vee-validate";
+import {max, required} from "vee-validate/dist/rules";
+
+extend("max", max);
+extend("required", required);
 
 @Component
 export default class UserInfoForm extends Vue {

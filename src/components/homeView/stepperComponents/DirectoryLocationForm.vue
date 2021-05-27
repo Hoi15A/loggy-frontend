@@ -51,6 +51,10 @@ import PathApi from "@/api/pathApi";
 import { Directory } from "@/models/directory";
 import {Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", required);
 
 @Component
 export default class DirectoryLocationForm extends Vue {

@@ -29,6 +29,10 @@ import Vue from "vue";
 import ServiceApi from "@/api/serviceApi";
 import NewConfigSideWindow from "@/components/homeView/stepperComponents/NewConfigSideWindow.vue";
 import {Component} from "vue-property-decorator";
+import { extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+
+extend("required", required);
 
 @Component({
   components: {

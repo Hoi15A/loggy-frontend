@@ -127,6 +127,11 @@ import {Prop, Component} from "vue-property-decorator";
 import "vue-class-component/hooks";
 import {getModule} from "vuex-module-decorators";
 import HomeServicesStore from "@/store/modules/homeServices";
+import {required, max} from "vee-validate/dist/rules";
+import { extend } from "vee-validate";
+
+extend("required", required);
+extend("max", max);
 
 @Component
 export default class ServerCardSettings extends Vue {
