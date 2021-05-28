@@ -46,8 +46,7 @@ export default class ExactDateFilterInput extends Vue {
       columnComponentId: parseInt(this.id),
       filterType: FilterType.EXACT,
       dateFormat: "yyyy-MM-dd",
-      from: this.exactDate,
-      to: this.exactDate
+      exact: this.exactDate,
     };
     this.query.set(this.id, queryComponent);
   }
