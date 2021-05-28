@@ -84,7 +84,6 @@ export default class TabBar extends Vue {
     for (const c of Object.values(config.columnComponents)) {
       this.components.push(c);
     }
-    console.log(this.components);
   }
 }
 </script>
