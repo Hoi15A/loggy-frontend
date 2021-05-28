@@ -107,7 +107,7 @@ interface StringMap {
   },
 })
 export default class TabItem extends Vue {
-  @Prop(Number) columnComponents!: ColumnComponent[]
+  @Prop(Array) columnComponents!: ColumnComponent[]
 
   queryItems = new Map<string, QueryComponent>();
   selectedFilters: {[key: number]: string} = {};
